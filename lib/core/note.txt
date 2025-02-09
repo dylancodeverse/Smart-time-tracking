@@ -1,0 +1,4 @@
+Les fonctionnalites reutilisables sont ici
+
+theme.dart         // Gestion des thèmes (couleurs, styles)
+utils.dart         // Fonctions utilitaires globales
