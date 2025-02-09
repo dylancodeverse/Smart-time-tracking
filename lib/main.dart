@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sola/core/theme.dart';
-import 'package:sola/features/home/home_screen.dart';
-
-void main() {
+import 'package:sola/presentation/features/home/home_screen.dart';
+void main(){
   runApp(MyApp());
 }
 

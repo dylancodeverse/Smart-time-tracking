@@ -1,3 +1,4 @@
+import 'package:sola/data/database/init_datas.dart';
 import 'package:sqflite/sqflite.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
@@ -10,24 +11,22 @@ class DatabaseHelper {
 
   DatabaseHelper._internal();
 
+
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDatabase();
+    _database = await _initDB('transport.db');
     return _database!;
   }
 
-  Future<Database> _initDatabase() async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'traffic_management.db');
 
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _onCreate,
-    );
+  Future<Database> _initDB(String filePath) async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, filePath);
+    
+    return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
-  Future<void> _onCreate(Database db, int version) async {
+  Future<void> _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE vehicules (
         id TEXT PRIMARY KEY,
@@ -82,7 +81,10 @@ class DatabaseHelper {
         FOREIGN KEY (id_chauffeur) REFERENCES chauffeurs(id)
       );
     ''');
+        await InitDatas().insertInitialData(db);
   }
+
+
   Future<int> insertVehicule(String id,String immatriculation, String modele, String statut) async {
     final db = await database;
     return await db.insert(

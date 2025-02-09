@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sola/core/theme.dart';
-import 'package:sola/widgets/utils/bottomnav.dart';
-import 'package:sola/widgets/vehicle/vehicle.dart';
+import 'package:sola/presentation/widgets/utils/bottomnav.dart';
+import 'package:sola/presentation/widgets/vehicle/vehicle.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -40,9 +40,9 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                VehicleCard(vehicleName: '2356TQC', driver: 'RAKOTO Zafinirina', status: "En activite", fee: "4535 AR", rating: 4.5, ),
-                VehicleCard(vehicleName: '4532TVA', driver: 'Paul Martin',status: "En activite", fee: "24535 AR", rating: 4.5, ),
-                VehicleCard(vehicleName: '3388TCA', driver: 'Alice Durand',status: "En activite", fee: "84535 AR", rating: 4.5, ),
+                VehicleCard( driver: 'RAKOTO Zafinirina', fee: "4535 AR", ),
+                VehicleCard( driver: 'Paul Martin', fee: "24535 AR", ),
+                VehicleCard( driver: 'Alice Durand', fee: "84535 AR", ),
               ],
             ),
           ),
