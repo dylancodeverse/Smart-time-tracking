@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spracheeasy/core/theme.dart';
+import 'package:sola/core/theme.dart';
 
 class Bottomnav extends StatelessWidget {
   const Bottomnav({super.key});

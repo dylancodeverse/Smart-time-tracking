@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spracheeasy/features/home/home_screen.dart';
+import 'package:sola/features/home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

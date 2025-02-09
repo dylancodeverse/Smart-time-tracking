@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spracheeasy/core/theme.dart';
+import 'package:sola/core/theme.dart';
 
 class VehicleCard extends StatelessWidget {
   final String vehicleName;

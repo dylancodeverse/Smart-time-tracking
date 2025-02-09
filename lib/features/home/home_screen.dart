@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:spracheeasy/core/theme.dart';
-import 'package:spracheeasy/widgets/utils/bottomnav.dart';
-import 'package:spracheeasy/widgets/vehicle/vehicle.dart';
+import 'package:sola/core/theme.dart';
+import 'package:sola/widgets/utils/bottomnav.dart';
+import 'package:sola/widgets/vehicle/vehicle.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

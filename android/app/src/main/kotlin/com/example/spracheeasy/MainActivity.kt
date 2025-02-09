@@ -1,4 +1,4 @@
-package com.example.spracheeasy
+package com.example.sola
 
 import io.flutter.embedding.android.FlutterActivity
 

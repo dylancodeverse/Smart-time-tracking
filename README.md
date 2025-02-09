@@ -1,4 +1,4 @@
-# spracheeasy
+# sola
 
 A new Flutter project.
 
