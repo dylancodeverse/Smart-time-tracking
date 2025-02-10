@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:sola/core/theme.dart';
+import 'package:sola/presentation/providers/vehicle_providers.dart';
 import 'package:sola/presentation/widgets/utils/bottomnav.dart';
 import 'package:sola/presentation/widgets/vehicle/vehicle.dart';
+import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() =>
+        Provider.of<VehiculeProvider>(context, listen: false).fetchVehicules());
+  }
   @override
   Widget build(BuildContext context) {
+    final vehiculeProvider = Provider.of<VehiculeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Cooperative SOLA'),
         scrolledUnderElevation: 0,
       ),
-      body: Column(
+      body: vehiculeProvider.isLoading
+          ? Center(child: CircularProgressIndicator())
+      :Column(
         children: [
           Padding(
             padding: EdgeInsets.all(8.0),
@@ -38,12 +55,11 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView(
-              children: [
-                VehicleCard( driver: 'RAKOTO Zafinirina', fee: "4535 AR", ),
-                VehicleCard( driver: 'Paul Martin', fee: "24535 AR", ),
-                VehicleCard( driver: 'Alice Durand', fee: "84535 AR", ),
-              ],
+            child: ListView.builder(
+              itemCount: vehiculeProvider.vehicules.length,
+              itemBuilder: (context, index) {
+                return VehicleCard(driver: 'RAKOTO Zafinirina', fee: "4535 AR",vehicule: vehiculeProvider.vehicules[index]);
+              },
             ),
           ),
         ],
