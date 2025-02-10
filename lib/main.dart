@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sola/config/database_config.dart';
 import 'package:sola/core/theme.dart';
 import 'package:sola/data/localdatabase/database_helper.dart';
 import 'package:sola/data/datasources/bus_db.dart';
@@ -14,7 +15,7 @@ import 'package:path/path.dart';         // Pour manipuler les chemins de fichie
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
 
-  final dbPath = join(await getDatabasesPath(), 'transport.db');
+  final dbPath = join(await getDatabasesPath(), DatabaseConfig.outputFileName);
   await deleteDatabase(dbPath); // Supprime l'ancienne base
   final db =await DatabaseHelper().database ;
   final busDB = BusDB(db);

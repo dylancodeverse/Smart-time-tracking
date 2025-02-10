@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+import 'package:sola/config/database_config.dart';
 import 'package:sola/data/localdatabase/init_datas.dart';
 import 'package:sqflite/sqflite.dart';
 // ignore: depend_on_referenced_packages
@@ -6,6 +8,8 @@ import 'package:path/path.dart';
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
   static Database? _database;
+  
+
 
   factory DatabaseHelper() => _instance;
 
@@ -14,7 +18,7 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('transport.db');
+    _database = await _initDB(DatabaseConfig.outputFileName);
     return _database!;
   }
 
@@ -27,84 +31,9 @@ class DatabaseHelper {
   }
 
   Future<void> _createDB(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE vehicules (
-        id TEXT PRIMARY KEY,
-        immatriculation TEXT NOT NULL UNIQUE,
-        modele TEXT NOT NULL,
-        statut INTEGER NOT NULL
-      );
-    ''');
-
-    await db.execute('''
-      CREATE TABLE chauffeurs (
-        id TEXT PRIMARY KEY,
-        nom TEXT NOT NULL,
-        prenom TEXT NOT NULL,
-        UNIQUE(nom, prenom)
-      );
-    ''');
-
-    await db.execute('''
-      CREATE TABLE copilote (
-        id TEXT PRIMARY KEY,
-        nom TEXT NOT NULL,
-        prenom TEXT NOT NULL,
-        UNIQUE(nom, prenom)
-      );
-    ''');
-
-    await db.execute('''
-      CREATE TABLE affectations (
-        id TEXT PRIMARY KEY,
-        affectation_date TEXT NOT NULL,
-        id_vehicule TEXT NOT NULL,
-        id_chauffeur TEXT NOT NULL,
-        id_copilote TEXT,
-        is_default int ,
-        FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
-        FOREIGN KEY (id_chauffeur) REFERENCES chauffeurs(id),
-        FOREIGN KEY (id_copilote) REFERENCES chauffeurs(id)
-      );
-    ''');
-
-    await db.execute('''
-      CREATE TABLE pointages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date_arrivee INTEGER NOT NULL,
-        date_depart INTEGER ,
-        id_vehicule TEXT NOT NULL,
-        id_chauffeur TEXT NOT NULL,
-        montant REAL NOT NULL,
-        commentaires TEXT,
-        FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
-        FOREIGN KEY (id_chauffeur) REFERENCES chauffeurs(id)
-      );
-    ''');
-
-    await db.execute('''
-      CREATE VIEW affectations_completes AS
-        SELECT 
-            a.id AS affectation_id,
-            a.affectation_date,
-            v.id AS vehicule_id,
-            v.immatriculation,
-            v.modele,
-            v.statut,
-            c.id AS chauffeur_id,
-            c.nom AS chauffeur_nom,
-            c.prenom AS chauffeur_prenom,
-            co.id AS copilote_id,
-            co.nom AS copilote_nom,
-            co.prenom AS copilote_prenom
-        FROM affectations a
-        JOIN vehicules v ON a.id_vehicule = v.id
-        JOIN chauffeurs c ON a.id_chauffeur = c.id
-        JOIN copilote co ON a.id_copilote = co.id
-        WHERE a.is_default = 1;
-        ''');
-
-        await InitDatas().insertInitialData(db);
+    String queries = await rootBundle.loadString(DatabaseConfig.sqlFilePath);
+    await db.execute(queries);
+    await InitDatas().insertInitialData(db);
   }
 
 
