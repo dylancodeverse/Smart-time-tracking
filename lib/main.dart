@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/core/theme.dart';
-import 'package:sola/data/database/database_helper.dart';
+import 'package:sola/data/localdatabase/database_helper.dart';
 import 'package:sola/data/datasources/bus_db.dart';
 import 'package:sola/data/repositories/bus_repository.dart';
 import 'package:sola/presentation/features/home/home_screen.dart';
