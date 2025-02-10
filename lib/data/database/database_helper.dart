@@ -23,7 +23,7 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     
-    return await openDatabase(path, version: 1, onCreate: _createDB);
+    return await openDatabase(path, version: 2, onCreate: _createDB);
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -57,7 +57,7 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE affectations (
         id TEXT PRIMARY KEY,
-        date TEXT NOT NULL,
+        affectation_date TEXT NOT NULL,
         id_vehicule TEXT NOT NULL,
         id_chauffeur TEXT NOT NULL,
         id_copilote TEXT,
@@ -81,6 +81,29 @@ class DatabaseHelper {
         FOREIGN KEY (id_chauffeur) REFERENCES chauffeurs(id)
       );
     ''');
+
+    await db.execute('''
+      CREATE VIEW affectations_completes AS
+        SELECT 
+            a.id AS affectation_id,
+            a.affectation_date,
+            v.id AS vehicule_id,
+            v.immatriculation,
+            v.modele,
+            v.statut,
+            c.id AS chauffeur_id,
+            c.nom AS chauffeur_nom,
+            c.prenom AS chauffeur_prenom,
+            co.id AS copilote_id,
+            co.nom AS copilote_nom,
+            co.prenom AS copilote_prenom
+        FROM affectations a
+        JOIN vehicules v ON a.id_vehicule = v.id
+        JOIN chauffeurs c ON a.id_chauffeur = c.id
+        JOIN copilote co ON a.id_copilote = co.id
+        WHERE a.is_default = 1;
+        ''');
+
         await InitDatas().insertInitialData(db);
   }
 

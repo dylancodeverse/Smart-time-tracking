@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sola/core/theme.dart';
-import 'package:sola/presentation/providers/vehicle_providers.dart';
+import 'package:sola/presentation/providers/bus_providers.dart';
 import 'package:sola/presentation/widgets/utils/bottomnav.dart';
-import 'package:sola/presentation/widgets/vehicle/vehicle.dart';
+import 'package:sola/presentation/widgets/bus/bus_card.dart';
 import 'package:provider/provider.dart';
 
 
@@ -15,18 +15,18 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        Provider.of<VehiculeProvider>(context, listen: false).fetchVehicules());
+        Provider.of<BusProvider>(context, listen: false).fetchBuss());
   }
   @override
   Widget build(BuildContext context) {
-    final vehiculeProvider = Provider.of<VehiculeProvider>(context);
+    final busProvider = Provider.of<BusProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Cooperative SOLA'),
         scrolledUnderElevation: 0,
       ),
-      body: vehiculeProvider.isLoading
+      body: busProvider.isLoading
           ? Center(child: CircularProgressIndicator())
       :Column(
         children: [
@@ -56,9 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: vehiculeProvider.vehicules.length,
+              itemCount: busProvider.bus.length,
               itemBuilder: (context, index) {
-                return VehicleCard(driver: 'RAKOTO Zafinirina', fee: "4535 AR",vehicule: vehiculeProvider.vehicules[index]);
+                return BusCard( fee: "4535 AR",bus: busProvider.bus[index]);
               },
             ),
           ),

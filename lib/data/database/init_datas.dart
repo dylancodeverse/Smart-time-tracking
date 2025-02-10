@@ -88,7 +88,7 @@ class InitDatas {
     for (int i = 1; i <= 18; i++) {
       await db.insert("affectations", {
         "id": "$i",
-        "date": "2024-02-${10 + i}",
+        "affectation_date": "2024-02-${10 + i}",
         "id_vehicule": "$i",
         "id_chauffeur": "$i",
         "id_copilote": "$i",
@@ -100,7 +100,7 @@ class InitDatas {
     for (int i = 19; i <= 22; i++) {
       await db.insert("affectations", {
         "id": "$i",
-        "date": "2024-03-${10 + i}",
+        "affectation_date": "2024-03-${10 + i}",
         "id_vehicule": "${(i % 18) + 1}",
         "id_chauffeur": "$i",
         "id_copilote": "${(i % 22) + 1}",

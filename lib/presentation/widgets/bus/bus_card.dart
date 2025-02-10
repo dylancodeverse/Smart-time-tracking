@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sola/core/theme.dart';
-import 'package:sola/data/models/vehicle.dart';
+import 'package:sola/data/models/bus.dart';
 import 'package:sola/presentation/widgets/utils/color_checker.dart';
-class VehicleCard extends StatelessWidget {
-  final String driver;
+class BusCard extends StatelessWidget {
   final String fee;
-  final Vehicle vehicule;
+  final Bus bus;
 
 
-  const VehicleCard({
+  const BusCard({
     super.key,
-    required this.driver,
     required this.fee,
-    required this.vehicule
+    required this.bus
   });
 
   @override
@@ -42,8 +40,8 @@ class VehicleCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(vehicule.immatriculation, style: AppTheme.bodyLarge),
-                        Text(driver, style: AppTheme.bodyMediu),
+                        Text(bus.immatriculation, style: AppTheme.bodyLarge),
+                        Text(bus.chauffeurNomPrenom, style: AppTheme.bodyMediu),
                       ],
                     ),
                   ],
@@ -79,7 +77,7 @@ class VehicleCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Tours: 5", style: AppTheme.bodyMediu),
-                      Text(vehicule.libStatut, style: TextStyle(color: ColorLib.getColorByStatus(vehicule.statut), fontWeight: FontWeight.bold)),
+                      Text(bus.libStatut, style: TextStyle(color: ColorLib.getColorByStatus(bus.statut), fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Column(
