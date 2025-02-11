@@ -27,12 +27,26 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
     
-    return await openDatabase(path, version: 2, onCreate: _createDB);
+    return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
   Future<void> _createDB(Database db, int version) async {
     String queries = await rootBundle.loadString(DatabaseConfig.sqlFilePath);
-    await db.execute(queries);
+    List<String> lst = queries.split(";");
+
+    
+    // Crée un objet Batch pour exécuter plusieurs requêtes en une seule transaction
+    Batch batch = db.batch();
+    
+    // Ajoute chaque requête au batch
+    for (var query in lst) {
+      if (query.trim().isNotEmpty) {
+        batch.execute(query.trim());
+      }
+    }
+    // Exécute toutes les requêtes du batch
+    await batch.commit();
+    
     await InitDatas().insertInitialData(db);
   }
 

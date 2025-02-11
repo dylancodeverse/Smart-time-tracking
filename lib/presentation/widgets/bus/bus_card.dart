@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sola/core/theme.dart';
-import 'package:sola/data/models/bus.dart';
+import 'package:sola/data/models/active_bus.dart';
 import 'package:sola/presentation/widgets/utils/color_checker.dart';
-class BusCard extends StatelessWidget {
-  final String fee;
-  final Bus bus;
+class ActiveBusCard extends StatelessWidget {
+  final ActiveBus activeBus;
 
 
-  const BusCard({
+  const ActiveBusCard({
     super.key,
-    required this.fee,
-    required this.bus
+    required this.activeBus
   });
 
   @override
@@ -40,8 +38,8 @@ class BusCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(bus.immatriculation, style: AppTheme.bodyLarge),
-                        Text(bus.chauffeurNomPrenom, style: AppTheme.bodyMediu),
+                        Text(activeBus.bus.immatriculation, style: AppTheme.bodyLarge),
+                        Text(activeBus.bus.chauffeurNomPrenom, style: AppTheme.bodyMediu),
                       ],
                     ),
                   ],
@@ -76,14 +74,14 @@ class BusCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Tours: 5", style: AppTheme.bodyMediu),
-                      Text(bus.libStatut, style: TextStyle(color: ColorLib.getColorByStatus(bus.statut), fontWeight: FontWeight.bold)),
+                      Text(activeBus.getLibNombreTours(), style: AppTheme.bodyMediu),
+                      Text(activeBus.bus.libStatut, style: TextStyle(color: ColorLib.getColorByStatus(activeBus.bus.statut), fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(fee, style: AppTheme.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
+                      Text(activeBus.getLibMontant(), style: AppTheme.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

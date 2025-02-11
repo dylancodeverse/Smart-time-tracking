@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sola/core/theme.dart';
-import 'package:sola/presentation/providers/bus_providers.dart';
+import 'package:sola/presentation/providers/active_bus_providers.dart';
 import 'package:sola/presentation/widgets/utils/bottomnav.dart';
 import 'package:sola/presentation/widgets/bus/bus_card.dart';
 import 'package:provider/provider.dart';
@@ -15,11 +15,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     Future.microtask(() =>
-        Provider.of<BusProvider>(context, listen: false).fetchBuss());
+        Provider.of<ActiveBusProvider>(context, listen: false).fetchActiveBuss());
   }
   @override
   Widget build(BuildContext context) {
-    final busProvider = Provider.of<BusProvider>(context);
+    final busProvider = Provider.of<ActiveBusProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ListView.builder(
               itemCount: busProvider.bus.length,
               itemBuilder: (context, index) {
-                return BusCard( fee: "4535 AR",bus: busProvider.bus[index]);
+                return ActiveBusCard(activeBus: busProvider.bus[index]);
               },
             ),
           ),

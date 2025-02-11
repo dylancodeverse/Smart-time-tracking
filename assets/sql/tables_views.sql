@@ -38,12 +38,10 @@
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       date_arrivee INTEGER NOT NULL,
       date_depart INTEGER ,
-      id_vehicule TEXT NOT NULL,
-      id_chauffeur TEXT NOT NULL,
+      id_affectation TEXT NOT NULL,
       montant REAL NOT NULL,
       commentaires TEXT,
-      FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
-      FOREIGN KEY (id_chauffeur) REFERENCES chauffeurs(id)
+      FOREIGN KEY (id_affectation) REFERENCES affectations(id)
     );
 
 
@@ -68,3 +66,23 @@
         JOIN copilote co ON a.id_copilote = co.id
         WHERE a.is_default = 1;
     
+CREATE INDEX IF NOT EXISTS date_arrivee_idx ON pointages(date_arrivee);
+
+CREATE INDEX IF NOT EXISTS date_depart_idx on pointages(date_depart);
+
+
+
+CREATE VIEW details_pointage_jour AS
+SELECT
+    id_affectation,
+    strftime('%Y-%m-%d', datetime(date_arrivee, 'unixepoch')) AS date_jour,
+    COUNT(*) AS nombre_tours,
+    SUM(montant) AS total_montant
+FROM
+    pointages
+WHERE
+    strftime('%Y-%m-%d', datetime(date_arrivee, 'unixepoch')) = strftime('%Y-%m-%d', 'now')
+GROUP BY
+    date_jour, id_affectation
+ORDER BY
+    date_jour;

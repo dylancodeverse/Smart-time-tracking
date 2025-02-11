@@ -53,21 +53,6 @@ class Bus {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'affectation_id':affectationId,
-      'affectation_date':affectationDate,
-      'vehicule_id':vehiculeId,
-      'immatriculation':immatriculation,
-      'modele':modele,
-      'statut':statut,
-      'chauffeur_id':chauffeurId,
-      'chauffeur_nom':chauffeurNom,
-      'chauffeur_prenom':chauffeurPrenom,
-      'copilote_id':copiloteId,
-      'copilote_nom':copiloteNom,
-      'copilote_prenom':copilotePrenom,
-    };
-  }
+
 
 }
