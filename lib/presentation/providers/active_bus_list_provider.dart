@@ -29,12 +29,14 @@ class ActiveBusListProvider with ChangeNotifier {
     // ignore: avoid_print
     print("$query waouh");
     if (query.isEmpty) {      
-      _filteredBus = _busList ;
+      _filteredBus =List.from(_busList ) ;
     }else{
-    _filteredBus = _busList
-        .where((bus) => bus.bus.immatriculation.contains(query))
-        .toList();
+    Iterable<ActiveBus> list = _busList
+        .where((bus) => bus.bus.immatriculation.toLowerCase().contains(query.toLowerCase())) ;
+    list.isEmpty ? _filteredBus= [] : _filteredBus= List.from(list.toList()) ; 
     }
+
     notifyListeners();
+
   }
 }

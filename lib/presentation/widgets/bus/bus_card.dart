@@ -8,6 +8,8 @@ import 'package:sola/presentation/widgets/bus/bus_disable_option.dart';
 import 'package:sola/presentation/widgets/bus/bus_info_header.dart';
 import 'package:sola/presentation/widgets/utils/color_checker.dart';
 class ActiveBusCard extends StatelessWidget {
+  const ActiveBusCard({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,7 @@ class ActiveBusCard extends StatelessWidget {
 
     final activeBusProvider = context.read<ActiveBusProvider>(); // 🔹 No rebuild ici
 
+    print("Rendering BusCard: ${activeBus.bus.immatriculation}"); // 🔎 Debug ici
 
     return Card(
       color: AppTheme.cardColor,

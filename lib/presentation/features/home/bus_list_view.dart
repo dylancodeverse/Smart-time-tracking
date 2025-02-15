@@ -9,15 +9,19 @@ class BusListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Selector<ActiveBusListProvider, List<ActiveBus>>(
-        selector: (_, provider) => provider.filteredBus,
-        builder: (context, filteredBus, child) {
+      child: Consumer<ActiveBusListProvider>(
+        builder: (context, busProvider, child) {
+          List<ActiveBus> filteredBus = busProvider.filteredBus;
+          print("FilteredBus updated: ${filteredBus.length} buses");
+
           return ListView.builder(
+            // key: ValueKey(filteredBus.length), // 🔹 Clé pour forcer la reconstruction
             itemCount: filteredBus.length,
             itemBuilder: (context, index) {
               return ChangeNotifierProvider(
                 create: (_) => ActiveBusProvider(filteredBus[index]), 
-                child: ActiveBusCard(),
+                  child: ActiveBusCard(key: ValueKey(filteredBus[index].bus.immatriculation)), // 🔥 Ajoute une clé unique !
+
               );
             },
           );
