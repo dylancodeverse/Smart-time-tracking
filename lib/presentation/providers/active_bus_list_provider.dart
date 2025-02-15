@@ -26,8 +26,6 @@ class ActiveBusListProvider with ChangeNotifier {
   }
 
   void filterBusList(String query) {
-    // ignore: avoid_print
-    print("$query waouh");
     if (query.isEmpty) {      
       _filteredBus =List.from(_busList ) ;
     }else{
@@ -35,7 +33,6 @@ class ActiveBusListProvider with ChangeNotifier {
         .where((bus) => bus.bus.immatriculation.toLowerCase().contains(query.toLowerCase())) ;
     list.isEmpty ? _filteredBus= [] : _filteredBus= List.from(list.toList()) ; 
     }
-
     notifyListeners();
 
   }

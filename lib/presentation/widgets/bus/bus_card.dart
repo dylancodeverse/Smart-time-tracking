@@ -17,8 +17,6 @@ class ActiveBusCard extends StatelessWidget {
 
     final activeBusProvider = context.read<ActiveBusProvider>(); // 🔹 No rebuild ici
 
-    print("Rendering BusCard: ${activeBus.bus.immatriculation}"); // 🔎 Debug ici
-
     return Card(
       color: AppTheme.cardColor,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
