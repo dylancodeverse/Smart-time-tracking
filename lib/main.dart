@@ -6,7 +6,7 @@ import 'package:sola/data/datasources/active_bus_db.dart';
 import 'package:sola/data/localdatabase/database_helper.dart';
 import 'package:sola/data/repositories/active_bus_repository.dart';
 import 'package:sola/presentation/features/home/home_screen.dart';
-import 'package:sola/presentation/providers/active_bus_providers.dart';
+import 'package:sola/presentation/providers/active_bus_list_provider.dart';
 
 import 'package:sqflite/sqflite.dart';  // Pour gérer SQLite
 // ignore: depend_on_referenced_packages
@@ -24,7 +24,7 @@ void main()async{
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ActiveBusProvider(activeBusRepository)),
+        ChangeNotifierProvider(create: (context) => ActiveBusListProvider(activeBusRepository)), // 🔹 Gestion de la liste
       ],
       child: MyApp(),
     ),

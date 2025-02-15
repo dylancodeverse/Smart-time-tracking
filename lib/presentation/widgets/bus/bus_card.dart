@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sola/core/theme.dart';
-import 'package:sola/data/models/active_bus.dart';
+import 'package:sola/presentation/providers/active_bus_providers.dart';
 import 'package:sola/presentation/widgets/utils/color_checker.dart';
 class ActiveBusCard extends StatelessWidget {
-  final ActiveBus activeBus;
-
-
-  const ActiveBusCard({
-    super.key,
-    required this.activeBus
-  });
 
   @override
   Widget build(BuildContext context) {
+    final activeBus = context.watch<ActiveBusProvider>().activeBus; // ✅ Écoute uniquement CE bus
+
+    print("carte rebuilt${activeBus.bus.immatriculation}");
+
+    final activeBusProvider = context.read<ActiveBusProvider>(); // 🔹 No rebuild ici
+
+
     return Card(
       color: AppTheme.cardColor,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -108,12 +109,17 @@ class ActiveBusCard extends StatelessWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    onPressed: () {},
-                    child: Text("Départ", style: TextStyle(color: AppTheme.scaff)),
+                    onPressed: () {
+                      activeBus.isDepart? activeBusProvider.terminerTour() :
+                                          activeBusProvider.demarrerTour();
+                    },
+                    child: Text(activeBus.isDepart ? "Arrivée" : "Départ", style: TextStyle(color: AppTheme.scaff)),
                   ),
                 ),
                 // cette partie n'apparait que si Vehicule elligible a payer 
+                if (activeBus.nombreTours >= 2) 
                 const SizedBox(width: 10),
+                if (activeBus.nombreTours >= 2)
                 Expanded(
 
                   child: ElevatedButton(
@@ -121,7 +127,7 @@ class ActiveBusCard extends StatelessWidget {
                       backgroundColor: AppTheme.darkPrimary,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      
+
                     ),
                     onPressed: () {},
                     child: Text("Participation", style: TextStyle(color: AppTheme.scaff)),
@@ -134,5 +140,6 @@ class ActiveBusCard extends StatelessWidget {
         ),
       ),
     );
+
   }
 }

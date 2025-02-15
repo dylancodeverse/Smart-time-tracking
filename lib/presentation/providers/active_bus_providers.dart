@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../data/repositories/active_bus_repository.dart';
 import '../../data/models/active_bus.dart';
 
-class ActiveBusProvider extends ChangeNotifier {
-  final ActiveBusRepository repository;
-  List<ActiveBus> activeBus = [];
-  bool _isLoading = false;
+class ActiveBusProvider with ChangeNotifier {
+  // ignore: prefer_final_fields
+  ActiveBus _activeBus;
 
-  List<ActiveBus> get bus => activeBus;
-  bool get isLoading => _isLoading;
+  ActiveBusProvider(this._activeBus);
 
-  ActiveBusProvider(this.repository);
+  ActiveBus get activeBus => _activeBus;
 
-  Future<void> fetchActiveBuss() async {
-    _isLoading = true;
+  void demarrerTour() {
+    _activeBus.isDepart = true;
     notifyListeners();
-    activeBus = await repository.getActiveBus();
-    _isLoading = false;
+  }
+
+  void terminerTour() {
+    _activeBus.isDepart = false;
+    _activeBus.nombreTours+=1;
     notifyListeners();
   }
 }

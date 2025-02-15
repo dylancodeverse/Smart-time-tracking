@@ -4,11 +4,13 @@ import 'package:sola/data/models/bus.dart';
 class ActiveBus {
   int nombreTours ;
   int totalMontant ;
+  bool isDepart;
   Bus bus ;
   ActiveBus({
     required this. bus,
     required this.nombreTours,
-    required this.totalMontant
+    required this.totalMontant,
+    required this.isDepart
   });
 
   String getLibMontant(){
@@ -24,7 +26,9 @@ class ActiveBus {
   factory ActiveBus.fromMap(Map<String, dynamic> map) {
     return ActiveBus(bus: Bus.fromMap(map),
      nombreTours: map['nombre_tours'],
-     totalMontant: map['total_montant']);
+     totalMontant: map['total_montant'],
+     isDepart: false
+     );
   }   
 
 }
