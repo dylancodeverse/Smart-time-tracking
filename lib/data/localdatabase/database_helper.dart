@@ -69,7 +69,7 @@ class DatabaseHelper {
     );
   }
 
-  Future<int> insertPointage(String dateHeure, int idVehicule, int idChauffeur, double montant) async {
+  Future<int> insertPointage(String dateHeure, int idVehicule, int idChauffeur, int montant) async {
     final db = await database;
     return await db.insert(
       'pointages',

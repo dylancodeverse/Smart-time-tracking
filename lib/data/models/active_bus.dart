@@ -4,14 +4,15 @@ import 'package:sola/data/models/bus.dart';
 class ActiveBus {
   int nombreTours ;
   int totalMontant ;
-  bool isDepart;
+  bool get isDepart => bus.etatVoiture.etatPointage != 0;
   Bus bus ;
+  
   ActiveBus({
     required this. bus,
     required this.nombreTours,
     required this.totalMontant,
-    required this.isDepart
   });
+
 
   String getLibMontant(){
      var formatter = NumberFormat('#,##0');
@@ -27,8 +28,9 @@ class ActiveBus {
     return ActiveBus(bus: Bus.fromMap(map),
      nombreTours: map['nombre_tours'],
      totalMontant: map['total_montant'],
-     isDepart: false
      );
   }   
+
+
 
 }

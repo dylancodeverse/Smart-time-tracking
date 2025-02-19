@@ -5,8 +5,8 @@ class BusDetails extends StatelessWidget {
   final String nombreTours;
   final String statut;
   final Color statutColor;
-
-  const BusDetails({required this.nombreTours, required this.statut, required this.statutColor});
+  final String libMontant;
+  const BusDetails({required this.nombreTours, required this.statut, required this.statutColor, required this.libMontant});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +29,7 @@ class BusDetails extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              Text(libMontant, style: AppTheme.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

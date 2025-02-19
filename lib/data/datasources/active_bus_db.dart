@@ -9,6 +9,7 @@ class ActiveBusDB {
 
   Future<List<ActiveBus>> getActiveBus() async {
     final List<Map<String, dynamic>> maps = await db.rawQuery(SqlRequestConfig.getTodayReportRequest());
+    // print(await db.rawQuery(SqlRequestConfig.test));
     return List.generate(maps.length, (i) => ActiveBus.fromMap(maps[i]));
   }
 }

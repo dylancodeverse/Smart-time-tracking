@@ -39,6 +39,7 @@ class ActiveBusCard extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             BusDetails(
+                        libMontant: activeBus.getLibMontant(),
                         nombreTours: activeBus.getLibNombreTours(),
                         statut: activeBus.bus.libStatut,
                         statutColor: ColorLib.getColorByStatus(activeBus.bus.statut),
@@ -49,7 +50,7 @@ class ActiveBusCard extends StatelessWidget {
             BusActions(
               isDepart: activeBus.isDepart,
               onStartStop: () {
-                activeBus.isDepart ? activeBusProvider.terminerTour() : activeBusProvider.demarrerTour();
+                 activeBusProvider.demarrerOuTerminerTour() ;
               },
               showParticipation: activeBus.nombreTours >= 2,
               onParticipation: () {},

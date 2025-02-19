@@ -2,7 +2,7 @@
       id TEXT PRIMARY KEY,
       immatriculation TEXT NOT NULL UNIQUE,
       modele TEXT NOT NULL,
-      statut INTEGER NOT NULL
+      statut int NOT NULL
     );
 
     CREATE TABLE chauffeurs (
@@ -22,7 +22,7 @@
       
     CREATE TABLE affectations (
       id TEXT PRIMARY KEY,
-      affectation_date TEXT NOT NULL,
+      affectation_date int DEFAULT (strftime('%s', 'now')),
       id_vehicule TEXT NOT NULL,
       id_chauffeur TEXT NOT NULL,
       id_copilote TEXT,
@@ -36,14 +36,29 @@
 
     CREATE TABLE pointages (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      date_arrivee INTEGER NOT NULL,
-      date_depart INTEGER ,
+      date_arrivee int ,
+      date_depart int ,
+      id_vehicule text,
       id_affectation TEXT NOT NULL,
-      montant REAL NOT NULL,
+      montant int,
       commentaires TEXT,
-      FOREIGN KEY (id_affectation) REFERENCES affectations(id)
+      FOREIGN KEY (id_affectation) REFERENCES affectations(id),
+      FOREIGN KEY (id_vehicule) REFERENCES vehicules(id)
     );
 
+
+
+
+CREATE TABLE etat_voitures_actu (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    etat_pointage int, -- 0 depart 1 arrivee
+    id_vehicule TEXT,
+    dernier_pointage int,
+    id_affectation text,
+    FOREIGN KEY (id_affectation) REFERENCES affectations(id),
+    FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
+    FOREIGN KEY (dernier_pointage) REFERENCES pointages(id)
+);
 
 
     CREATE VIEW affectations_completes AS
@@ -74,7 +89,7 @@ CREATE INDEX IF NOT EXISTS date_depart_idx on pointages(date_depart);
 
 CREATE VIEW details_pointage_jour AS
 SELECT
-    id_affectation,
+    id_vehicule,
     strftime('%Y-%m-%d', datetime(date_arrivee, 'unixepoch')) AS date_jour,
     COUNT(*) AS nombre_tours,
     SUM(montant) AS total_montant
@@ -83,6 +98,6 @@ FROM
 WHERE
     strftime('%Y-%m-%d', datetime(date_arrivee, 'unixepoch')) = strftime('%Y-%m-%d', 'now')
 GROUP BY
-    date_jour, id_affectation
+    date_jour, id_vehicule
 ORDER BY
     date_jour;

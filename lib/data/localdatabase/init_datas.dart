@@ -108,6 +108,28 @@ class InitDatas {
       });
     }
 
+    await insertEtatVoitures(db);
+
+  }
+  Future<void> insertEtatVoitures(Database db) async {
+    // Récupérer les affectations par défaut
+    List<Map<String, dynamic>> affectations = await db.query(
+      "affectations",
+      where: "is_default = 1",
+    );
+
+    // Insérer dans etat_voitures_actu pour chaque affectation par défaut
+    for (var affectation in affectations) {
+      String idVehicule = affectation["id_vehicule"];
+      String idAffectation = affectation["id"];
+
+      // Insérer l'état du véhicule (pointage départ = 0)
+      await db.insert("etat_voitures_actu", {
+        "etat_pointage": 0, // pointage départ
+        "id_vehicule": idVehicule,
+        "id_affectation": idAffectation,
+      });
+    }
   }
 
 

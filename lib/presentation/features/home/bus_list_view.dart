@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/data/models/active_bus.dart';
+import 'package:sola/data/repositories/pointages_repository.dart';
 import 'package:sola/presentation/providers/active_bus_list_provider.dart';
 import 'package:sola/presentation/providers/active_bus_providers.dart';
 import 'package:sola/presentation/widgets/bus/bus_card.dart';
@@ -18,7 +19,7 @@ class BusListView extends StatelessWidget {
             itemBuilder: (context, index) {
               return ChangeNotifierProvider(
                 key: ValueKey(filteredBus[index].bus.immatriculation), // 🔹 Clé pour forcer la reconstruction
-                create: (_) => ActiveBusProvider(filteredBus[index]), 
+                create: (_) => ActiveBusProvider(filteredBus[index],PointagesRepository()), 
                   child: ActiveBusCard(key: ValueKey(filteredBus[index].bus.immatriculation)), // 🔥 Ajoute une clé unique !
 
               );

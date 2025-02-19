@@ -1,3 +1,5 @@
+import 'package:sola/data/models/etat/etat_voiture.dart';
+
 class Bus {
   final String affectationId;
   final String affectationDate;
@@ -11,7 +13,7 @@ class Bus {
   final String copiloteId;
   final String copiloteNom;
   final String copilotePrenom;    
-
+  EtatVoiture  etatVoiture ;
   Bus({
     required this. affectationId,
     required this. affectationDate,
@@ -24,7 +26,8 @@ class Bus {
     required this. chauffeurPrenom,
     required this. copiloteId,
     required this. copiloteNom,
-    required this. copilotePrenom
+    required this. copilotePrenom,
+    required this.etatVoiture
   }) ;
 
   String get libStatut => statut==1 ? "En Activité" : "Hors Service" ;
@@ -50,6 +53,7 @@ class Bus {
       copiloteId:map ['copilote_id'],
       copiloteNom:map ['copilote_nom'],
       copilotePrenom:map ['copilote_prenom'],
+      etatVoiture: EtatVoiture(etatPointage: map['etat_pointage'], idVehicule: map ['vehicule_id'], idAffectation: map['affectation_id'],dernierPointage: map['dernier_pointage'])
     );
   }
 
