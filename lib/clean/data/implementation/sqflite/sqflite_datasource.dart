@@ -1,4 +1,4 @@
-import 'package:sola/clean/data/interface/datasource.dart';
+import 'package:sola/clean/data/interface/datasource/datasource.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLiteDataSource<T> implements DataSource<T> {
@@ -65,10 +65,11 @@ class SQLiteDataSource<T> implements DataSource<T> {
       whereArgs: [id],
     );
   }
-  
-  Future<void> runTransaction(Future<void> Function(Database txn) action) async {
+  @override
+  Future<void> runTransaction(Future<void> Function() action) async {
     await database.transaction((txn) async {
-      await action(txn as Database);
+      await action();
     });
   }
+
 }
