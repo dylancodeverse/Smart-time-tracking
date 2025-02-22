@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sola/core/theme.dart';
-import 'package:sola/data/datasources/active_bus_db.dart';
-import 'package:sola/data/localdatabase/access_helper.dart';
-import 'package:sola/data/localdatabase/database_helper.dart';
-import 'package:sola/data/repositories/active_bus_repository.dart';
-import 'package:sola/presentation/features/home/home_screen.dart';
-import 'package:sola/presentation/providers/active_bus_list_provider.dart';
+import 'package:sola/application/data_init/service_initDB.dart';
+import 'package:sola/application/home/service_daily_statistic_list.dart';
+import 'package:sola/domain/service/interface/i_daily_statistic_list_service.dart';
+import 'package:sola/presentation/UI/config/theme.dart';
+import 'package:sola/presentation/UI/features/home/home_screen.dart';
+import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 
+// ignore: unused_import
 import 'package:sqflite/sqflite.dart';  // Pour gérer SQLite
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
-
-  final dbPath = await DBAccess.getDbPath();
-  // await deleteDatabase(dbPath); // Supprime l'ancienne base
-  final db =await DatabaseHelper().database ;
-  final activeBusDB = ActiveBusDB(db);
-  final activeBusRepository = ActiveBusRepository(activeBusDB);
-
+  await ServiceInitdb.initSQFlite(true);
+  final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ActiveBusListProvider(activeBusRepository)), // 🔹 Gestion de la liste
+        ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)), // 🔹 Gestion de la liste
       ],
       child: MyApp(),
     ),
