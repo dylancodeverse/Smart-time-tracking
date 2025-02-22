@@ -13,9 +13,14 @@ class DailyStatisticListService implements IDailyStatisticListService {
       // Si possible, ajouter un filtrage au niveau de la base de données.
       final allStatistics = await dataSource.getAll();
 
-      return allStatistics
-        .where((statistic) => statistic.assignment.bus.registrationNumber.toLowerCase() == busName.toLowerCase())
-        .toList();
+
+    return allStatistics
+      .where((statistic) =>
+          statistic.busState.lastAssignment.bus?.registrationNumber
+              ?.toLowerCase()
+              .contains(busName.toLowerCase()) ?? false) // ✅ Gère le cas où registrationNumber est null
+      .toList();
+
     } catch (e) {
       // Gestion d'erreur
       throw Exception("Error filtering by bus name: $e");

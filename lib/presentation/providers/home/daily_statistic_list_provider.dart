@@ -31,9 +31,9 @@ class DailyStatisticListProvider with ChangeNotifier{
     loading();
     if (query.isEmpty){
       filteredBus= busList;
-      return ;
-    }  
+    }  else{
     filteredBus = DailyStatisticView.convert(await iDailyStatisticListService.filterByBusName(query));
+    }
     finish();
   }
 

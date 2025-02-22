@@ -15,8 +15,8 @@ class SQLiteDataSource<T> implements DataSource<T> {
   });
 
   @override
-  Future<void> insert(T item) async {
-    await database.insert(tableName, toMap(item));
+  Future<int> insert(T item) async {
+    return await database.insert(tableName, toMap(item));
   }
 
   @override

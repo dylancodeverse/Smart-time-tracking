@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/application/data_init/service_initDB.dart';
-import 'package:sola/application/home/service_daily_statistic_list.dart';
+import 'package:sola/application/home_statistics/service_daily_statistic_list.dart';
 import 'package:sola/domain/service/interface/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/home/home_screen.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 
-// ignore: unused_import
-import 'package:sqflite/sqflite.dart';  // Pour gérer SQLite
 
-void main()async{
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await ServiceInitdb.initSQFlite(true);
+  await ServiceInitdb.initSQFlite(false);
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
   runApp(
     MultiProvider(

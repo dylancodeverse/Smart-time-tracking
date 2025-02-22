@@ -1,12 +1,9 @@
-import 'package:sola/domain/entity/assignement.dart';
-import 'package:sola/domain/entity/check.dart';
+import 'package:sola/domain/entity/bus_state.dart';
 
 class DailyStatistic {
-  Assignment assignment;
   int amount ;
   int round ;
-  int statusCheck;
-  Check ? lastCheck ;
+  BusState busState ;
 
-  DailyStatistic({required this.assignment,required this.amount, this.lastCheck, required this.round, required this.statusCheck});
+  DailyStatistic({required this.amount, required this.round, required this.busState});
 } 

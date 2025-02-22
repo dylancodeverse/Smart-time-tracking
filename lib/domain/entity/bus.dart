@@ -1,15 +1,16 @@
 
 class Bus {
-  final String id;
-  final String registrationNumber;
-  final String model;
-  final int status;
+  String?  id;
+  String?  registrationNumber;
+  String?  model;
+  int?  status;
 
   Bus({
-    required this.id,
-    required this.registrationNumber,
-    required this.model,
-    required this.status,
+     this.id,
+     this.registrationNumber,
+     this.model,
+     this.status,
   });
+
 
 }

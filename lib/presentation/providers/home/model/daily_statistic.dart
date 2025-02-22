@@ -17,39 +17,40 @@ class DailyStatisticView {
   final String driverCompleteName;
   final String copilotId;
   final String copilotCompleteName;
-
+  final int busStateId ;
 
 
   DailyStatisticView({required this.round, required this.amount, required this.statusCheck, 
   this.lastChecking, required this.registrationNumber, required this.model, required this.status, 
   required this.busID, required this.assignmentID, required this.driverId, required this.driverCompleteName, required this.copilotId, 
-   required this.copilotCompleteName});
+   required this.copilotCompleteName, required this.busStateId});
 
-static List<DailyStatisticView> convert(List<DailyStatistic> list) {
-    return list.map((dailyStatistic) {
-      // Assignment (from the DailyStatistic)
-      Assignment assignment = dailyStatistic.assignment;
-      // Check (from the DailyStatistic)
-      Check? lastCheck = dailyStatistic.lastCheck;
+  static List<DailyStatisticView> convert(List<DailyStatistic> list) {
+      return list.map((dailyStatistic) {
+        // Assignment (from the DailyStatistic)
+        Assignment assignment = dailyStatistic.busState.lastAssignment;
+        // Check (from the DailyStatistic)
+        Check? lastCheck = dailyStatistic.busState.lastCheck;
 
-      // Returning a new DailyStatisticView instance
-      return DailyStatisticView(
-        round: dailyStatistic.round,
-        amount: dailyStatistic.amount,
-        statusCheck: dailyStatistic.statusCheck, // Assuming `etatPointage` is the status check in `Check`
-        lastChecking: lastCheck?.id, // Assuming `id` is the last check ID
-        registrationNumber: assignment.bus.registrationNumber,
-        model: assignment.bus.model,
-        status: assignment.bus.status, 
-        busID: (assignment.bus.id),         
-        assignmentID: (assignment.id),      
-        driverId: (assignment.driver.id),   
-        driverCompleteName: "${assignment.driver.firstName} ${assignment.driver.lastName}",
-        copilotId: (assignment.copilot.id ), 
-        copilotCompleteName: "${assignment.copilot.firstName} ${assignment.copilot.lastName}" ,
-      );
-    }).toList();
-  }
+        // Returning a new DailyStatisticView instance
+        return DailyStatisticView(
+          round: dailyStatistic.round,
+          amount: dailyStatistic.amount,
+          statusCheck: dailyStatistic.busState.statusCheck, // Assuming `etatPointage` is the status check in `Check`
+          lastChecking: lastCheck?.id, // Assuming `id` is the last check ID
+          registrationNumber: assignment.bus?.registrationNumber ?? "",
+          model: assignment.bus?.model ?? "" ,
+          status: assignment.bus?.status ?? 2, 
+          busID: assignment.bus?.id ?? "",         
+          assignmentID: assignment.id ?? "",      
+          driverId: assignment.driver?.id ?? "",   
+          driverCompleteName: "${assignment.driver?.firstName} ${assignment.driver?.lastName}",
+          copilotId: assignment.copilot?.id ?? "" , 
+          copilotCompleteName: "${assignment.copilot?.firstName} ${assignment.copilot?.lastName}" ,
+          busStateId: dailyStatistic.busState.id
+        );
+      }).toList();
+    }
 
   String getLibAmount() {
     var formatter = NumberFormat('#,##0');

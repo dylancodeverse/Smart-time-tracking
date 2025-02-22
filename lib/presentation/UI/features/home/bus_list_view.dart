@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/presentation/UI/features/home/bus_card/bus_card.dart';

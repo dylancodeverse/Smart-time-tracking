@@ -15,7 +15,7 @@ class BusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final activeBus = context.watch<DailyStatisticProvider>().bus; // ✅ Écoute uniquement CE bus
 
-    // final activeBusProvider = context.read<DailyStatisticProvider>(); // 🔹 No rebuild ici
+    final activeBusProvider = context.read<DailyStatisticProvider>(); // 🔹 No rebuild ici
 
     return Card(
       color: AppTheme.cardColor,
@@ -50,7 +50,7 @@ class BusCard extends StatelessWidget {
             BusActions(
               isDepart: activeBus.isDepart(),
               onStartStop: () {
-                //  activeBusProvider.demarrerOuTerminerTour() ;
+                 activeBusProvider.demarrerOuTerminerTour() ;
               },
               showParticipation: activeBus.participationActive(),
               onParticipation: () {},

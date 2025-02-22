@@ -17,15 +17,16 @@ class SqlfliteRequest {
         GROUP BY id_vehicule
       ),
       details_pointage_etat AS (
-        SELECT dp.id_vehicule, dp.nombre_tours, dp.total_montant, 
-              eva.etat_pointage, eva.id_affectation , eva.dernier_pointage
+        SELECT dp.id_vehicule, dp.nombre_tours, dp.total_montant, eva.id as etat_pointage_id 
+              ,eva.etat_pointage, eva.id_affectation , eva.dernier_pointage
         FROM etat_voitures_actu eva
         JOIN details_pointage dp ON eva.id_vehicule = dp.id_vehicule
       )
       SELECT 
         nombre_tours,
         total_montant, 
-        etat_pointage,      
+        etat_pointage, 
+        etat_pointage_id,     
         dernier_pointage,
         vehicules.immatriculation,
         vehicules.modele,
