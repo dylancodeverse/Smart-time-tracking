@@ -1,4 +1,5 @@
 import 'package:sola/application/check/service_bus_state.dart';
+import 'package:sola/application/utils/map_utils.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/sqflite/sqflite_datasource.dart';
 import 'package:sola/data/interface/datasource/datasource.dart';
@@ -8,12 +9,14 @@ import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/copilot.dart';
 import 'package:sola/domain/entity/driver.dart';
+import 'package:sola/domain/service/implementation/check_in.dart';
 import 'package:sola/domain/service/implementation/check_out.dart';
+import 'package:sola/domain/service/interface/i_check_in.dart';
 import 'package:sola/domain/service/interface/i_check_out.dart';
 
 class ServiceCheck {
   static Map<String, dynamic> toMap(Check check) {
-    return {
+    return MapUtils.removeNulls({
       "id": check.id,
       "date_arrivee": check.arrivalDate,
       "date_depart": check.departureDate,
@@ -21,7 +24,7 @@ class ServiceCheck {
       "id_affectation": check.assignment.id,
       "montant": check.amount,
       "commentaires": check.comments,
-    };
+    });
   }
   static Check fromMap(Map<String, dynamic> map) {
   return Check(
@@ -61,5 +64,14 @@ class ServiceCheck {
     
     return  CheckOut(checkDatasource:c ,busStateDatasource: bs);
 
+  }
+
+  static Future<ICheckIn> getCheckInService() async{
+    DataSource<Check> c= SQLiteDataSource(database:await SqfliteDatabaseHelper().database ,
+         tableName:"pointages" , fromMap: fromMap, toMap: toMap);
+    DataSource<BusState> bs = SQLiteDataSource(database: await SqfliteDatabaseHelper().database, tableName: 'etat_voitures_actu',
+     fromMap: ServiceBusState.fromMap, toMap: ServiceBusState.toMap);
+
+     return  CheckIn(dataSourceCheck: c, dataSourceBusState: bs);
   }
 }
