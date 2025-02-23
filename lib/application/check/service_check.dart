@@ -11,6 +11,7 @@ import 'package:sola/domain/entity/copilot.dart';
 import 'package:sola/domain/entity/driver.dart';
 import 'package:sola/domain/service/implementation/check_in.dart';
 import 'package:sola/domain/service/implementation/check_out.dart';
+import 'package:sola/domain/service/implementation/prediction_duration.dart';
 import 'package:sola/domain/service/interface/i_check_in.dart';
 import 'package:sola/domain/service/interface/i_check_out.dart';
 
@@ -61,8 +62,8 @@ class ServiceCheck {
          tableName:"pointages" , fromMap: fromMap, toMap: toMap);
     DataSource<BusState> bs = SQLiteDataSource(database: await SqfliteDatabaseHelper().database, tableName: 'etat_voitures_actu',
      fromMap: ServiceBusState.fromMap, toMap: ServiceBusState.toMap);
-    
-    return  CheckOut(checkDatasource:c ,busStateDatasource: bs);
+
+    return  CheckOut(checkDatasource:c ,busStateDatasource: bs ,iPredictionDuration: PredictionDuration(busState: bs));
 
   }
 
@@ -72,6 +73,11 @@ class ServiceCheck {
     DataSource<BusState> bs = SQLiteDataSource(database: await SqfliteDatabaseHelper().database, tableName: 'etat_voitures_actu',
      fromMap: ServiceBusState.fromMap, toMap: ServiceBusState.toMap);
 
-     return  CheckIn(dataSourceCheck: c, dataSourceBusState: bs);
+    // prediction 
+    DataSource<BusState> busStateDatasourcePrediction = SQLiteDataSource(database: await SqfliteDatabaseHelper().database, tableName: 'v_etat_voitures_actu',
+     fromMap: ServiceBusState.fromMapPredictionModel, toMap: ServiceBusState.toMap);
+
+
+     return CheckIn(dataSourceCheck: c, dataSourceBusState: bs ,iPredictionDuration: PredictionDuration(busState: busStateDatasourcePrediction));
   }
 }

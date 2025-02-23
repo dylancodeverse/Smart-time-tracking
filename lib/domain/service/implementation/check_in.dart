@@ -4,14 +4,16 @@ import 'package:sola/domain/entity/bus.dart';
 import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/service/interface/i_check_in.dart';
+import 'package:sola/domain/service/interface/i_prediction_duration.dart';
 import 'package:sola/lib/date_helper.dart';
 
 class CheckIn implements ICheckIn {
 
   DataSource<Check> dataSourceCheck ;
   DataSource<BusState> dataSourceBusState; 
+  IPredictionDuration iPredictionDuration ;
 
-  CheckIn({required this.dataSourceCheck  , required this.dataSourceBusState});
+  CheckIn({required this.dataSourceCheck  , required this.dataSourceBusState, required this.iPredictionDuration});
 
 
   @override
@@ -26,8 +28,11 @@ class CheckIn implements ICheckIn {
 
     await dataSourceCheck.update(check);
 
+    // getPrediction
+    int predictionArrival= await iPredictionDuration.getDepartureEstimation();
+
     // update status
-    BusState busState = BusState(id: busStateId, statusCheck: 0, lastAssignment: assignment, lastCheck: null); 
+    BusState busState = BusState(id: busStateId, statusCheck: 0, lastAssignment: assignment, lastCheck: null, nextChangeDatePrevision: predictionArrival); 
     await dataSourceBusState.update(busState);
 
     return busState;

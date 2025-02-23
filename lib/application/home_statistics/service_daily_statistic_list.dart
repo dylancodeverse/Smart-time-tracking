@@ -18,6 +18,7 @@ class InjectiondailystatisticList {
       amount: map["total_montant"] ?? 0,
       round: map["nombre_tours"] ?? 0,
       busState: BusState(id: map['etat_pointage_id'], statusCheck: map['etat_pointage'],
+          nextChangeDatePrevision: map['estimation_prochaine_action'],
           lastAssignment: Assignment(
               id: map["affectation_id"].toString(),
               assignmentDate: DateTime.parse(map["affectation_date"]),

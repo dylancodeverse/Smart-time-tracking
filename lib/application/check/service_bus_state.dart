@@ -14,6 +14,7 @@ class ServiceBusState {
       "id_vehicule": busState.lastAssignment.bus?.id,
       "dernier_pointage": busState.lastCheck?.id,
       "id_affectation": busState.lastAssignment.id,
+      "estimation_prochaine_action": busState.nextChangeDatePrevision,
     };
   }
 
@@ -22,6 +23,7 @@ class ServiceBusState {
     return BusState(
       id: map["id"] as int,
       statusCheck: map["etat_pointage"] as int,
+      nextChangeDatePrevision: map['estimation_prochaine_action'],
       lastAssignment: Assignment(
         id: map["id_affectation"] as String?,
         assignmentDate: map["affectation_date"] != null
@@ -54,5 +56,11 @@ class ServiceBusState {
             )
           : null,
     );
+  }
+
+  static BusState fromMapPredictionModel(Map<String, dynamic> map){
+    return BusState(id: map['id'],nextChangeDatePrevision: map['estimation_prochaine_action'],statusCheck: map['etat_pointage'],
+    lastAssignment: Assignment(id: map['id_affectation']));
+
   }
 }

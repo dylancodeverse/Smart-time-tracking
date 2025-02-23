@@ -4,14 +4,16 @@ import 'package:sola/application/check/service_check.dart';
 import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/service/interface/i_check_in.dart';
 import 'package:sola/domain/service/interface/i_check_out.dart';
+import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 import 'package:sola/presentation/providers/home/model/daily_statistic.dart';
 
 class DailyStatisticProvider with ChangeNotifier{
   DailyStatisticView bus ;
   late ICheckOut checkOut;
   late ICheckIn checkIn ;
+  DailyStatisticListProvider dailyStatisticListProvider;
   
-  DailyStatisticProvider({required this.bus}) {
+  DailyStatisticProvider({required this.bus, required this.dailyStatisticListProvider}) {
     _initCheckOut(); 
     _initCheckIn();
     notifyListeners(); // Met à jour l'UI quand c'est prêt
@@ -38,7 +40,8 @@ class DailyStatisticProvider with ChangeNotifier{
     bus.round+=1;
     bus.assignmentID= map['id_affectation'];    
     bus.statusCheck= map['etat_pointage'];
-    notifyListeners();
+    //  mis a jour de la liste
+    dailyStatisticListProvider.getDailyStats();
   }
   
   void demarrerTour() async{
@@ -49,8 +52,8 @@ class DailyStatisticProvider with ChangeNotifier{
     Map<String, dynamic> map= ServiceBusState.toMap(newBusState);  
     bus.assignmentID= map['id_affectation'];
     bus.statusCheck= map['etat_pointage'];
-    bus.lastChecking = map['dernier_pointage'];
-    
-    notifyListeners();
+    bus.lastChecking = map['dernier_pointage'];    
+    //  mis a jour de la liste
+    dailyStatisticListProvider.getDailyStats();
   }
 }

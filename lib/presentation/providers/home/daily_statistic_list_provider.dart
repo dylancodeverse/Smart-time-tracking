@@ -21,7 +21,7 @@ class DailyStatisticListProvider with ChangeNotifier{
   }
 
   void getDailyStats() async{
-    loading();
+      loading();
       busList = DailyStatisticView.convert(await iDailyStatisticListService.getDailyStatistics())  ;
       filteredBus = busList;
       finish();

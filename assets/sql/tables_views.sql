@@ -103,3 +103,15 @@ GROUP BY
     date_jour, id_vehicule
 ORDER BY
     date_jour;
+
+
+CREATE VIEW v_etat_voitures_actu AS 
+WITH arrivee AS (
+    SELECT * FROM etat_voitures_actu WHERE etat_pointage = 1
+),
+maxdate AS (
+    SELECT MAX(estimation_prochaine_action) AS estimation_prochaine_action FROM arrivee
+)
+SELECT arrivee.* 
+FROM arrivee 
+WHERE arrivee.estimation_prochaine_action = (SELECT estimation_prochaine_action FROM maxdate);

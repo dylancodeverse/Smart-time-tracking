@@ -4,13 +4,15 @@ import 'package:sola/domain/entity/bus.dart';
 import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/service/interface/i_check_out.dart';
+import 'package:sola/domain/service/interface/i_prediction_duration.dart';
 import 'package:sola/lib/date_helper.dart';
 
 class CheckOut implements ICheckOut {
   DataSource<Check> checkDatasource;
   DataSource<BusState> busStateDatasource;
+  IPredictionDuration iPredictionDuration;
 
-  CheckOut({required this.checkDatasource, required this.busStateDatasource});
+  CheckOut({required this.checkDatasource, required this.busStateDatasource, required this.iPredictionDuration});
 
   @override
   Future<BusState> departure(String assignementId, String busId, int busStateId) async {
@@ -22,9 +24,12 @@ class CheckOut implements ICheckOut {
     Check check=  Check(assignment: assignment, departureDate: Date.getTimestampNow());
     check.id= (await checkDatasource.insert(check) );
 
+    // getPrediction
+    int predictionArrival= iPredictionDuration.getArrivalPrediction(check.departureDate as int);
+
     // update status
-    BusState busState = BusState(id: busStateId, statusCheck: 1, lastAssignment: assignment, lastCheck: check);
-    busStateDatasource.update(busState);
+    BusState busState = BusState(id: busStateId, statusCheck: 1, lastAssignment: assignment, lastCheck: check,nextChangeDatePrevision: predictionArrival);
+    await busStateDatasource.update(busState);
 
     return busState;
   }

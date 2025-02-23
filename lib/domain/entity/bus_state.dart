@@ -6,7 +6,8 @@ class BusState {
   int statusCheck ;
   Check ? lastCheck;
   Assignment lastAssignment ;
+  int? nextChangeDatePrevision;
 
-  BusState({required this.id , required this.statusCheck , required this.lastAssignment, this.lastCheck});
+  BusState({required this.id , required this.statusCheck , required this.lastAssignment, this.lastCheck, this.nextChangeDatePrevision});
 
 }
