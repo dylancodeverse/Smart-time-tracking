@@ -107,7 +107,7 @@ ORDER BY
 
 CREATE VIEW v_etat_voitures_actu AS 
 WITH arrivee AS (
-    SELECT * FROM etat_voitures_actu WHERE etat_pointage = 1
+    SELECT * FROM etat_voitures_actu WHERE etat_pointage = 0
 ),
 maxdate AS (
     SELECT MAX(estimation_prochaine_action) AS estimation_prochaine_action FROM arrivee

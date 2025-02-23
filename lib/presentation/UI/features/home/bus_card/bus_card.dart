@@ -43,6 +43,7 @@ class BusCard extends StatelessWidget {
                         round: activeBus.getLibRound(),
                         status: activeBus.libStatus(),
                         statusColor: ColorLib.getColorByStatus(activeBus.status),
+                        nextActionEstimation: activeBus.nextActionEstimation,
             ),
 
             const SizedBox(height: 10),

@@ -6,7 +6,8 @@ class BusDetails extends StatelessWidget {
   final String status;
   final Color statusColor;
   final String libAmount;
-  const BusDetails({required this.round, required this.status, required this.statusColor, required this.libAmount});
+  final String nextActionEstimation;
+  const BusDetails({required this.round, required this.status, required this.statusColor, required this.libAmount, required this.nextActionEstimation});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class BusDetails extends StatelessWidget {
                 children: [
                   Icon(Icons.flag, color: AppTheme.darkPrimary, size: 16),
                   const SizedBox(width: 10),
-                  Text("14:30:34", style: AppTheme.bodyMediu),
+                  Text(nextActionEstimation, style: AppTheme.bodyMediu),
                 ],
               ),
             ],

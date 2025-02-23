@@ -30,10 +30,6 @@ class DailyStatisticListService implements IDailyStatisticListService {
   @override
   Future<List<DailyStatistic>> getDailyStatistics() async {
     try {
-      List<DailyStatistic> lst = await dataSource.getAll();
-      for (DailyStatistic element in lst) {
-        print(element.busState.nextChangeDatePrevision);
-      }
       return await dataSource.getAll();
     } catch (e) {
       // Gestion d'erreur

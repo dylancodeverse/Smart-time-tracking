@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:sola/domain/entity/assignement.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
+import 'package:sola/lib/date_helper.dart';
 
 class DailyStatisticView {
   int round;
@@ -21,11 +22,13 @@ class DailyStatisticView {
   String copilotCompleteName;
   int busStateId ;
 
+  String nextActionEstimation; 
+
 
   DailyStatisticView({required this.round, required this.amount, required this.statusCheck, 
   this.lastChecking, required this.registrationNumber, required this.model, required this.status, 
   required this.busID, required this.assignmentID, required this.driverId, required this.driverCompleteName, required this.copilotId, 
-   required this.copilotCompleteName, required this.busStateId});
+   required this.copilotCompleteName, required this.busStateId , required this.nextActionEstimation});
 
   static List<DailyStatisticView> convert(List<DailyStatistic> list) {
       return list.map((dailyStatistic) {
@@ -49,7 +52,11 @@ class DailyStatisticView {
           driverCompleteName: "${assignment.driver?.firstName} ${assignment.driver?.lastName}",
           copilotId: assignment.copilot?.id ?? "" , 
           copilotCompleteName: "${assignment.copilot?.firstName} ${assignment.copilot?.lastName}" ,
-          busStateId: dailyStatistic.busState.id
+          busStateId: dailyStatistic.busState.id,
+          nextActionEstimation: dailyStatistic.busState.nextChangeDatePrevision != null 
+              ? Date.formatTimeFromMillis(dailyStatistic.busState.nextChangeDatePrevision as int) 
+              : "En attente",
+
         );
       }).toList();
     }
