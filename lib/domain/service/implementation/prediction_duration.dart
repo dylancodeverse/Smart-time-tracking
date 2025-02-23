@@ -21,7 +21,6 @@ class PredictionDuration implements IPredictionDuration {
     try{
       return (busStateList[0].nextChangeDatePrevision as int)+ (3*60 *1000) ;
     }catch(e){
-      print(Date.formatTimeFromMillis(Date.getTimestampNow()));
       return Date.getTimestampNow() + 3*60 *1000; 
     }
   }
