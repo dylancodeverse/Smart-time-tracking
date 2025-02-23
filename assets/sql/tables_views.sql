@@ -92,13 +92,13 @@ CREATE INDEX IF NOT EXISTS date_depart_idx on pointages(date_depart);
 CREATE VIEW details_pointage_jour AS
 SELECT
     id_vehicule,
-    strftime('%Y-%m-%d', datetime(date_arrivee, 'unixepoch')) AS date_jour,
+    strftime('%Y-%m-%d', datetime(date_arrivee/1000, 'unixepoch')) AS date_jour,
     COUNT(*) AS nombre_tours,
     SUM(montant) AS total_montant
 FROM
     pointages
 WHERE
-    strftime('%Y-%m-%d', datetime(date_arrivee, 'unixepoch')) = strftime('%Y-%m-%d', 'now')
+    strftime('%Y-%m-%d', datetime(date_arrivee/1000, 'unixepoch')) = strftime('%Y-%m-%d', 'now')
 GROUP BY
     date_jour, id_vehicule
 ORDER BY

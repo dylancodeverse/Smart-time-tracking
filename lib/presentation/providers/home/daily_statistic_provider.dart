@@ -42,6 +42,7 @@ class DailyStatisticProvider with ChangeNotifier{
     bus.statusCheck= map['etat_pointage'];
     //  mis a jour de la liste
     dailyStatisticListProvider.getDailyStats();
+    // notifyListeners();
   }
   
   void demarrerTour() async{
@@ -55,5 +56,6 @@ class DailyStatisticProvider with ChangeNotifier{
     bus.lastChecking = map['dernier_pointage'];    
     //  mis a jour de la liste
     dailyStatisticListProvider.getDailyStats();
+    // notifyListeners();
   }
 }
