@@ -18,7 +18,7 @@ class SqlfliteRequest {
       ),
       details_pointage_etat AS (
         SELECT dp.id_vehicule, dp.nombre_tours, dp.total_montant, eva.id as etat_pointage_id 
-              ,eva.etat_pointage, eva.id_affectation , eva.dernier_pointage
+              ,eva.etat_pointage, eva.id_affectation , eva.dernier_pointage , eva.estimation_prochaine_action
         FROM etat_voitures_actu eva
         JOIN details_pointage dp ON eva.id_vehicule = dp.id_vehicule
       )
@@ -28,6 +28,7 @@ class SqlfliteRequest {
         etat_pointage, 
         etat_pointage_id,     
         dernier_pointage,
+        estimation_prochaine_action,
         vehicules.immatriculation,
         vehicules.modele,
         vehicules.statut,
