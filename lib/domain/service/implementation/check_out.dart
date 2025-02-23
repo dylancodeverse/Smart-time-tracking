@@ -13,20 +13,21 @@ class CheckOut implements ICheckOut {
   CheckOut({required this.checkDatasource, required this.busStateDatasource});
 
   @override
-  Future<int?> departure(String assignementId, String busId,int amount, int busStateId) async {
+  Future<BusState> departure(String assignementId, String busId,int amount, int busStateId) async {
     // init Bus
     Bus bus = Bus(id: busId);
     // init assignement
     Assignment assignment= Assignment(id: assignementId,bus:bus );
-    // rec check
+    // recording check
     Check check=  Check(assignment: assignment, arrivalDate: Date.getTimestampNow());
     check.amount=amount;
     check.id= (await checkDatasource.insert(check) );
 
     // update status
-    busStateDatasource.update(BusState(id: busStateId, statusCheck: 1, lastAssignment: assignment));
+    BusState busState = BusState(id: busStateId, statusCheck: 1, lastAssignment: assignment, lastCheck: check);
+    busStateDatasource.update(busState);
 
-    return check.id;
+    return busState;
   }
   
 }

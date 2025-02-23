@@ -4,20 +4,22 @@ import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
 
 class DailyStatisticView {
-  final int round;
-  final int amount;
-  final int statusCheck;
-  final int? lastChecking;
+  int round;
+  int amount;
+
+  int statusCheck;
+  int? lastChecking;
+
   final String registrationNumber;
   final String model;
-  final int status;
+  int status;
   final String busID;
-  final String assignmentID;
-  final String driverId;
-  final String driverCompleteName;
-  final String copilotId;
-  final String copilotCompleteName;
-  final int busStateId ;
+  String assignmentID;
+  String driverId;
+  String driverCompleteName;
+  String copilotId;
+  String copilotCompleteName;
+  int busStateId ;
 
 
   DailyStatisticView({required this.round, required this.amount, required this.statusCheck, 

@@ -1,4 +1,6 @@
 
+import 'package:sola/domain/entity/bus_state.dart';
+
 abstract class ICheckOut {
-  Future<int?> departure (String assignementId , String busId, int amount,int busStateId) ;
+  Future<BusState> departure (String assignementId , String busId, int amount,int busStateId) ;
 }
