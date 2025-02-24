@@ -33,7 +33,8 @@ class AppTheme {
   static Color get primaryColor => Colors.teal;
   static Color get textColor => Colors.black87;
   static Color get cardColor => Colors.white;
-  static Color get scaff => Color(0xFFF5F6F6); 
+  
+  static Color get scaff => Color(0xFFF2F9F7); 
   static TextStyle get bodyLarge =>TextStyle(fontFamily: 'Montserrat', fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400 );
   static TextStyle get bodyMediu => TextStyle(fontFamily: 'Montserrat', fontSize: 16, color: Colors.black , fontWeight: FontWeight.w300);
   static TextStyle get titleLarg => TextStyle(fontFamily: 'Montserrat', fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black);

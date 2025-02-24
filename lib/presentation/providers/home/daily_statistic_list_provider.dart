@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:sola/domain/service/interface/i_daily_statistic_list_service.dart';
-import 'package:sola/presentation/providers/home/model/daily_statistic.dart';
+import 'package:sola/presentation/model/daily_statistic.dart';
 
 class DailyStatisticListProvider with ChangeNotifier{
   final IDailyStatisticListService iDailyStatisticListService;

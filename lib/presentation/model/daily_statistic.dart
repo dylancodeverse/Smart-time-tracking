@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:sola/domain/entity/assignement.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
+import 'package:sola/global/state_list.dart';
 import 'package:sola/lib/date_helper.dart';
 
 class DailyStatisticView {
@@ -74,7 +75,15 @@ class DailyStatisticView {
   }
 
   libStatus() => status ==1 ? "En Activité" : "Hors Service" ;
-  isDepart() => statusCheck != 0 ? "Arrivée" : "Départ";
+  String isDepart(){
+    if( statusCheck == StateList.enableDeparture){
+      return "Départ" ;
+    }
+    else if(statusCheck==StateList.enableArrivalDeclaration){
+      return "Déclaration";
+    }
+    return "Arrivée";
+  } 
 
   participationActive() => round >= 2 ;
 }

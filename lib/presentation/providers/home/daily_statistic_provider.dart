@@ -4,8 +4,9 @@ import 'package:sola/application/check/service_check.dart';
 import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/service/interface/i_check_in.dart';
 import 'package:sola/domain/service/interface/i_check_out.dart';
+import 'package:sola/global/state_list.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
-import 'package:sola/presentation/providers/home/model/daily_statistic.dart';
+import 'package:sola/presentation/model/daily_statistic.dart';
 
 class DailyStatisticProvider with ChangeNotifier{
   DailyStatisticView bus ;
@@ -29,14 +30,21 @@ class DailyStatisticProvider with ChangeNotifier{
     checkIn = await ServiceCheck.getCheckInService();
   }
 
-  void demarrerOuTerminerTour(){
-    bus.statusCheck !=0 ? terminerTour() : demarrerTour();
+  void demarrerOuTerminerTour(BuildContext context){
+    if (bus.statusCheck ==StateList.enableDeparture) {
+       demarrerTour();
+
+    } else if(bus.statusCheck ==StateList.enableArrivalDeclaration){
+      roundDeclarationRedirect(context);
+    }else{
+      terminerTour(); 
+    }
   }
   
   void terminerTour() async{
-    BusState newBusState = await checkIn.arrival(bus.assignmentID, bus.busID, bus.busStateId, 566, bus.lastChecking as int);
+    BusState newBusState = await checkIn.arrival(bus.assignmentID, bus.busID, bus.busStateId, 0, bus.lastChecking as int);
     Map<String, dynamic> map= ServiceBusState.toMap(newBusState);  
-    bus.amount+=566;
+    bus.amount+=0;
     bus.round+=1;
     bus.assignmentID= map['id_affectation'];    
     bus.statusCheck= map['etat_pointage'];
@@ -57,5 +65,9 @@ class DailyStatisticProvider with ChangeNotifier{
     //  mis a jour de la liste
     dailyStatisticListProvider.getDailyStats();
     // notifyListeners();
+  }
+
+  void roundDeclarationRedirect(BuildContext context) {
+    Navigator.pushNamed(context, '/declaration', arguments: bus);
   }
 }

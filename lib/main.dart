@@ -4,6 +4,7 @@ import 'package:sola/application/data_init/service_init_db.dart';
 import 'package:sola/application/home_statistics/service_daily_statistic_list.dart';
 import 'package:sola/domain/service/interface/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
+import 'package:sola/presentation/UI/features/arrival/arrival_declaration_screen.dart';
 import 'package:sola/presentation/UI/features/home/home_screen.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 
@@ -23,12 +24,19 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SOLA',
       theme: AppTheme.lightTheme,
       home: HomeScreen(),
+      initialRoute: '/', // Route initiale
+      routes: {
+        // '/': (context) => HomeScreen(),
+        '/declaration': (context) => ArrivalDeclarationScreen(), // Exemple d'une autre page
+      },
+
     );
   }
 }

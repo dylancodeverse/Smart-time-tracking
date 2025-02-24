@@ -51,7 +51,7 @@ class BusCard extends StatelessWidget {
             BusActions(
               isDepart: activeBus.isDepart(),
               onStartStop: () {
-                 activeBusProvider.demarrerOuTerminerTour() ;
+                 activeBusProvider.demarrerOuTerminerTour(context) ;
               },
               showParticipation: activeBus.participationActive(),
               onParticipation: () {},

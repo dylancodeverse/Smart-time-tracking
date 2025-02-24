@@ -5,6 +5,7 @@ import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/service/interface/i_check_out.dart';
 import 'package:sola/domain/service/interface/i_prediction_duration.dart';
+import 'package:sola/global/state_list.dart';
 import 'package:sola/lib/date_helper.dart';
 
 class CheckOut implements ICheckOut {
@@ -28,7 +29,7 @@ class CheckOut implements ICheckOut {
     int predictionArrival= iPredictionDuration.getArrivalPrediction(check.departureDate as int);
 
     // update status
-    BusState busState = BusState(id: busStateId, statusCheck: 1, lastAssignment: assignment, lastCheck: check,nextChangeDatePrevision: predictionArrival);
+    BusState busState = BusState(id: busStateId, statusCheck: StateList.enableArrival, lastAssignment: assignment, lastCheck: check,nextChangeDatePrevision: predictionArrival);
     await busStateDatasource.update(busState);
 
     return busState;
