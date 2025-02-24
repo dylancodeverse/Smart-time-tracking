@@ -6,6 +6,7 @@ import 'package:sola/presentation/UI/features/home/bus_card/bus_info_header.dart
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
 import 'package:sola/presentation/UI/widgets/gesture_detector_modal.dart';
 import 'package:sola/presentation/UI/widgets/input_field.dart';
+import 'package:sola/presentation/UI/widgets/multi_select.dart';
 import 'package:sola/presentation/model/daily_statistic.dart';
 
 class ArrivalDeclarationScreen extends StatelessWidget{
@@ -41,14 +42,36 @@ class SimpleCardBUS extends StatefulWidget {
 class _SimpleCardBUSState extends State<SimpleCardBUS> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
-  String? _selectedViolation;
+  List<String> _selectedItems = [];
 
-  final List<String> violations = [
-    'Excès de vitesse',
-    'Non-respect du feu rouge',
-    'Stationnement interdit',
-    'Usage du téléphone au volant'
-  ];
+
+
+
+  void _showMultiSelect() async {
+    // a list of selectable items
+    // these items can be hard-coded or dynamically fetched from a database/API
+    final List<String> violations = [
+      'Excès de vitesse',
+      'Non-respect du feu rouge',
+      'Stationnement interdit',
+      'Usage du téléphone au volant'
+    ];
+
+    final List<String>? results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MultiSelect(items: violations);
+      },
+    );
+
+    // Update UI
+    if (results != null) {
+      setState(() {
+        _selectedItems = results;
+      });
+    }
+  }  
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +124,9 @@ class _SimpleCardBUSState extends State<SimpleCardBUS> {
 
             // Liste déroulante pour sélectionner une violation
             GestureDetectorModal(
-              text: "Sélectionner une violation",
+              text: "Sélectionner une violation ",
               onTap: () {
-                print("Modal ouvert !");
+                _showMultiSelect();
               },
               icon: Icons.list, // Icône personnalisée
               backgroundColor:Colors.grey[200]!,
@@ -120,7 +143,9 @@ class _SimpleCardBUSState extends State<SimpleCardBUS> {
                 onPressed: () {
                   print("Montant: ${_amountController.text}");
                   print("Commentaire: ${_commentController.text}");
-                  print("Violation: $_selectedViolation");
+                  for (var element in _selectedItems) {
+                    print(element);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.darkPrimary,
