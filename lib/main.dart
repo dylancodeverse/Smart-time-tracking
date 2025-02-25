@@ -6,6 +6,7 @@ import 'package:sola/domain/service/interface/i_daily_statistic_list_service.dar
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/arrival/arrival_declaration_screen.dart';
 import 'package:sola/presentation/UI/features/home/home_screen.dart';
+import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 
 
@@ -17,6 +18,7 @@ void main() async{
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)), // 🔹 Gestion de la liste
+        ChangeNotifierProvider(create: (context)=>ModalProvider())
       ],
       child: MyApp(),
     ),
