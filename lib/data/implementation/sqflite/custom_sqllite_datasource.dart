@@ -32,4 +32,8 @@ class CustomSqlliteDatasource<T> implements DataSource<T> {
   @override
   Future<void> runTransaction(Future<void> Function() action) => throw UnimplementedError();
   
+  @override
+  Future updateAndIgnoreNullColumns(T item) => throw UnimplementedError();
+  
+  
 }

@@ -1,3 +1,4 @@
+import 'package:sola/application/utils/map_utils.dart';
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -70,6 +71,16 @@ class SQLiteDataSource<T> implements DataSource<T> {
     await database.transaction((txn) async {
       await action();
     });
+  }
+  
+  @override
+  Future updateAndIgnoreNullColumns(T item) async{
+    await database.update(
+      tableName,
+      MapUtils.removeNulls(toMap(item)),
+      where: 'id = ?',
+      whereArgs: [toMap(item)['id']],
+    );
   }
 
 }

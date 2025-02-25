@@ -14,7 +14,7 @@ class CheckIn implements ICheckIn {
   DataSource<BusState> dataSourceBusState; 
   IPredictionDuration iPredictionDuration ;
 
-  CheckIn({required this.dataSourceCheck  , required this.dataSourceBusState, required this.iPredictionDuration});
+  CheckIn({required this.dataSourceCheck  , required this.dataSourceBusState, required this.iPredictionDuration, });
 
 
   @override
@@ -33,11 +33,26 @@ class CheckIn implements ICheckIn {
     int predictionArrival= await iPredictionDuration.getDepartureEstimation();
 
     // update status
-    BusState busState = BusState(id: busStateId, statusCheck: StateList.enableArrivalDeclaration, lastAssignment: assignment, lastCheck: null, nextChangeDatePrevision: predictionArrival); 
+    BusState busState = BusState(id: busStateId, statusCheck: StateList.enableArrivalDeclaration, lastAssignment: assignment, lastCheck: check, nextChangeDatePrevision: predictionArrival); 
     await dataSourceBusState.update(busState);
 
     return busState;
 
+  }
+  
+  @override
+  Future<void> arrivalUpdate(String assignementId, String busId, int busStateId, int amount, int lastChecking, String comments ) async{
+    // init Bus
+    Bus bus = Bus(id: busId);
+    // init assignement
+    Assignment assignment= Assignment(id: assignementId,bus:bus );
+    // update check by id
+    Check check=  Check(assignment: assignment, amount: amount,id: lastChecking, comments: comments);
+
+    await dataSourceCheck.updateAndIgnoreNullColumns(check);
+
+    BusState busState = BusState(id: busStateId, statusCheck: StateList.enableDeparture);
+    await dataSourceBusState.updateAndIgnoreNullColumns(busState);
   }
   
 }

@@ -12,7 +12,7 @@ import 'package:sola/presentation/providers/home/daily_statistic_list_provider.d
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await ServiceInitdb.initSQFlite(false);
+  await ServiceInitdb.initSQFlite(true);
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
   runApp(
     MultiProvider(

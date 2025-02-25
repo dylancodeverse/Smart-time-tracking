@@ -34,7 +34,7 @@ class DailyStatisticView {
   static List<DailyStatisticView> convert(List<DailyStatistic> list) {
       return list.map((dailyStatistic) {
         // Assignment (from the DailyStatistic)
-        Assignment assignment = dailyStatistic.busState.lastAssignment;
+        Assignment assignment = dailyStatistic.busState.lastAssignment!;
         // Check (from the DailyStatistic)
         Check? lastCheck = dailyStatistic.busState.lastCheck;
 

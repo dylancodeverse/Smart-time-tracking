@@ -11,9 +11,9 @@ class ServiceBusState {
     return {
       "id": busState.id,
       "etat_pointage": busState.statusCheck,
-      "id_vehicule": busState.lastAssignment.bus?.id,
+      "id_vehicule": busState.lastAssignment?.bus?.id,
       "dernier_pointage": busState.lastCheck?.id,
-      "id_affectation": busState.lastAssignment.id,
+      "id_affectation": busState.lastAssignment?.id,
       "estimation_prochaine_action": busState.nextChangeDatePrevision,
     };
   }

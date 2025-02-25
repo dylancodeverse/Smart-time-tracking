@@ -16,7 +16,7 @@ class DailyStatisticListService implements IDailyStatisticListService {
 
     return allStatistics
       .where((statistic) =>
-          statistic.busState.lastAssignment.bus?.registrationNumber
+          statistic.busState.lastAssignment?.bus?.registrationNumber
               ?.toLowerCase()
               .contains(busName.toLowerCase()) ?? false) // ✅ Gère le cas où registrationNumber est null
       .toList();
@@ -32,7 +32,7 @@ class DailyStatisticListService implements IDailyStatisticListService {
     try {
      List<DailyStatistic> lst = await dataSource.getAll();
      for (var element in lst) {
-      print("amount:${element.amount} round: ${element.round} bus: ${element.busState.lastAssignment.bus?.registrationNumber}");
+      print("amount:${element.amount} round: ${element.round} bus: ${element.busState.lastAssignment?.bus?.registrationNumber}");
        
      }
       return await dataSource.getAll();

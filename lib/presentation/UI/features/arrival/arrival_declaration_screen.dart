@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sola/application/check/service_arrival_declaration.dart';
 import 'package:sola/presentation/UI/config/color_checker.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/home/bus_card/bus_details.dart';
@@ -9,6 +10,7 @@ import 'package:sola/presentation/UI/widgets/gesture_detector_modal.dart';
 import 'package:sola/presentation/UI/widgets/input_field.dart';
 import 'package:sola/presentation/UI/widgets/multi_select.dart';
 import 'package:sola/presentation/model/daily_statistic.dart';
+import 'package:sola/presentation/providers/arrival_declaration/declaration.dart';
 import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
 
 class ArrivalDeclarationScreen extends StatelessWidget{
@@ -61,6 +63,12 @@ class _SimpleCardBUSState extends State<SimpleCardBUS> {
         return MultiSelect();
       },
     );
+  }
+
+  void onValidate()async{
+    ArrivalDeclaration arrivalDeclaration= await ServiceArrivalDeclaration.getArrivalDeclaration();
+        
+    arrivalDeclaration.declaration(widget.activeBus, int.parse(_amountController.text.trim()), _commentController.text, context);
   }
 
 
@@ -137,12 +145,14 @@ class _SimpleCardBUSState extends State<SimpleCardBUS> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+
                       print(myProvider.modalButtonText) ;
                       print("Montant: ${_amountController.text}");
                       print("Commentaire: ${_commentController.text}");
                       for (var element in myProvider.objectInit) {
                         print("${element.lib} ${element.isChecked}");
                       }
+                      onValidate();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.darkPrimary,
