@@ -4,7 +4,7 @@ import 'package:sola/presentation/UI/widgets/modal_object.dart';
 class ModalProvider with ChangeNotifier {
   late List<ModalObject> objectInit=[];
   late String currentKey="" ;
-  String modalButtonText ="Kidasso";
+  String modalButtonText ="";
   void initDatas(String newKey){
     // mock
     if (currentKey!=newKey || objectInit==[]) {
@@ -15,6 +15,7 @@ class ModalProvider with ChangeNotifier {
         ModalObject(lib:'Stationnement interdit',),
         ModalObject(lib:'Usage du téléphone au volant'),
       ];      
+      currentKey= newKey;
     }
     setTextModalButton();
   }
