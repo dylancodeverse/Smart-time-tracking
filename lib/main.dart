@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/application/data_init/service_init_db.dart';
 import 'package:sola/application/home_statistics/service_daily_statistic_list.dart';
+import 'package:sola/application/injection_helper/violation/violation_datasource.dart';
+import 'package:sola/data/interface/datasource/datasource.dart';
+import 'package:sola/domain/entity/violation/violation.dart';
+import 'package:sola/domain/service/implementation/violation/violation_service.dart';
 import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/arrival/arrival_declaration_screen.dart';
@@ -14,11 +18,12 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await ServiceInitdb.initSQFlite(true);
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
+  final DataSource<Violation> violationDatasource = await ViolationDatasource.getViolationDatasourceSQFLITE();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)), // 🔹 Gestion de la liste
-        ChangeNotifierProvider(create: (context)=>ModalProvider())
+        ChangeNotifierProvider(create: (context)=>ModalProvider(iViolation: ViolationService(violationDatasource:violationDatasource )))
       ],
       child: MyApp(),
     ),

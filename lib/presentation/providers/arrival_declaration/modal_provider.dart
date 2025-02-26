@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:sola/domain/service/interface/violation/i_violation.dart';
 import 'package:sola/presentation/UI/widgets/modal_object.dart';
 
 class ModalProvider with ChangeNotifier {
   late List<ModalObject> objectInit=[];
   late String currentKey="" ;
   String modalButtonText ="";
+  IViolation iViolation ;
+
+  ModalProvider({required this.iViolation});
+
   void initDatas(String newKey){
     // mock
     if (currentKey!=newKey || objectInit==[]) {

@@ -110,6 +110,7 @@ class InitDatas {
 
     await _insertEtatVoitures(db);
 
+    await _insertViolations(db);
   }
   Future<void> _insertEtatVoitures(Database db) async {
     // Récupérer les affectations par défaut
@@ -133,5 +134,28 @@ class InitDatas {
   }
 
 
+
+Future<void> _insertViolations(Database db) async {
+  List<Map<String, dynamic>> violations = [
+    {"id": 1, "lib": "Excès de vitesse"},
+    {"id": 2, "lib": "Stationnement interdit"},
+    {"id": 3, "lib": "Non-port de ceinture"},
+    {"id": 4, "lib": "Téléphone au volant"},
+    {"id": 5, "lib": "Franchissement de ligne continue"},
+    {"id": 6, "lib": "Non-respect du feu rouge"},
+    {"id": 7, "lib": "Non-respect du stop"},
+    {"id": 8, "lib": "Conduite en état d'ivresse"},
+    {"id": 9, "lib": "Absence de contrôle technique"},
+    {"id": 10, "lib": "Défaut d’assurance"},
+  ];
+
+  for (var violation in violations) {
+    await db.insert(
+      "violation",
+      violation,
+      conflictAlgorithm: ConflictAlgorithm.ignore, // Ignore si la valeur est déjà présente
+    );
+  }
+}
 
 }

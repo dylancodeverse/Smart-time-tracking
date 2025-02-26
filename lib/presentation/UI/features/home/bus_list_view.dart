@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sola/presentation/UI/features/home/bus_card/bus_card.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_provider.dart';
-import 'package:sola/presentation/model/daily_statistic.dart';
+import 'package:sola/presentation/model/stats/daily_statistic.dart';
 
 class BusListView extends StatelessWidget {
   @override

@@ -6,7 +6,7 @@ import 'package:sola/domain/service/interface/checking/i_check_in.dart';
 import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 import 'package:sola/global/state_list.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
-import 'package:sola/presentation/model/daily_statistic.dart';
+import 'package:sola/presentation/model/stats/daily_statistic.dart';
 
 class DailyStatisticProvider with ChangeNotifier{
   DailyStatisticView bus ;
