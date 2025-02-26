@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sola/domain/entity/violation/violation.dart';
 import 'package:sola/domain/service/interface/violation/i_violation.dart';
 import 'package:sola/presentation/UI/widgets/modal_object.dart';
 
@@ -10,16 +11,18 @@ class ModalProvider with ChangeNotifier {
 
   ModalProvider({required this.iViolation});
 
-  void initDatas(String newKey){
+  void initDatas(String newKey) async{
     // mock
-    if (currentKey!=newKey || objectInit==[]) {
-      objectInit=
-      [
-        ModalObject(lib:'Excès de vitesse',),
-        ModalObject(lib:'Non-respect du feu rouge',),
-        ModalObject(lib:'Stationnement interdit',),
-        ModalObject(lib:'Usage du téléphone au volant'),
-      ];      
+    if (currentKey=="") {
+      List<Violation> lst= await iViolation.getAllViolation() ;
+      for (Violation element in lst) {
+        objectInit.add(ModalObject(lib: element.lib, objectInit: element));          
+      }
+      currentKey= newKey;
+    }else if(currentKey !=newKey){
+      for (var i = 0; i < objectInit.length; i++) {
+        objectInit[i].isChecked= false ;
+      }
       currentKey= newKey;
     }
     setTextModalButton();
