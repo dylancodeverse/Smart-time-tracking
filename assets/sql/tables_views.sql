@@ -115,3 +115,17 @@ maxdate AS (
 SELECT arrivee.* 
 FROM arrivee 
 WHERE arrivee.estimation_prochaine_action = (SELECT estimation_prochaine_action FROM maxdate);
+
+
+CREATE TABLE violation (
+    id integer PRIMARY KEY AUTOINCREMENT,
+    lib char(50) not NULL UNIQUE
+);
+
+CREATE TABLE violationparpointage(
+    id integer PRIMARY KEY AUTOINCREMENT,
+    id_violation integer,
+    id_pointage integer ,
+    FOREIGN KEY (id_violation) REFERENCES violation(id),
+    FOREIGN KEY (id_pointage) REFERENCES pointages(id)
+);

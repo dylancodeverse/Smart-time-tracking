@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sola/domain/service/interface/i_check_in.dart';
+import 'package:sola/domain/service/interface/checking/i_check_in.dart';
 import 'package:sola/presentation/model/daily_statistic.dart';
 
 class ArrivalDeclaration {

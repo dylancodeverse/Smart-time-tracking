@@ -8,7 +8,7 @@ import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/copilot.dart';
 import 'package:sola/domain/entity/driver.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
-import 'package:sola/domain/service/implementation/daily_statistic_list_service.dart';
+import 'package:sola/domain/service/implementation/stats/daily_statistic_list_service.dart';
 
 class InjectiondailystatisticList {
 

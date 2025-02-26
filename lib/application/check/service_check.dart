@@ -9,11 +9,11 @@ import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/copilot.dart';
 import 'package:sola/domain/entity/driver.dart';
-import 'package:sola/domain/service/implementation/check_in.dart';
-import 'package:sola/domain/service/implementation/check_out.dart';
-import 'package:sola/domain/service/implementation/prediction_duration.dart';
-import 'package:sola/domain/service/interface/i_check_in.dart';
-import 'package:sola/domain/service/interface/i_check_out.dart';
+import 'package:sola/domain/service/implementation/checking/check_in.dart';
+import 'package:sola/domain/service/implementation/checking/check_out.dart';
+import 'package:sola/domain/service/implementation/checking/prediction_duration.dart';
+import 'package:sola/domain/service/interface/checking/i_check_in.dart';
+import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 
 class ServiceCheck {
   static Map<String, dynamic> toMap(Check check) {

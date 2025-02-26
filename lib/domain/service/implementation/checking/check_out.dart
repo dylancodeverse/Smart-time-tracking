@@ -3,8 +3,8 @@ import 'package:sola/domain/entity/assignement.dart';
 import 'package:sola/domain/entity/bus.dart';
 import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
-import 'package:sola/domain/service/interface/i_check_out.dart';
-import 'package:sola/domain/service/interface/i_prediction_duration.dart';
+import 'package:sola/domain/service/interface/checking/i_check_out.dart';
+import 'package:sola/domain/service/interface/checking/i_prediction_duration.dart';
 import 'package:sola/global/state_list.dart';
 import 'package:sola/lib/date_helper.dart';
 

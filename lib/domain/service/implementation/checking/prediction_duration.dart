@@ -1,6 +1,6 @@
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/bus_state.dart';
-import 'package:sola/domain/service/interface/i_prediction_duration.dart';
+import 'package:sola/domain/service/interface/checking/i_prediction_duration.dart';
 import 'package:sola/lib/date_helper.dart';
 
 class PredictionDuration implements IPredictionDuration {

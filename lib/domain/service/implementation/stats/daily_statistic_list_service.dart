@@ -1,6 +1,6 @@
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
-import 'package:sola/domain/service/interface/i_daily_statistic_list_service.dart';
+import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
 
 class DailyStatisticListService implements IDailyStatisticListService {
   final DataSource<DailyStatistic> dataSource;
