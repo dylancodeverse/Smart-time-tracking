@@ -65,10 +65,10 @@ class _SimpleCardBUSState extends State<SimpleCardBUS> {
     );
   }
 
-  void onValidate()async{
+  void onValidate(ModalProvider myProvider)async{
     ArrivalDeclaration arrivalDeclaration= await ServiceArrivalDeclaration.getArrivalDeclaration();
         
-    arrivalDeclaration.declaration(widget.activeBus, int.parse(_amountController.text.trim()), _commentController.text, context);
+    arrivalDeclaration.declaration(widget.activeBus, int.parse(_amountController.text.trim()), _commentController.text, myProvider.getCheckedViolation() , context);
   }
 
 
@@ -152,7 +152,7 @@ class _SimpleCardBUSState extends State<SimpleCardBUS> {
                       for (var element in myProvider.objectInit) {
                         print("${element.lib} ${element.isChecked}");
                       }
-                      onValidate();
+                      onValidate(myProvider);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.darkPrimary,

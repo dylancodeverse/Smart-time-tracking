@@ -56,4 +56,14 @@ class ModalProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Violation> getCheckedViolation(){
+    List<Violation> lst= [];
+    for (ModalObject element in objectInit) {
+      if (element.isChecked) {
+        lst.add(element.objectInit as Violation);
+      }
+    }
+    return lst;
+  }
+
 }

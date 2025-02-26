@@ -1,4 +1,5 @@
 import 'package:sola/application/check/service_bus_state.dart';
+import 'package:sola/application/injection_helper/violation/violation_checking_datasource.dart';
 import 'package:sola/application/utils/map_utils.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/sqflite/sqflite_datasource.dart';
@@ -12,6 +13,7 @@ import 'package:sola/domain/entity/driver.dart';
 import 'package:sola/domain/service/implementation/checking/check_in.dart';
 import 'package:sola/domain/service/implementation/checking/check_out.dart';
 import 'package:sola/domain/service/implementation/checking/prediction_duration.dart';
+import 'package:sola/domain/service/implementation/violation/violation_checking_service.dart';
 import 'package:sola/domain/service/interface/checking/i_check_in.dart';
 import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 
@@ -78,6 +80,8 @@ class ServiceCheck {
      fromMap: ServiceBusState.fromMapPredictionModel, toMap: ServiceBusState.toMap);
 
 
-     return CheckIn(dataSourceCheck: c, dataSourceBusState: bs ,iPredictionDuration: PredictionDuration(busState: busStateDatasourcePrediction));
+     return CheckIn(dataSourceCheck: c, dataSourceBusState: bs ,iPredictionDuration: PredictionDuration(busState: busStateDatasourcePrediction)
+          ,iViolationChecking: ViolationCheckingService(violationCheckingDatasource: await ViolationCheckingDatasource.getViolationCheckingDatasourceSQFLITE())
+     );
   }
 }

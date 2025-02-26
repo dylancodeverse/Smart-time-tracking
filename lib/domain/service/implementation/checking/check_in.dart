@@ -3,8 +3,11 @@ import 'package:sola/domain/entity/assignement.dart';
 import 'package:sola/domain/entity/bus.dart';
 import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
+import 'package:sola/domain/entity/violation/violation.dart';
+import 'package:sola/domain/entity/violation/violation_checking.dart';
 import 'package:sola/domain/service/interface/checking/i_check_in.dart';
 import 'package:sola/domain/service/interface/checking/i_prediction_duration.dart';
+import 'package:sola/domain/service/interface/violation/i_violation_checking.dart';
 import 'package:sola/global/state_list.dart';
 import 'package:sola/lib/date_helper.dart';
 
@@ -13,8 +16,9 @@ class CheckIn implements ICheckIn {
   DataSource<Check> dataSourceCheck ;
   DataSource<BusState> dataSourceBusState; 
   IPredictionDuration iPredictionDuration ;
+  IViolationChecking iViolationChecking ;
 
-  CheckIn({required this.dataSourceCheck  , required this.dataSourceBusState, required this.iPredictionDuration, });
+  CheckIn({required this.dataSourceCheck  , required this.dataSourceBusState, required this.iPredictionDuration, required this.iViolationChecking});
 
 
   @override
@@ -41,7 +45,7 @@ class CheckIn implements ICheckIn {
   }
   
   @override
-  Future<void> arrivalUpdate(String assignementId, String busId, int busStateId, int amount, int lastChecking, String comments ) async{
+  Future<void> arrivalUpdate(String assignementId, String busId, int busStateId, int amount, int lastChecking, String comments, List<Violation> listViolation  ) async{
     // init Bus
     Bus bus = Bus(id: busId);
     // init assignement
@@ -50,9 +54,18 @@ class CheckIn implements ICheckIn {
     Check check=  Check(assignment: assignment, amount: amount,id: lastChecking, comments: comments);
 
     await dataSourceCheck.updateAndIgnoreNullColumns(check);
-
+    // update state
     BusState busState = BusState(id: busStateId, statusCheck: StateList.enableDeparture);
     await dataSourceBusState.updateAndIgnoreNullColumns(busState);
+
+    // insert violation
+    List<ViolationChecking> list =[];
+    for (Violation element in listViolation) {
+      list.add(ViolationChecking(violationId: element.id!, checkId: check.id!));
+    }
+    iViolationChecking.saveViolationChecking(list);
+
+    print("OKEY ");
   }
   
 }

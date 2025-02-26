@@ -10,8 +10,8 @@ class ViolationCheckingService implements IViolationChecking {
 
 
   @override
-  Future<void> saveViolationChecking(ViolationChecking violationChecking) async{
-    await violationCheckingDatasource.insert(violationChecking);
+  Future<void> saveViolationChecking(List<ViolationChecking> violationChecking) async{
+    await violationCheckingDatasource.insertAll(violationChecking);
   }
   
 }
