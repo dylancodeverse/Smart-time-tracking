@@ -57,7 +57,7 @@ CREATE TABLE etat_voitures_actu (
     estimation_prochaine_action int , -- calculer a partir les donnees (si depart + duree moyenne)
                                       -- si arrivee + 3mn estimation_prochaine_action 
     id_affectation text,
-    -- participation_etat int,
+    participation_etat int,
     FOREIGN KEY (id_affectation) REFERENCES affectations(id),
     FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
     FOREIGN KEY (dernier_pointage) REFERENCES pointages(id)

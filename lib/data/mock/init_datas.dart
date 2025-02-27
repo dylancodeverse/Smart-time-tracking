@@ -126,6 +126,7 @@ class InitDatas {
 
       // Insérer l'état du véhicule (pointage départ = 0)
       await db.insert("etat_voitures_actu", {
+        "participation_etat":0,
         "etat_pointage": 0, // pointage départ
         "id_vehicule": idVehicule,
         "id_affectation": idAffectation,

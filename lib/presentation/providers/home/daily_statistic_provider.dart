@@ -51,7 +51,7 @@ class DailyStatisticProvider with ChangeNotifier{
   }
   
   void terminerTour() async{
-    BusState newBusState = await checkIn.arrival(bus.assignmentID, bus.busID, bus.busStateId, 0, bus.lastChecking as int);
+    BusState newBusState = await checkIn.arrival(bus.assignmentID, bus.busID, bus.busStateId, 0, bus.lastChecking as int, bus.round);
     Map<String, dynamic> map= ServiceBusState.toMap(newBusState);  
     bus.amount+=0;
     bus.round+=1;

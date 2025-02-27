@@ -1,3 +1,4 @@
+import 'package:sola/application/check/service_check.dart';
 import 'package:sola/application/entity_helper/participation/participation_helper.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/sqflite/sqflite_datasource.dart';
@@ -13,7 +14,7 @@ class ServiceINJParticipation {
   }  
 
   static Future<IParticipation> getIParticipationInstance() async {
-    return ParticipationRepository(participationDatasource:await getParticipationDatasourceSQFLITE());
+    return ParticipationRepository(participationDatasource:await getParticipationDatasourceSQFLITE(), busStateDatasource: await ServiceCheck.getBusStateDatasourceSimple());
   }
 
 }

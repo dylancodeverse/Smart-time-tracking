@@ -84,4 +84,9 @@ class ServiceCheck {
           ,iViolationChecking: ViolationCheckingService(violationCheckingDatasource: await ViolationCheckingDatasource.getViolationCheckingDatasourceSQFLITE())
      );
   }
+
+  static Future<DataSource<BusState>> getBusStateDatasourceSimple()async{
+    return  SQLiteDataSource(database: await SqfliteDatabaseHelper().database, tableName: 'etat_voitures_actu',
+     fromMap: ServiceBusState.fromMap, toMap: ServiceBusState.toMap);
+  }
 }

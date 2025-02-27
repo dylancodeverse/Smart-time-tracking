@@ -3,11 +3,14 @@ import 'package:sola/domain/entity/check.dart';
 
 class BusState {
   int id ;
-  int statusCheck ;
+  int ?statusCheck ;
   Check ? lastCheck;
   Assignment? lastAssignment ;
   int? nextChangeDatePrevision;
+  int ? participationState;
 
-  BusState({required this.id , required this.statusCheck , this.lastAssignment, this.lastCheck, this.nextChangeDatePrevision});
+  BusState({required this.id ,  this.statusCheck , this.lastAssignment, this.lastCheck, this.nextChangeDatePrevision, 
+            this.participationState
+            });
 
 }

@@ -30,7 +30,7 @@ class CheckOut implements ICheckOut {
 
     // update status
     BusState busState = BusState(id: busStateId, statusCheck: StateList.enableArrival, lastAssignment: assignment, lastCheck: check,nextChangeDatePrevision: predictionArrival);
-    await busStateDatasource.update(busState);
+    await busStateDatasource.updateAndIgnoreNullColumns(busState);
 
     return busState;
   }

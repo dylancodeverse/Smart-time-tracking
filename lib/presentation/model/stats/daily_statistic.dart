@@ -2,13 +2,14 @@ import 'package:intl/intl.dart';
 import 'package:sola/domain/entity/assignement.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
+import 'package:sola/global/participation.dart';
 import 'package:sola/global/state_list.dart';
 import 'package:sola/lib/date_helper.dart';
 
 class DailyStatisticView {
   int round;
   int amount;
-
+  int participationState ;
   int statusCheck;
   int? lastChecking;
 
@@ -29,7 +30,7 @@ class DailyStatisticView {
   DailyStatisticView({required this.round, required this.amount, required this.statusCheck, 
   this.lastChecking, required this.registrationNumber, required this.model, required this.status, 
   required this.busID, required this.assignmentID, required this.driverId, required this.driverCompleteName, required this.copilotId, 
-   required this.copilotCompleteName, required this.busStateId , required this.nextActionEstimation});
+   required this.copilotCompleteName, required this.busStateId , required this.nextActionEstimation , required this.participationState});
 
   static List<DailyStatisticView> convert(List<DailyStatistic> list) {
       return list.map((dailyStatistic) {
@@ -42,7 +43,7 @@ class DailyStatisticView {
         return DailyStatisticView(
           round: dailyStatistic.round,
           amount: dailyStatistic.amount,
-          statusCheck: dailyStatistic.busState.statusCheck, // Assuming `etatPointage` is the status check in `Check`
+          statusCheck: dailyStatistic.busState.statusCheck!, // Assuming `etatPointage` is the status check in `Check`
           lastChecking: lastCheck?.id, // Assuming `id` is the last check ID
           registrationNumber: assignment.bus?.registrationNumber ?? "",
           model: assignment.bus?.model ?? "" ,
@@ -57,7 +58,7 @@ class DailyStatisticView {
           nextActionEstimation: dailyStatistic.busState.nextChangeDatePrevision != null 
               ? Date.formatTimeFromMillis(dailyStatistic.busState.nextChangeDatePrevision as int) 
               : "En attente",
-
+          participationState: dailyStatistic.busState.participationState!
         );
       }).toList();
     }
@@ -85,5 +86,5 @@ class DailyStatisticView {
     return "Arrivée";
   } 
 
-  participationActive() => round >= 2 ;
+  participationActive() => participationState == ParticipationVar.showParticipation ;
 }

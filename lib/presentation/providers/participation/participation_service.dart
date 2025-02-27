@@ -8,6 +8,6 @@ class ParticipationService {
       print("Error: Comments are required when montant is not 4000.");
       return ;
     }
-    await iParticipation.saveParticipation(dailyStatisticView.busID, montant,comments);
+    await iParticipation.saveParticipation(dailyStatisticView.busID, montant,comments,dailyStatisticView.busStateId);
   }  
 }

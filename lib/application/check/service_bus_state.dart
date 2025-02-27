@@ -15,6 +15,7 @@ class ServiceBusState {
       "dernier_pointage": busState.lastCheck?.id,
       "id_affectation": busState.lastAssignment?.id,
       "estimation_prochaine_action": busState.nextChangeDatePrevision,
+      "participation_etat": busState.participationState
     };
   }
 
@@ -24,6 +25,7 @@ class ServiceBusState {
       id: map["id"] as int,
       statusCheck: map["etat_pointage"] as int,
       nextChangeDatePrevision: map['estimation_prochaine_action'],
+      participationState: map['participation_etat'] ,
       lastAssignment: Assignment(
         id: map["id_affectation"] as String?,
         assignmentDate: map["affectation_date"] != null
