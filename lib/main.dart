@@ -10,13 +10,14 @@ import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_servi
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/arrival/arrival_declaration_screen.dart';
 import 'package:sola/presentation/UI/features/home/home_screen.dart';
+import 'package:sola/presentation/UI/features/participation/participation_screen.dart';
 import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await ServiceInitdb.initSQFlite(true);
+  await ServiceInitdb.initSQFlite(false);
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
   final DataSource<Violation> violationDatasource = await ViolationDatasource.getViolationDatasourceSQFLITE();
   runApp(
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // Route initiale
       routes: {
         // '/': (context) => HomeScreen(),
-        '/declaration': (context) => ArrivalDeclarationScreen(), // Exemple d'une autre page
+        '/declaration': (context) => ArrivalDeclarationScreen(), 
+        '/participation':(context) => ParticipationScreen(),
       },
 
     );

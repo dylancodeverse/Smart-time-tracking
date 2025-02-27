@@ -129,6 +129,7 @@ class InitDatas {
         "etat_pointage": 0, // pointage départ
         "id_vehicule": idVehicule,
         "id_affectation": idAffectation,
+        // "participation_etat":0
       });
     }
   }

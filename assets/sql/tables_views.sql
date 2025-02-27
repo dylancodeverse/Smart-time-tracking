@@ -57,6 +57,7 @@ CREATE TABLE etat_voitures_actu (
     estimation_prochaine_action int , -- calculer a partir les donnees (si depart + duree moyenne)
                                       -- si arrivee + 3mn estimation_prochaine_action 
     id_affectation text,
+    -- participation_etat int,
     FOREIGN KEY (id_affectation) REFERENCES affectations(id),
     FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
     FOREIGN KEY (dernier_pointage) REFERENCES pointages(id)
@@ -128,4 +129,12 @@ CREATE TABLE violationparpointage(
     id_pointage integer ,
     FOREIGN KEY (id_violation) REFERENCES violation(id),
     FOREIGN KEY (id_pointage) REFERENCES pointages(id)
+);
+
+CREATE TABLE PARTICIPATION (
+    ID INTEGER PRIMARY KEY,
+    id_vehicule TEXT ,
+    PARTICIPATION_date int not NULL,
+    montant int not null,
+    comments text
 );
