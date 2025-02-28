@@ -18,7 +18,7 @@ class BusListView extends StatelessWidget {
             itemBuilder: (context, index) {
               return ChangeNotifierProvider(
                 key: ValueKey(filteredBus[index].busID), // 🔹 Clé pour forcer la reconstruction
-                create: (_) => DailyStatisticProvider(bus: filteredBus[index],dailyStatisticListProvider: busProvider), 
+                create: (_) => DailyStatisticProvider( index: index,bus: filteredBus[index],dailyStatisticListProvider: busProvider), 
                   child: BusCard(key: ValueKey(filteredBus[index].registrationNumber)), 
 
               );

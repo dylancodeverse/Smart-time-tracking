@@ -15,6 +15,17 @@ class Date {
 
       return "$hours:$minutes:$seconds";
   }
+  static DateTime convertStringToDateTime(String timeString) {
+    DateTime now = DateTime.now(); // Date actuelle
+    List<String> parts = timeString.split(':'); // Séparer hh, mm, ss
+    
+    int hours = int.parse(parts[0]);
+    int minutes = int.parse(parts[1]);
+    int seconds = int.parse(parts[2]);
+
+    return DateTime(now.year, now.month, now.day, hours, minutes, seconds);
+  }
+
 
 
 }

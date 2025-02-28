@@ -145,13 +145,6 @@ class _SimpleCardBUSState extends State<SimpleCardBUS> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-
-                      print(myProvider.modalButtonText) ;
-                      print("Montant: ${_amountController.text}");
-                      print("Commentaire: ${_commentController.text}");
-                      for (var element in myProvider.objectInit) {
-                        print("${element.lib} ${element.isChecked}");
-                      }
                       onValidate(myProvider);
                     },
                     style: ElevatedButton.styleFrom(

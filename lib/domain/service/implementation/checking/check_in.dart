@@ -75,7 +75,6 @@ class CheckIn implements ICheckIn {
     }
     iViolationChecking.saveViolationChecking(list);
 
-    print("OKEY ");
   }
   
 }

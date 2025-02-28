@@ -49,7 +49,7 @@ class BusCard extends StatelessWidget {
             const SizedBox(height: 10),
 
             BusActions(
-              isDepart: activeBus.isDepart(),
+              isDepart: activeBus.isDepart(activeBusProvider.index , activeBusProvider.remainingTime),
               onStartStop: () {
                  activeBusProvider.demarrerOuTerminerTour(context) ;
               },

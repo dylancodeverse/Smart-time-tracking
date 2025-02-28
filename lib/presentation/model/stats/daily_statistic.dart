@@ -76,14 +76,25 @@ class DailyStatisticView {
   }
 
   libStatus() => status ==1 ? "En Activité" : "Hors Service" ;
-  String isDepart(){
+  String isDepart(int index , Duration remainingTime){
     if( statusCheck == StateList.enableDeparture){
-      return "Départ" ;
+      if (index!=0) {
+        return "Départ" ;
+      }else{
+        String minutes = remainingTime.inMinutes.remainder(60).toString().padLeft(2, '0');
+        String seconds = remainingTime.inSeconds.remainder(60).toString().padLeft(2, '0');
+
+        return "Départ dans : $minutes:$seconds";
+      }
     }
     else if(statusCheck==StateList.enableArrivalDeclaration){
       return "Déclaration";
+    }else{
+      String minutes = remainingTime.inMinutes.remainder(60).toString().padLeft(2, '0');
+      String seconds = remainingTime.inSeconds.remainder(60).toString().padLeft(2, '0');
+      return "Arrivée dans : $minutes:$seconds";
+
     }
-    return "Arrivée";
   } 
 
   participationActive() => participationState == ParticipationVar.showParticipation ;
