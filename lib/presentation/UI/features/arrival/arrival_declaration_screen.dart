@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sola/application/check/service_arrival_declaration.dart';
+import 'package:sola/application/injection_helper/check/service_arrival_declaration.dart';
 import 'package:sola/presentation/UI/config/color_checker.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/home/bus_card/bus_details.dart';

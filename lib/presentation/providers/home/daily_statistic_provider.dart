@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sola/application/check/service_bus_state.dart';
-import 'package:sola/application/check/service_check.dart';
+import 'package:sola/application/injection_helper/check/service_bus_state.dart';
+import 'package:sola/application/injection_helper/check/service_check.dart';
 import 'package:sola/application/injection_helper/participation/participation_datasource.dart';
 import 'package:sola/domain/entity/assignement.dart';
 import 'package:sola/domain/entity/bus_state.dart';

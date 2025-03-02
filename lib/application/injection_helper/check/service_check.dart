@@ -1,4 +1,4 @@
-import 'package:sola/application/check/service_bus_state.dart';
+import 'package:sola/application/injection_helper/check/service_bus_state.dart';
 import 'package:sola/application/injection_helper/violation/violation_checking_datasource.dart';
 import 'package:sola/application/utils/map_utils.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';

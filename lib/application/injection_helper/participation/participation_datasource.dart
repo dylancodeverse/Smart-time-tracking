@@ -1,4 +1,4 @@
-import 'package:sola/application/check/service_check.dart';
+import 'package:sola/application/injection_helper/check/service_check.dart';
 import 'package:sola/application/entity_helper/participation/participation_helper.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/sqflite/sqflite_datasource.dart';

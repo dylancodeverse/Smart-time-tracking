@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/application/data_init/service_init_db.dart';
-import 'package:sola/application/home_statistics/service_daily_statistic_list.dart';
+import 'package:sola/application/injection_helper/home_statistics/service_daily_statistic_list.dart';
 import 'package:sola/application/injection_helper/violation/violation_datasource.dart';
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/violation/violation.dart';
