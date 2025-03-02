@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/application/data_init/service_init_db.dart';
 import 'package:sola/application/injection_helper/home_statistics/service_daily_statistic_list.dart';
 import 'package:sola/application/injection_helper/violation/violation_datasource.dart';
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/violation/violation.dart';
+import 'package:sola/domain/service/channel/time_auto_event.dart';
 import 'package:sola/domain/service/implementation/violation/violation_service.dart';
 import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/arrival/arrival_declaration_screen.dart';
 import 'package:sola/presentation/UI/features/assignement/edit_assignement.dart';
 import 'package:sola/presentation/UI/features/assignement/radio_assignement.dart';
+import 'package:sola/presentation/UI/features/autotime/auto_time.dart';
 import 'package:sola/presentation/UI/features/home/home_screen.dart';
 import 'package:sola/presentation/UI/features/participation/participation_screen.dart';
 import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ServiceInitdb.initSQFlite(false);
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
@@ -26,31 +29,57 @@ void main() async{
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)), // 🔹 Gestion de la liste
-        ChangeNotifierProvider(create: (context)=>ModalProvider(iViolation: ViolationService(violationDatasource:violationDatasource ))),
-        ChangeNotifierProvider(create: (context)=>RadioAssignmentProvider()),
+        ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)),
+        ChangeNotifierProvider(create: (context) => ModalProvider(iViolation: ViolationService(violationDatasource: violationDatasource))),
+        ChangeNotifierProvider(create: (context) => RadioAssignmentProvider()),
       ],
       child: MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool autoTimeEnabled = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAutoTime();
+    
+    // Ecouter les changements en temps réel sur l'heure automatique
+    TimeAutoEvent.timeAutoStream.listen((event) {
+      setState(() {
+        autoTimeEnabled = event; // Mise à jour de l'état de l'heure automatique
+      });
+    });
+  }
+
+  Future<void> _checkAutoTime() async {
+    const platform = MethodChannel('com.example.sola/settings');
+    final bool isAutoTimeEnabled = await platform.invokeMethod('isAutoTimeEnabled');
+    setState(() {
+      autoTimeEnabled = isAutoTimeEnabled;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Nous avons déplacé la logique de `MaterialApp` en dehors de `build`
     return MaterialApp(
       title: 'SOLA',
       theme: AppTheme.lightTheme,
-      home: HomeScreen(),
-      initialRoute: '/', // Route initiale
+      home: autoTimeEnabled ? HomeScreen() : AutoTimeRequiredScreen(),  // Écran conditionnel en fonction de `autoTimeEnabled`
+      initialRoute: '/',
       routes: {
-        // '/': (context) => HomeScreen(),
-        '/declaration': (context) => ArrivalDeclarationScreen(), 
-        '/participation':(context) => ParticipationScreen(),
-        '/edit/assignement':(context)=> EditAssignement(),
+        '/declaration': (context) => autoTimeEnabled ? ArrivalDeclarationScreen() : AutoTimeRequiredScreen(),
+        '/participation': (context) => autoTimeEnabled ? ParticipationScreen() : AutoTimeRequiredScreen(),
+        '/edit/assignement': (context) => autoTimeEnabled ? EditAssignement() : AutoTimeRequiredScreen(),
       },
-
     );
   }
 }
