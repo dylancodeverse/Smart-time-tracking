@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:sola/application/check/service_bus_state.dart';
 import 'package:sola/application/check/service_check.dart';
 import 'package:sola/application/injection_helper/participation/participation_datasource.dart';
+import 'package:sola/domain/entity/assignement.dart';
 import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/service/interface/checking/i_check_in.dart';
 import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 import 'package:sola/domain/service/interface/participation/i_participation.dart';
+import 'package:sola/global/participation.dart';
 import 'package:sola/global/state_list.dart';
 import 'package:sola/presentation/UI/utils/countdownmixin.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
@@ -93,6 +95,19 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
 
   void updateParticipation(BuildContext context, String montant, String comments) async {
     await ParticipationService.save(iParticipation, bus, int.parse(montant), comments);
-    Navigator.pushNamed(context, "/");
+    bus.participationState= ParticipationVar.okParticipation ;
+    notifyListeners();
+    Navigator.pop(context);
+  }
+
+  void setAssignement(BuildContext context ,Assignment assignment){
+    bus.assignmentID = assignment.id!;
+    bus.copilotCompleteName= "${assignment.copilot?.firstName} ${assignment.copilot?.lastName}";
+    bus.driverCompleteName ="${assignment.driver?.firstName} ${assignment.driver?.lastName}";
+    bus.driverId= assignment.driver!.id;
+    bus.copilotId=assignment.copilot!.id;
+    notifyListeners();
+    Navigator.pop(context);
+    
   }
 }

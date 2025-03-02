@@ -98,4 +98,6 @@ class DailyStatisticView {
   } 
 
   participationActive() => participationState == ParticipationVar.showParticipation ;
+
+  
 }

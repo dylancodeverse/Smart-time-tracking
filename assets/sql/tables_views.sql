@@ -21,7 +21,7 @@
 
       
     CREATE TABLE affectations (
-      id TEXT PRIMARY KEY,
+      id integer PRIMARY KEY AUTOINCREMENT ,
       affectation_date int DEFAULT (strftime('%s', 'now')),
       id_vehicule TEXT NOT NULL,
       id_chauffeur TEXT NOT NULL,
@@ -64,25 +64,24 @@ CREATE TABLE etat_voitures_actu (
 );
 
 
-    CREATE VIEW affectations_completes AS
-        SELECT 
-            a.id AS affectation_id,
-            a.affectation_date,
-            v.id AS vehicule_id,
-            v.immatriculation,
-            v.modele,
-            v.statut,
-            c.id AS chauffeur_id,
-            c.nom AS chauffeur_nom,
-            c.prenom AS chauffeur_prenom,
-            co.id AS copilote_id,
-            co.nom AS copilote_nom,
-            co.prenom AS copilote_prenom
-        FROM affectations a
-        JOIN vehicules v ON a.id_vehicule = v.id
-        JOIN chauffeurs c ON a.id_chauffeur = c.id
-        JOIN copilote co ON a.id_copilote = co.id
-        WHERE a.is_default = 1;
+CREATE VIEW affectations_completes AS
+    SELECT 
+        a.id AS affectation_id,
+        a.affectation_date,
+        v.id AS vehicule_id,
+        v.immatriculation,
+        v.modele,
+        v.statut,
+        c.id AS chauffeur_id,
+        c.nom AS chauffeur_nom,
+        c.prenom AS chauffeur_prenom,
+        co.id AS copilote_id,
+        co.nom AS copilote_nom,
+        co.prenom AS copilote_prenom
+    FROM affectations a
+    JOIN vehicules v ON a.id_vehicule = v.id
+    JOIN chauffeurs c ON a.id_chauffeur = c.id
+    JOIN copilote co ON a.id_copilote = co.id ;
     
 CREATE INDEX IF NOT EXISTS date_arrivee_idx ON pointages(date_arrivee);
 

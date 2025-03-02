@@ -9,6 +9,8 @@ import 'package:sola/domain/service/implementation/violation/violation_service.d
 import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/arrival/arrival_declaration_screen.dart';
+import 'package:sola/presentation/UI/features/assignement/edit_assignement.dart';
+import 'package:sola/presentation/UI/features/assignement/radio_assignement.dart';
 import 'package:sola/presentation/UI/features/home/home_screen.dart';
 import 'package:sola/presentation/UI/features/participation/participation_screen.dart';
 import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
@@ -20,11 +22,13 @@ void main() async{
   await ServiceInitdb.initSQFlite(false);
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
   final DataSource<Violation> violationDatasource = await ViolationDatasource.getViolationDatasourceSQFLITE();
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)), // 🔹 Gestion de la liste
-        ChangeNotifierProvider(create: (context)=>ModalProvider(iViolation: ViolationService(violationDatasource:violationDatasource )))
+        ChangeNotifierProvider(create: (context)=>ModalProvider(iViolation: ViolationService(violationDatasource:violationDatasource ))),
+        ChangeNotifierProvider(create: (context)=>RadioAssignmentProvider()),
       ],
       child: MyApp(),
     ),
@@ -44,6 +48,7 @@ class MyApp extends StatelessWidget {
         // '/': (context) => HomeScreen(),
         '/declaration': (context) => ArrivalDeclarationScreen(), 
         '/participation':(context) => ParticipationScreen(),
+        '/edit/assignement':(context)=> EditAssignement(),
       },
 
     );

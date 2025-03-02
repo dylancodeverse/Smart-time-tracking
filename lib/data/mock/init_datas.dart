@@ -50,7 +50,22 @@ class InitDatas {
       {"id": "20", "nom": "Muller", "prenom": "Jacques"},
       {"id": "21", "nom": "Leclerc", "prenom": "Guillaume"},
       {"id": "22", "nom": "Lemoine", "prenom": "Stéphane"},
+      {"id": "23", "nom": "Dumas", "prenom": "Lucas"},
+      {"id": "24", "nom": "Rolland", "prenom": "Hugo"},
+      {"id": "25", "nom": "Barbier", "prenom": "Jules"},
+      {"id": "26", "nom": "Roy", "prenom": "Louis"},
+      {"id": "27", "nom": "Gauthier", "prenom": "Mathieu"},
+      {"id": "28", "nom": "Leclercq", "prenom": "Nathan"},
+      {"id": "29", "nom": "Guillet", "prenom": "Victor"},
+      {"id": "30", "nom": "Guichard", "prenom": "Noah"},
+      {"id": "31", "nom": "Delorme", "prenom": "Enzo"},
+      {"id": "32", "nom": "Chauveau", "prenom": "Arthur"},
+      {"id": "33", "nom": "Pires", "prenom": "Ethan"},
+      {"id": "34", "nom": "Valentin", "prenom": "Raphaël"},
+      {"id": "35", "nom": "Tanguy", "prenom": "Adrien"},
+      {"id": "36", "nom": "Aubert", "prenom": "Baptiste"},
     ];
+
 
     for (var chauffeur in chauffeurs) {
       await db.insert("chauffeurs", chauffeur);
@@ -79,33 +94,45 @@ class InitDatas {
       {"id": "20", "nom": "Lejeune", "prenom": "Clément"},
       {"id": "21", "nom": "Benoit", "prenom": "Florian"},
       {"id": "22", "nom": "Lucas", "prenom": "Tom"},
+      {"id": "23", "nom": "Morel", "prenom": "Paul"},
+      {"id": "24", "nom": "Lemoine", "prenom": "Antoine"},
+      {"id": "25", "nom": "Bordier", "prenom": "Fabrice"},
+      {"id": "26", "nom": "Giraud", "prenom": "Éric"},
+      {"id": "27", "nom": "Chauvin", "prenom": "Pierre"},
+      {"id": "28", "nom": "Lemoine", "prenom": "Yannick"},
+      {"id": "29", "nom": "Mireille", "prenom": "Denis"},
+      {"id": "30", "nom": "Dufresne", "prenom": "Michel"},
+      {"id": "31", "nom": "Fournier", "prenom": "Jean-Claude"},
+      {"id": "32", "nom": "Germain", "prenom": "Thierry"},
+      {"id": "33", "nom": "Tanguy", "prenom": "Bertrand"},
+      {"id": "34", "nom": "Dumas", "prenom": "Pierre"},
+      {"id": "35", "nom": "Verger", "prenom": "Jacques"},
+      {"id": "36", "nom": "Dufresne", "prenom": "Luc"},
     ];
+
 
     for (var copilote in copilotes) {
       await db.insert("copilote", copilote);
     }
 
-    for (int i = 1; i <= 18; i++) {
+    int piloteCopilote= 1;
+    for (var i = 1; i < vehicules.length+1; i++) {
       await db.insert("affectations", {
-        "id": "$i",
-        "affectation_date": "2024-02-${10 + i}",
+        "affectation_date": "2024-03-04",
         "id_vehicule": "$i",
-        "id_chauffeur": "$i",
-        "id_copilote": "$i",
+        "id_chauffeur": piloteCopilote,
+        "id_copilote":  piloteCopilote,
         "is_default": 1
       });
-    }
-
-
-    for (int i = 19; i <= 22; i++) {
+      piloteCopilote++;
       await db.insert("affectations", {
-        "id": "$i",
-        "affectation_date": "2024-03-${10 + i}",
-        "id_vehicule": "${(i % 18) + 1}",
-        "id_chauffeur": "$i",
-        "id_copilote": "${(i % 22) + 1}",
+        "affectation_date": "2024-03-04",
+        "id_vehicule": "$i",
+        "id_chauffeur": piloteCopilote,
+        "id_copilote":  piloteCopilote,
         "is_default": 0
       });
+      piloteCopilote++;
     }
 
     await _insertEtatVoitures(db);
@@ -122,7 +149,7 @@ class InitDatas {
     // Insérer dans etat_voitures_actu pour chaque affectation par défaut
     for (var affectation in affectations) {
       String idVehicule = affectation["id_vehicule"];
-      String idAffectation = affectation["id"];
+      int idAffectation = affectation["id"];
 
       // Insérer l'état du véhicule (pointage départ = 0)
       await db.insert("etat_voitures_actu", {

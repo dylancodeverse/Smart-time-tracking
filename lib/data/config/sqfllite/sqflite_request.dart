@@ -1,5 +1,7 @@
+// ignore_for_file: prefer_final_fields
+
 class SqlfliteRequest {
-    static String statsRequest ='''
+    static String _statsRequest ='''
       WITH initialisation AS (
         SELECT id AS id_vehicule, 0 AS nombre_tours, 0 AS total_montant, % AS date_jour
         FROM vehicules
@@ -52,6 +54,16 @@ class SqlfliteRequest {
    ''';  
 
   static getTodayStats(){
-    return statsRequest.replaceAll("%","strftime('%Y-%m-%d', 'now')" ) ;
+    return _statsRequest.replaceAll("%","strftime('%Y-%m-%d', 'now')" ) ;
   }  
+
+  static String _completeAssignement = '''
+    SELECT * FROM AFFECTATIONS_COMPLETES
+    WHERE vehicule_id = '%'
+  ''';
+
+  static String getCompleteASsignementByBusId(String busId){
+    return _completeAssignement.replaceAll("%", busId);
+  }
+
 }
