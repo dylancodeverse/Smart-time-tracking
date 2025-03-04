@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
@@ -9,6 +10,7 @@ class AppTheme {
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0,
       backgroundColor: Colors.transparent,
+      systemOverlayStyle: SystemUiOverlayStyle.dark, // Force la couleur des icônes de la status bar
       titleTextStyle: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 20,
