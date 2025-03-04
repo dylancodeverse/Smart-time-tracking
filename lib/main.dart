@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/application/data_init/service_init_db.dart';
+import 'package:sola/application/injection_helper/bus_state/bus_state_custom_inj.dart';
 import 'package:sola/application/injection_helper/home_statistics/service_daily_statistic_list.dart';
 import 'package:sola/application/injection_helper/violation/violation_datasource.dart';
 import 'package:sola/data/interface/datasource/datasource.dart';
@@ -25,6 +26,8 @@ void main() async {
   await ServiceInitdb.initSQFlite(true);
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
   final DataSource<Violation> violationDatasource = await ViolationDatasource.getViolationDatasourceSQFLITE();
+  // verification si mis a jour requis
+  (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
 
   runApp(
     MultiProvider(
@@ -36,6 +39,7 @@ void main() async {
       child: MyApp(),
     ),
   );
+  
 }
 
 class MyApp extends StatefulWidget {

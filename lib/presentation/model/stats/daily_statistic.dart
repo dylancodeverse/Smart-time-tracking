@@ -54,7 +54,7 @@ class DailyStatisticView {
           driverCompleteName: "${assignment.driver?.firstName} ${assignment.driver?.lastName}",
           copilotId: assignment.copilot?.id ?? "" , 
           copilotCompleteName: "${assignment.copilot?.firstName} ${assignment.copilot?.lastName}" ,
-          busStateId: dailyStatistic.busState.id,
+          busStateId: dailyStatistic.busState.id!,
           nextActionEstimation: dailyStatistic.busState.nextChangeDatePrevision != null 
               ? Date.formatTimeFromMillis(dailyStatistic.busState.nextChangeDatePrevision as int) 
               : "En attente",

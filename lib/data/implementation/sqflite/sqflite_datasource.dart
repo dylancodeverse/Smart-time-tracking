@@ -50,13 +50,25 @@ class SQLiteDataSource<T> implements DataSource<T> {
 
   @override
   Future<void> update(T item) async {
-    await database.update(
-      tableName,
-      toMap(item),
-      where: 'id = ?',
-      whereArgs: [toMap(item)['id']],
-    );
+    final id = toMap(item)['id'];
+
+    if (id == null) {
+      // Si l'ID est null, mettre à jour toutes les lignes de la table
+      await database.update(
+        tableName,
+        toMap(item), // Utilise les données de l'objet `item` pour mettre à jour
+      );
+    } else {
+      // Sinon, met à jour seulement l'enregistrement correspondant à l'ID
+      await database.update(
+        tableName,
+        toMap(item),
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    }
   }
+
 
   @override
   Future<void> delete(String id) async {

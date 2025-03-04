@@ -51,7 +51,7 @@
 
 CREATE TABLE etat_voitures_actu (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    etat_pointage int, -- 0 depart 1 arrivee
+    etat_pointage int, 
     id_vehicule TEXT,
     dernier_pointage int, -- prochain pointage a mettre a jour
     estimation_prochaine_action int , -- calculer a partir les donnees (si depart + duree moyenne)
