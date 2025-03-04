@@ -3,6 +3,7 @@ import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/bus_state_custom/bus_state_custom.dart';
 import 'package:sola/domain/service/implementation/cache/last_update_repo.dart';
 import 'package:sola/domain/service/implementation/denormalization/denormalize_state.dart';
+import 'package:sola/domain/service/implementation/denormalization/denormalize_state_auto.dart';
 
 class BusStateCustomINJ {
   static Future<DenormalizeState> getBusStateCustomImpl() async{
@@ -10,4 +11,8 @@ class BusStateCustomINJ {
     BusStateCustomImpl busStateCustomImpl= BusStateCustomImpl(database: await SqfliteDatabaseHelper().database );
     return DenormalizeState (busStateCustom: busStateCustomImpl,lastUpdateRepository: lastUpdateRepositoryImpl);
   }
+  static Future<DenormalizeStateAuto> getBusStateCustomImplAUTO() async{
+    return DenormalizeStateAuto ();
+  }
+
 }

@@ -26,8 +26,10 @@ void main() async {
   await ServiceInitdb.initSQFlite(true);
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
   final DataSource<Violation> violationDatasource = await ViolationDatasource.getViolationDatasourceSQFLITE();
-  // verification si mis a jour requis
-  (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
+  // verification si mis a jour requis partie manuelle
+  // (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
+  // verification tous les jours en arriere plan
+  (await BusStateCustomINJ.getBusStateCustomImplAUTO()).verification();
 
   runApp(
     MultiProvider(
