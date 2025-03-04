@@ -10,7 +10,7 @@ class AppTheme {
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0,
       backgroundColor: Colors.transparent,
-      systemOverlayStyle: SystemUiOverlayStyle.dark, // Force la couleur des icônes de la status bar
+      systemOverlayStyle: systemUiOverlayStyle, // Force la couleur des icônes de la status bar
       titleTextStyle: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 20,
@@ -42,5 +42,10 @@ class AppTheme {
   static TextStyle get titleLarg => TextStyle(fontFamily: 'Montserrat', fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black);
   static TextStyle get smallText => TextStyle(fontFamily: 'Montserrat', fontSize: 10, color: Colors.black , fontWeight: FontWeight.w300);
   static Color? get darkPrimary => Colors.teal[800];
-
+  static SystemUiOverlayStyle systemUiOverlayStyle=  SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    );
 }
