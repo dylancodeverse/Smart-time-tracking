@@ -33,7 +33,7 @@ class CheckIn implements ICheckIn {
     Check check=  Check(assignment: assignment, 
                         arrivalDate: Date.getTimestampNow(), amount: amount,id: lastChecking);
 
-    await dataSourceCheck.update(check);
+    await dataSourceCheck.updateAndIgnoreNullColumns(check);
 
     return arrivalStateUpdate(busStateId, assignment, check, currentRound);
   }
