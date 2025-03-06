@@ -51,7 +51,6 @@ class DenormalizeStateAuto implements IDenormalizeState {
 
 void callbackDispatcher() async{
   WidgetsFlutterBinding.ensureInitialized(); // 💡  Cette ligne garantit que Flutter initialise ses services natifs dans l'isolate en arrière-plan avant d'effectuer toute opération nécessitant MethodChannel (comme accéder à la base de données SQLite).
-  NotificationService.initialize(); // 🔔 Initialisation des notifications
 
   BusStateCustom busStateCustom = BusStateCustomImpl(database: await SqfliteDatabaseHelper().database );
   LastUpdateRepository lastUpdateRepository =  LastUpdateCache.getLastUpdateRepositoryImpl();
@@ -64,6 +63,8 @@ void callbackDispatcher() async{
          
     bool needsUpdate = await lastUpdateRepository.isUpdateNeeded();
     if (needsUpdate) {
+      NotificationService.initialize(); // 🔔 Initialisation des notifications
+
       await busStateCustom.update();
       await lastUpdateRepository.save(DateTime.now());
 
