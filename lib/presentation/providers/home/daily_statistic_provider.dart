@@ -9,7 +9,7 @@ import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 import 'package:sola/domain/service/interface/participation/i_participation.dart';
 import 'package:sola/global/participation.dart';
 import 'package:sola/global/state_list.dart';
-import 'package:sola/presentation/UI/utils/countdownmixin.dart';
+import 'package:sola/presentation/providers/utils/countdownmixin.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 import 'package:sola/presentation/model/stats/daily_statistic.dart';
 import 'package:sola/presentation/providers/participation/participation_service.dart';
