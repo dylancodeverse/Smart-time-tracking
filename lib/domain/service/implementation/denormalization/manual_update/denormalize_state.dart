@@ -1,4 +1,5 @@
 import 'package:sola/data/interface/bus_state_custom/bus_state_custom.dart';
+import 'package:sola/domain/service/implementation/notification/notification_service.dart';
 import 'package:sola/domain/service/interface/cache/i_last_update_repo.dart';
 import 'package:sola/domain/service/interface/denormalization/i_denormalize_state.dart';
 
@@ -15,10 +16,18 @@ class DenormalizeState implements IDenormalizeState {
   @override
   Future<void> verification()  async{
     bool needsUpdate = await lastUpdateRepository.isUpdateNeeded();
+    NotificationService.initialize(); // 🔔 Initialisation des notifications
     if (needsUpdate) {
       print("🔄 Mise à jour nécessaire !");
       await busStateCustom.update();
       await lastUpdateRepository.save(DateTime.now());
+
+      // 💡 Afficher une notification après mise à jour
+      await NotificationService.showNotification(
+        title: 'Mise à jour terminée',
+        body: 'Les données ont été mises à jour avec succès.',
+      );
+      
     } else {
       print("✅ Déjà mis à jour aujourd’hui.");
     }

@@ -3,6 +3,7 @@ import 'package:sola/application/injection_helper/cache/last_update_cache.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/bus_state_custom/bus_state_custom.dart';
 import 'package:sola/data/interface/bus_state_custom/bus_state_custom.dart';
+import 'package:sola/domain/service/implementation/notification/notification_service.dart';
 import 'package:sola/domain/service/interface/cache/i_last_update_repo.dart';
 import 'package:sola/domain/service/interface/denormalization/i_denormalize_state.dart';
 import 'package:workmanager/workmanager.dart';
@@ -50,6 +51,7 @@ class DenormalizeStateAuto implements IDenormalizeState {
 
 void callbackDispatcher() async{
   WidgetsFlutterBinding.ensureInitialized(); // 💡  Cette ligne garantit que Flutter initialise ses services natifs dans l'isolate en arrière-plan avant d'effectuer toute opération nécessitant MethodChannel (comme accéder à la base de données SQLite).
+  NotificationService.initialize(); // 🔔 Initialisation des notifications
 
   BusStateCustom busStateCustom = BusStateCustomImpl(database: await SqfliteDatabaseHelper().database );
   LastUpdateRepository lastUpdateRepository =  LastUpdateCache.getLastUpdateRepositoryImpl();
@@ -64,7 +66,13 @@ void callbackDispatcher() async{
     if (needsUpdate) {
       await busStateCustom.update();
       await lastUpdateRepository.save(DateTime.now());
-          
+
+      // 💡 Afficher une notification après mise à jour
+      await NotificationService.showNotification(
+        title: 'Mise à jour terminée',
+        body: 'Les données ont été mises à jour avec succès.',
+      );
+
       // Une fois la mise à jour réussie, on annule la répétition
       await Workmanager().cancelByUniqueName(DenormalizeStateAuto.taskName);
     }
