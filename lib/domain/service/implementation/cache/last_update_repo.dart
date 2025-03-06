@@ -15,14 +15,13 @@ class LastUpdateRepositoryImpl implements LastUpdateRepository {
   @override
   Future<LastUpdate?> getLastUpdate() async {
     List<LastUpdate> updates = await dataSource.getAll();
-    return updates.isNotEmpty ? updates.first : null;
+    return updates.isNotEmpty ? updates[updates.length-1] : null;
   }
 
   @override
   Future<bool> isUpdateNeeded() async {
     final lastUpdate = await getLastUpdate();
     final today = DateTime.now().toIso8601String().split('T')[0];
-
     return lastUpdate?.date.toIso8601String().split('T')[0] != today;
   }
 }

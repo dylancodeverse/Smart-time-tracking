@@ -23,7 +23,7 @@ import 'package:sola/presentation/providers/home/daily_statistic_list_provider.d
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await ServiceInitdb.initSQFlite(true);
+  await ServiceInitdb.initSQFlite(false);
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();
   final DataSource<Violation> violationDatasource = await ViolationDatasource.getViolationDatasourceSQFLITE();
   // verification si mis a jour requis partie manuelle

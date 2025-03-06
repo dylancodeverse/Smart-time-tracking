@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sola/application/injection_helper/cache/last_update_cache.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/bus_state_custom/bus_state_custom.dart';
@@ -48,6 +49,8 @@ class DenormalizeStateAuto implements IDenormalizeState {
 
 
 void callbackDispatcher() async{
+  WidgetsFlutterBinding.ensureInitialized(); // 💡  Cette ligne garantit que Flutter initialise ses services natifs dans l'isolate en arrière-plan avant d'effectuer toute opération nécessitant MethodChannel (comme accéder à la base de données SQLite).
+
   BusStateCustom busStateCustom = BusStateCustomImpl(database: await SqfliteDatabaseHelper().database );
   LastUpdateRepository lastUpdateRepository =  LastUpdateCache.getLastUpdateRepositoryImpl();
   Workmanager().executeTask((task, inputData) async {

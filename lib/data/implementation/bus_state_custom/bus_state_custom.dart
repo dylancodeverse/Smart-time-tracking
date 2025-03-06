@@ -14,7 +14,7 @@ class BusStateCustomImpl implements BusStateCustom {
         'etat_pointage': 0,  // statusCheck -> etat_pointage
         'dernier_pointage': null,  // lastCheck -> dernier_pointage
         'estimation_prochaine_action': null,  // nextChangeDatePrevision -> estimation_prochaine_action
-        'participation_etat': null,  // participationState -> participation_etat
+        'participation_etat': 0,  // participationState -> participation_etat
       },
     );
   }
