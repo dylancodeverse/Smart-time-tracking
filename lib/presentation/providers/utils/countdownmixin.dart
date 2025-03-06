@@ -10,9 +10,12 @@ mixin CountdownMixin on ChangeNotifier {
   void initializeCountdown(String timeString) {
     try {
       targetDateTime = Date.convertStringToDateTime(timeString);
+    } catch (e) {
+      // donc le target doit etre maintenant 
+      targetDateTime = DateTime.now();
+    }
       _startCountdown();
-    // ignore: empty_catches
-    } catch (e) {}
+
   }
 
 
