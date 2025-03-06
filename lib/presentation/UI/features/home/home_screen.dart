@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/home/bus_list_view.dart';
+import 'package:sola/presentation/UI/features/home/update_verification/update_button.dart';
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
 import 'package:sola/presentation/UI/widgets/search_bar.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
@@ -42,6 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     
                     SizedBox(height: 10),
                     // liste
+                    UpdateButton(),
+              
+                    SizedBox(height: 10),
+
                     BusListView(),                    
                   ],
                 );

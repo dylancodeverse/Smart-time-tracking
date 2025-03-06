@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:sola/application/injection_helper/bus_state/bus_state_custom_inj.dart';
 import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/model/stats/daily_statistic.dart';
 
@@ -35,6 +36,11 @@ class DailyStatisticListProvider with ChangeNotifier{
     filteredBus = DailyStatisticView.convert(await iDailyStatisticListService.filterByBusName(query));
     }
     finish();
+  }
+
+  void updateVerification()async{
+    await (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
+    getDailyStats();
   }
 
 }

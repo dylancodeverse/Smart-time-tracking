@@ -31,7 +31,7 @@ class AppTheme {
       titleLarge:AppTheme.titleLarg,
     ),
   );
-  static String get appName => "Coopérative SOLA";
+  static String get appName => "Coop SOLA";
   static Color get primaryColor => Colors.teal;
   static Color get textColor => Colors.black87;
   static Color get cardColor => Colors.white;
