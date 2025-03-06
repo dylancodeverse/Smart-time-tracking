@@ -19,7 +19,7 @@ class DenormalizeStateAuto implements IDenormalizeState {
 
   @override
   Future<void> verification() async {
-    await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+    await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
     await _scheduleUpdateFrom7AMWeekdays();
   }
 
@@ -80,4 +80,5 @@ void callbackDispatcher() async{
 
     return Future.value(true);
   });
+  
 }
