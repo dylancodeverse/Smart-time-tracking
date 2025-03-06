@@ -34,10 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ? Center(child: CircularProgressIndicator())
               : Column(
                   children: [
+      
+                    SizedBox(height: 10),
+
                     // barre de recherche
                     CustomizedSearchBar(controller: _searchController, onSearch:  busProvider.filterDailyStats),
+                    
+                    SizedBox(height: 10),
                     // liste
-                    BusListView(),
+                    BusListView(),                    
                   ],
                 );
         },

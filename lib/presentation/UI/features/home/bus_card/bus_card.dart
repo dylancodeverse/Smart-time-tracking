@@ -22,7 +22,10 @@ class BusCard extends StatelessWidget {
     return Card(
       color: AppTheme.cardColor,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      elevation: 4,
+      elevation: 4, 
+      shadowColor: Colors.black26, // 🔹 Assombrit légèrement l'ombre pour la rendre douce
+      clipBehavior: Clip.antiAlias, // 🔹 Aide à mieux répartir l'ombre sur les côtés
+
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),

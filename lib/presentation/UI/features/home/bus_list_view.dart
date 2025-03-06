@@ -14,6 +14,7 @@ class BusListView extends StatelessWidget {
           List<DailyStatisticView> filteredBus = busProvider.filteredBus;
     
           return ListView.builder(
+            
             itemCount: filteredBus.length,
             itemBuilder: (context, index) {
               return ChangeNotifierProvider(

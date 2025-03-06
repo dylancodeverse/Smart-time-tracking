@@ -5,6 +5,7 @@ import 'package:sola/application/data_init/service_init_db.dart';
 import 'package:sola/application/injection_helper/bus_state/bus_state_custom_inj.dart';
 import 'package:sola/application/injection_helper/home_statistics/service_daily_statistic_list.dart';
 import 'package:sola/application/injection_helper/violation/violation_datasource.dart';
+// ignore: unused_import
 import 'package:sola/data/helper/sharedpreferences/database_reinit.dart';
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/violation/violation.dart';
@@ -26,7 +27,7 @@ import 'package:sola/presentation/providers/home/daily_statistic_list_provider.d
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ServiceInitdb.initSQFlite(false);
-  await SharedPreferencesHelper.resetSharedPreferences();
+  // await SharedPreferencesHelper.resetSharedPreferences();
   NotificationService.requestAndroid13Permission();
 
   final IDailyStatisticListService iDailyStatisticListService = await InjectiondailystatisticList.getStatsService();

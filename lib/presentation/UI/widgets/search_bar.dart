@@ -11,6 +11,7 @@ class CustomizedSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(8.0),
+
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
@@ -18,17 +19,22 @@ class CustomizedSearchBar extends StatelessWidget {
           prefixIcon: Icon(Icons.search, color: AppTheme.primaryColor),
           filled: true,
           fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: AppTheme.primaryColor),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10), // Hauteur réduite
+          border: OutlineInputBorder(                                                        
+            borderRadius: BorderRadius.circular(30), // Plus arrondi
+            borderSide: BorderSide.none, // Suppression de la bordure
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.black12, width: 0),
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.black12, width: 0),
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide.none,
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(Icons.clear, color: AppTheme.primaryColor),
+            onPressed: () => controller.clear(),
           ),
         ),
         onChanged: onSearch,
