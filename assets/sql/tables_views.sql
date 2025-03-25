@@ -57,7 +57,10 @@ CREATE TABLE etat_voitures_actu (
     estimation_prochaine_action int , -- calculer a partir les donnees (si depart + duree moyenne)
                                       -- si arrivee + 3mn estimation_prochaine_action 
     id_affectation text,
-    participation_etat int,
+    participation_etat int, -- ceci ne gere pas seulement si la voiture a deja paye la participation (OUI OU NON)
+                            -- mais aussi si la voiture doit payer la participation (du coup c'est mieux d avoir cette colomne
+                            -- que de devoir calculer l etat a chaque fois (1: verification table participation, 2: compter le nombre 
+                            -- de pointage du jour))
     FOREIGN KEY (id_affectation) REFERENCES affectations(id),
     FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
     FOREIGN KEY (dernier_pointage) REFERENCES pointages(id)
