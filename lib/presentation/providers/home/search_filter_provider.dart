@@ -7,6 +7,7 @@ class FilterProvider extends ChangeNotifier {
 
 
   String _selectedFilter = 'Tous'; // Filtre actif par défaut
+  final TextEditingController searchController = TextEditingController();
 
   List<String> get filters => FilterStatsStrategyExecutor.filters;
   String get selectedFilter => _selectedFilter;
@@ -19,8 +20,15 @@ class FilterProvider extends ChangeNotifier {
     
     // Exemple : mettre à jour une liste en fonction du filtre sélectionné
     dailyStatisticProvider.filterDailyStatsByPreparedFilter(filter);
-
+    searchController.clear();
     notifyListeners(); // Notifie l'UI de la mise à jour
+  }
+  void reinitSelectedFilter(){
+    if (_selectedFilter=='Tous') {
+      return;
+    }
+    _selectedFilter='Tous';
+    notifyListeners();
   }
 
 }

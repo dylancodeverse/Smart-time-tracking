@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sola/application/injection_helper/bus_state/bus_state_custom_inj.dart';
 import 'package:sola/application/strategy/filter_stats_strategy_executor.dart';
 import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/model/stats/daily_statistic.dart';
+import 'package:sola/presentation/providers/home/search_filter_provider.dart';
 
 class DailyStatisticListProvider with ChangeNotifier{
   final IDailyStatisticListService iDailyStatisticListService;
@@ -29,13 +32,15 @@ class DailyStatisticListProvider with ChangeNotifier{
       finish();
   }
 
-  void filterDailyStats(String query) async{
+  void filterDailyStats(BuildContext context, String query) async{
     // loading();
     if (query.isEmpty){
       filteredBus= busList;
     }  else{
     filteredBus = DailyStatisticView.convert(await iDailyStatisticListService.filterByBusName(query));
     }
+    Provider.of<FilterProvider>( context,listen: false).reinitSelectedFilter();
+
     finish();
   }
 

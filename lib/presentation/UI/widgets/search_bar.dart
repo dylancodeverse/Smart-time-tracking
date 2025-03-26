@@ -3,7 +3,7 @@ import 'package:sola/presentation/UI/config/theme.dart';
 
 class CustomizedSearchBar extends StatelessWidget {
   final TextEditingController controller;
-  final Function(String) onSearch;
+  final Function(BuildContext,String) onSearch;
 
   const CustomizedSearchBar({required this.controller, required this.onSearch});
 
@@ -37,7 +37,7 @@ class CustomizedSearchBar extends StatelessWidget {
             onPressed: () => controller.clear(),
           ),
         ),
-        onChanged: onSearch,
+        onChanged: (value)=>onSearch(context,value),
       ),
     );
   }
