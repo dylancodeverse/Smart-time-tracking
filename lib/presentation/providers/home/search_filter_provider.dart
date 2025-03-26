@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sola/application/strategy/filter_stats_strategy_executor.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 
 class FilterProvider extends ChangeNotifier {
-  final List<String> _filters = [
-    'Tous',
-    'N\'ont pas encore payé',
-    'Arrivées',
-    'Ont payé',
-    'Sur route'
-  ];
+
 
   String _selectedFilter = 'Tous'; // Filtre actif par défaut
 
-  List<String> get filters => _filters;
+  List<String> get filters => FilterStatsStrategyExecutor.filters;
   String get selectedFilter => _selectedFilter;
 
   void setSelectedFilter(BuildContext context, String filter) {

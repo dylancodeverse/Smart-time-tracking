@@ -74,6 +74,10 @@ class InjectiondailystatisticList {
     );
   }
 
+  static Map<String,dynamic> toMap(DailyStatistic dailyStatistic){
+  return {};
+  }
+
   static Future<DailyStatisticListService> getStatsService() async{
     return  DailyStatisticListService(dataSource:
       CustomSqlliteDatasource<DailyStatistic>(database: await SqfliteDatabaseHelper().database, rawQuery:SqlfliteRequest.getTodayStats() , 

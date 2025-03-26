@@ -3,10 +3,10 @@ import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SQLiteDataSource<T> implements DataSource<T> {
-  final Database database;
-  final String tableName;
-  final T Function(Map<String, dynamic>) fromMap;
-  final Map<String, dynamic> Function(T) toMap;
+  Database database;
+  String tableName;
+  T Function(Map<String, dynamic>) fromMap;
+  Map<String, dynamic> Function(T) toMap;
 
   SQLiteDataSource({
     required this.database,

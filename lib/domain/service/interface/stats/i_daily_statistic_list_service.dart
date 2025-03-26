@@ -4,4 +4,5 @@ abstract class IDailyStatisticListService {
   Future<List<DailyStatistic>> getDailyStatistics();
 
   Future<List<DailyStatistic>> filterByBusName(String busName);
+
 }
