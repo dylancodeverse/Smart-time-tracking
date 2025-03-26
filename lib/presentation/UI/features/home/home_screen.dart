@@ -7,7 +7,7 @@ import 'package:sola/presentation/UI/features/home/update_verification/update_bu
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
 import 'package:sola/presentation/UI/widgets/search_bar.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
-
+import 'package:sola/presentation/UI/features/home/search/search_filters.dart';
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -40,14 +40,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // barre de recherche
                     CustomizedSearchBar(controller: _searchController, onSearch:  busProvider.filterDailyStats),
-                    
+
+                    SizedBox(height: 10),
+
+                    SearchFilters() ,
+
                     SizedBox(height: 10),
                     // liste
                     UpdateButton(),
               
                     SizedBox(height: 10),
 
-                    BusListView(),                    
+                    BusListView()
                   ],
                 );
         },

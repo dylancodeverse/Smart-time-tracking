@@ -29,7 +29,7 @@ class DailyStatisticListProvider with ChangeNotifier{
   }
 
   void filterDailyStats(String query) async{
-    loading();
+    // loading();
     if (query.isEmpty){
       filteredBus= busList;
     }  else{
