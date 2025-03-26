@@ -22,6 +22,7 @@ import 'package:sola/presentation/UI/features/home/home_screen.dart';
 import 'package:sola/presentation/UI/features/participation/participation_screen.dart';
 import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
+import 'package:sola/presentation/providers/home/search_filter_provider.dart';
 
 
 void main() async {
@@ -43,6 +44,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)),
         ChangeNotifierProvider(create: (context) => ModalProvider(iViolation: ViolationService(violationDatasource: violationDatasource))),
         ChangeNotifierProvider(create: (context) => RadioAssignmentProvider()),
+        ChangeNotifierProvider(create: (context) => FilterProvider())
       ],
       child: MyApp(),
     ),
