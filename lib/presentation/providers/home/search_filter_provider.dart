@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sola/application/strategy/filter_stats_strategy_executor.dart';
+import 'package:sola/global/filter_strategy_list.dart';
+import 'package:sola/presentation/model/filter/filter_home.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 
 class FilterProvider extends ChangeNotifier {
 
 
-  String _selectedFilter = 'Tous'; // Filtre actif par défaut
+  String _selectedFilter =  FilterStrategyList.getDefault(); // Filtre actif par défaut
   final TextEditingController searchController = TextEditingController();
 
-  List<String> get filters => FilterStatsStrategyExecutor.filters;
   String get selectedFilter => _selectedFilter;
 
   void setSelectedFilter(BuildContext context, String filter) {
@@ -24,11 +24,22 @@ class FilterProvider extends ChangeNotifier {
     notifyListeners(); // Notifie l'UI de la mise à jour
   }
   void reinitSelectedFilter(){
-    if (_selectedFilter=='Tous') {
+    if (_selectedFilter== FilterStrategyList.getDefault()) {
       return;
     }
-    _selectedFilter='Tous';
+    _selectedFilter= FilterStrategyList.getDefault();
     notifyListeners();
   }
+
+  List<FilterHome> getFilterList() {
+    List<FilterHome> list = [];
+    list.add(FilterHome(lib: FilterStrategyList.getAllFilterLib()));
+    list.add(FilterHome(lib: FilterStrategyList.getNotPaidFilterLib() , notificationCount: 3));
+    list.add(FilterHome(lib: FilterStrategyList.getArrivedFilterLib()));
+    list.add(FilterHome(lib: FilterStrategyList.getOnTheWayFilterLib()));
+    list.add(FilterHome(lib: FilterStrategyList.getPaidFilterLib()));
+    return list;
+  }
+  
 
 }
