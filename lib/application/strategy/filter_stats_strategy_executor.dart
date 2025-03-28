@@ -4,16 +4,9 @@ import 'package:sola/data/implementation/sqflite/sqflite_datasource.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
 import 'package:sola/domain/service/implementation/stats/filter_stats_strategy/filter_stats_strategy_impl.dart';
 import 'package:sola/domain/service/interface/filter_stats/filter_stats.dart';
+import 'package:sola/global/filter_strategy_list.dart';
 
 class FilterStatsStrategyExecutor {
-
-  static final List<String> filters = [
-    'Tous',
-    'N\'ont pas encore payé',
-    'Terminus',
-    'Ont payé',
-    'Sur route'
-  ];
 
   late final Map<String, FilterStatsStrategy> _strategies;
 
@@ -28,11 +21,11 @@ class FilterStatsStrategyExecutor {
     );
 
     _strategies = {
-      'Tous': AllFilter(sqliteDatasource: sqliteDatasource),
-      'N\'ont pas encore payé': NotPaidFilter(sqliteDatasource: sqliteDatasource),
-      'Terminus': ArrivedFilter(sqliteDatasource: sqliteDatasource),
-      'Ont payé': PaidFilter(sqliteDatasource: sqliteDatasource),
-      'Sur route': OnTheWayFilter(sqliteDatasource: sqliteDatasource),
+      FilterStrategyList.getAllFilterLib(): AllFilter(sqliteDatasource: sqliteDatasource),
+      FilterStrategyList.getNotPaidFilterLib(): NotPaidFilter(sqliteDatasource: sqliteDatasource),
+      FilterStrategyList.getArrivedFilterLib(): ArrivedFilter(sqliteDatasource: sqliteDatasource),
+      FilterStrategyList.getPaidFilterLib(): PaidFilter(sqliteDatasource: sqliteDatasource),
+      FilterStrategyList.getOnTheWayFilterLib(): OnTheWayFilter(sqliteDatasource: sqliteDatasource),
     };
   }
 
