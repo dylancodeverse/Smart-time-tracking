@@ -15,9 +15,9 @@ class SearchFilters extends StatelessWidget {
         child: FutureBuilder(
           future: filterProvider.getFilterList(),
           builder: (context, AsyncSnapshot<List<FilterHome>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();  // Afficher un indicateur de chargement
-            }
+            // if (snapshot.connectionState == ConnectionState.waiting) {
+            //   return CircularProgressIndicator();  // Afficher un indicateur de chargement
+            // }
 
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');  // Afficher une erreur si le chargement échoue
@@ -48,6 +48,7 @@ class SearchFilters extends StatelessWidget {
     );
   }
 }
+
 
 class _FilterButton extends StatelessWidget {
   final String label;
