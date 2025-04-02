@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sola/application/injection_helper/cache/last_update_cache.dart';
+import 'package:sola/application/injection_helper/cache/participation_cache.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/bus_state_custom/bus_state_custom.dart';
 import 'package:sola/data/interface/bus_state_custom/bus_state_custom.dart';
+import 'package:sola/domain/service/implementation/cache/participation_notpayed_count.dart';
 import 'package:sola/domain/service/implementation/notification/notification_service.dart';
 import 'package:sola/domain/service/interface/cache/i_last_update_repo.dart';
 import 'package:sola/domain/service/interface/denormalization/i_denormalize_state.dart';
@@ -54,6 +56,8 @@ void callbackDispatcher() async{
 
   BusStateCustom busStateCustom = BusStateCustomImpl(database: await SqfliteDatabaseHelper().database );
   LastUpdateRepository lastUpdateRepository =  LastUpdateCache.getLastUpdateRepositoryImpl();
+  ParticipationCountCache participationCountCache = ParticipationCache.getParticipationCountRepositoryImplCache();
+
   Workmanager().executeTask((task, inputData) async {
     final now = DateTime.now();
        
@@ -64,10 +68,12 @@ void callbackDispatcher() async{
     bool needsUpdate = await lastUpdateRepository.isUpdateNeeded();
     if (needsUpdate) {
       NotificationService.initialize(); // 🔔 Initialisation des notifications
-
+      // partie reinitialisation etat des bus 
       await busStateCustom.update();
       await lastUpdateRepository.save(DateTime.now());
-
+      // partie reinitialisation etat des comptes de participation (pour les alertes)
+      await participationCountCache.reInitCount();
+      
       // 💡 Afficher une notification après mise à jour
       await NotificationService.showNotification(
         title: 'Mise à jour terminée',
