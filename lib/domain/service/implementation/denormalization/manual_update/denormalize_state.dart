@@ -30,8 +30,6 @@ class DenormalizeState implements IDenormalizeState {
         body: 'Les données ont été mises à jour avec succès.',
       );
       
-    } else {
-      print("✅ Déjà mis à jour aujourd’hui.");
     }
   }
 }
