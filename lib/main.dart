@@ -23,7 +23,7 @@ import 'package:sola/presentation/UI/features/participation/participation_screen
 import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 import 'package:sola/presentation/providers/home/search_filter_provider.dart';
-
+import 'package:sola/application/injection_helper/cache/participation_cache.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +44,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)),
         ChangeNotifierProvider(create: (context) => ModalProvider(iViolation: ViolationService(violationDatasource: violationDatasource))),
         ChangeNotifierProvider(create: (context) => RadioAssignmentProvider()),
-        ChangeNotifierProvider(create: (context) => FilterProvider())
+        ChangeNotifierProvider(create: (context) => FilterProvider(participationNotpayedCountService: ParticipationCache.getParticipationNotpayedCountRepositoryImpl()))
       ],
       child: MyApp(),
     ),

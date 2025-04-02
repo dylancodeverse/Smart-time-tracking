@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sola/presentation/model/filter/filter_home.dart';
 import 'package:sola/presentation/providers/home/search_filter_provider.dart';
 
 class SearchFilters extends StatelessWidget {
@@ -11,24 +12,42 @@ class SearchFilters extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          children: filterProvider.getFilterList().map((filterElement) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: _FilterButton(
-                label: filterElement.lib,
-                isActive: filterProvider.selectedFilter == filterElement.lib,
-                onTap: () => filterProvider.setSelectedFilter(context,filterElement.lib),
-                notificationCount: filterElement.notificationCount,
-              ),
+        child: FutureBuilder(
+          future: filterProvider.getFilterList(),
+          builder: (context, AsyncSnapshot<List<FilterHome>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();  // Afficher un indicateur de chargement
+            }
+
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');  // Afficher une erreur si le chargement échoue
+            }
+
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Text('No filters available');  // Afficher un message s'il n'y a pas de données
+            }
+
+            // Si les données sont présentes et prêtes
+            final filterList = snapshot.data!;
+            return Row(
+              children: filterList.map((filterElement) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: _FilterButton(
+                    label: filterElement.lib,
+                    isActive: filterProvider.selectedFilter == filterElement.lib,
+                    onTap: () => filterProvider.setSelectedFilter(context, filterElement.lib),
+                    notificationCount: filterElement.notificationCount,
+                  ),
+                );
+              }).toList(),
             );
-          }).toList(),
+          },
         ),
       ),
     );
   }
 }
-
 
 class _FilterButton extends StatelessWidget {
   final String label;
