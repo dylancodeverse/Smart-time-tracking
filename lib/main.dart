@@ -44,7 +44,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)),
         ChangeNotifierProvider(create: (context) => ModalProvider(iViolation: ViolationService(violationDatasource: violationDatasource))),
         ChangeNotifierProvider(create: (context) => RadioAssignmentProvider()),
-        ChangeNotifierProvider(create: (context) => FilterProvider(participationNotpayedCountService: ParticipationCache.getParticipationNotpayedCountRepositoryImpl()))
+        ChangeNotifierProvider(create: (context) => FilterProvider(participationCountServiceCache: ParticipationCache.getParticipationCountRepositoryImplCache()))
       ],
       child: MyApp(),
     ),

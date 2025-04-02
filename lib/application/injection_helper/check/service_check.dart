@@ -1,3 +1,4 @@
+import 'package:sola/application/injection_helper/cache/participation_cache.dart';
 import 'package:sola/application/injection_helper/check/service_bus_state.dart';
 import 'package:sola/application/injection_helper/violation/violation_checking_datasource.dart';
 import 'package:sola/application/utils/map_utils.dart';
@@ -82,6 +83,7 @@ class ServiceCheck {
 
      return CheckIn(dataSourceCheck: c, dataSourceBusState: bs ,iPredictionDuration: PredictionDuration(busState: busStateDatasourcePrediction)
           ,iViolationChecking: ViolationCheckingService(violationCheckingDatasource: await ViolationCheckingDatasource.getViolationCheckingDatasourceSQFLITE())
+          ,participationCountServiceCache: ParticipationCache.getParticipationCountRepositoryImplCache()
      );
   }
 

@@ -5,6 +5,7 @@ import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/violation/violation.dart';
 import 'package:sola/domain/entity/violation/violation_checking.dart';
+import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
 import 'package:sola/domain/service/interface/checking/i_check_in.dart';
 import 'package:sola/domain/service/interface/checking/i_prediction_duration.dart';
 import 'package:sola/domain/service/interface/violation/i_violation_checking.dart';
@@ -19,8 +20,11 @@ class CheckIn implements ICheckIn {
   DataSource<BusState> dataSourceBusState; 
   IPredictionDuration iPredictionDuration ;
   IViolationChecking iViolationChecking ;
+  IParticipationCountCache participationCountServiceCache ;
 
-  CheckIn({required this.dataSourceCheck  , required this.dataSourceBusState, required this.iPredictionDuration, required this.iViolationChecking});
+  CheckIn({required this.dataSourceCheck  , required this.dataSourceBusState, required this.iPredictionDuration, required this.iViolationChecking
+    , required this.participationCountServiceCache
+  });
 
 
   @override
@@ -47,6 +51,9 @@ class CheckIn implements ICheckIn {
     
     if (currentRound+1==  RoundVar.roundStartParticipation) {
       busState.participationState = ParticipationVar.showParticipation;      
+      // participation state update
+      participationCountServiceCache.save();
+
     }else{
       busState.participationState=ParticipationVar.noParticipation;
     }

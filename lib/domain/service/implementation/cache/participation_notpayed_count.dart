@@ -2,9 +2,9 @@ import 'package:sola/data/implementation/sqflite/shared_preferences_datasource.d
 import 'package:sola/domain/entity/update_cache/participation_count.dart';
 import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
 
-class ParticipationNotpayedCount implements IParticipationNotpayedCount {
+class ParticipationCountCache implements IParticipationCountCache {
   final SharedPreferencesDataSource<ParticipationCount> dataSource;
-  ParticipationNotpayedCount({required this.dataSource});
+  ParticipationCountCache({required this.dataSource});
 
   @override
   Future<ParticipationCount?> getParticipationNotPayedCount() async{
@@ -28,12 +28,22 @@ class ParticipationNotpayedCount implements IParticipationNotpayedCount {
       await dataSource.insert(ParticipationCount(participationCount:count+ 1, dateTime: DateTime.now()));
     }
   }
+
+  @override
+  Future<void> reInitCount() async{
+    dataSource.update(ParticipationCount(participationCount: 0, dateTime: DateTime.now()));
+  }
   
   @override
   Future<int> getCount() async{
     ParticipationCount? p = await getParticipationNotPayedCount();
     if(p ==null) return 0;
     return p.participationCount;
+  }
+  
+  @override
+  Future<void> participationRegistered() async{
+    await dataSource.insert(ParticipationCount(participationCount: await getCount()-1, dateTime: DateTime.now()));
   }
   
 }

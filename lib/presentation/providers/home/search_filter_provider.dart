@@ -7,9 +7,9 @@ import 'package:sola/presentation/providers/home/daily_statistic_list_provider.d
 
 class FilterProvider extends ChangeNotifier {
 
-  IParticipationNotpayedCount participationNotpayedCountService ;
+  IParticipationCountCache participationCountServiceCache ;
 
-  FilterProvider({required this.participationNotpayedCountService});
+  FilterProvider({required this.participationCountServiceCache});
 
   String _selectedFilter =  FilterStrategyList.getDefault(); // Filtre actif par défaut
   final TextEditingController searchController = TextEditingController();
@@ -38,7 +38,7 @@ class FilterProvider extends ChangeNotifier {
   Future<List<FilterHome>> getFilterList() async{
     List<FilterHome> list = [];
     list.add(FilterHome(lib: FilterStrategyList.getAllFilterLib()));
-    list.add(FilterHome(lib: FilterStrategyList.getNotPaidFilterLib() , notificationCount: await participationNotpayedCountService.getCount()));
+    list.add(FilterHome(lib: FilterStrategyList.getNotPaidFilterLib() , notificationCount: await participationCountServiceCache.getCount()));
     list.add(FilterHome(lib: FilterStrategyList.getArrivedFilterLib()));
     list.add(FilterHome(lib: FilterStrategyList.getOnTheWayFilterLib()));
     list.add(FilterHome(lib: FilterStrategyList.getPaidFilterLib()));
