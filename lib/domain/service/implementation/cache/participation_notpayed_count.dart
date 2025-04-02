@@ -20,8 +20,13 @@ class ParticipationNotpayedCount implements IParticipationNotpayedCount {
   }
 
   @override
-  Future<void> save(int count, DateTime date) async{
-    await dataSource.insert(ParticipationCount(participationCount: count, dateTime: date));
+  Future<void> save() async{
+    int count=  await getCount();
+    if (count==0) {
+      await dataSource.insert(ParticipationCount(participationCount: 1, dateTime: DateTime.now()));
+    }else{
+      await dataSource.insert(ParticipationCount(participationCount:count+ 1, dateTime: DateTime.now()));
+    }
   }
   
   @override
