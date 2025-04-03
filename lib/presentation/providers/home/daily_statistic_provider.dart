@@ -48,15 +48,15 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
 
   void demarrerOuTerminerTour(BuildContext context) {
     if (bus.statusCheck == StateList.enableDeparture) {
-      demarrerTour();
+      demarrerTour(context);
     } else if (bus.statusCheck == StateList.enableArrivalDeclaration) {
       roundDeclarationRedirect(context);
     } else {
-      terminerTour();
+      terminerTour(context);
     }
   }
 
-  void terminerTour() async {
+  void terminerTour(BuildContext context) async {
     BusState newBusState = await checkIn.arrival(
       bus.assignmentID,
       bus.busID,
@@ -65,24 +65,24 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
       bus.lastChecking as int,
       bus.round,
     );
-    _updateBusState(newBusState);
+    _updateBusState(newBusState,context);
   }
 
-  void demarrerTour() async {
+  void demarrerTour(BuildContext context) async {
     BusState newBusState = await checkOut.departure(
       bus.assignmentID,
       bus.busID,
       bus.busStateId,
     );
-    _updateBusState(newBusState);
+    _updateBusState(newBusState,context);
   }
 
-  void _updateBusState(BusState newBusState) {
+  void _updateBusState(BusState newBusState, BuildContext context) {
     Map<String, dynamic> map = ServiceBusState.toMap(newBusState);
     bus.assignmentID = map['id_affectation'];
     bus.statusCheck = map['etat_pointage'];
     bus.lastChecking = map['dernier_pointage'];
-    dailyStatisticListProvider.getDailyStats();
+    dailyStatisticListProvider.refreshList(context);
   }
 
   void roundDeclarationRedirect(BuildContext context) {

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sola/application/injection_helper/bus_state/bus_state_custom_inj.dart';
 import 'package:sola/application/strategy/filter_stats_strategy_executor.dart';
 import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
+import 'package:sola/global/filter_strategy_list.dart';
 import 'package:sola/presentation/model/stats/daily_statistic.dart';
 import 'package:sola/presentation/providers/home/search_filter_provider.dart';
 
@@ -29,6 +30,15 @@ class DailyStatisticListProvider with ChangeNotifier{
       busList = DailyStatisticView.convert(await iDailyStatisticListService.getDailyStatistics())  ;
       filteredBus = busList;
       finish();
+  }
+
+  void refreshList(BuildContext context) async{
+    FilterProvider filterProvider = Provider.of<FilterProvider>(context,listen: false);
+    if (filterProvider.selectedFilter!=FilterStrategyList.getDefault()) {
+      filterDailyStatsByPreparedFilter(filterProvider.selectedFilter);  
+    }else{
+      getDailyStats();
+    }
   }
 
   void filterDailyStats(BuildContext context, String query) async{
