@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:sola/application/injection_helper/check/service_arrival_declaration.dart';
 import 'package:sola/application/injection_helper/check/service_bus_state.dart';
 import 'package:sola/application/injection_helper/check/service_check.dart';
 import 'package:sola/application/injection_helper/participation/participation_datasource.dart';
 import 'package:sola/domain/entity/assignement.dart';
 import 'package:sola/domain/entity/bus_state.dart';
+import 'package:sola/domain/entity/violation/violation.dart';
 import 'package:sola/domain/service/interface/checking/i_check_in.dart';
 import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 import 'package:sola/domain/service/interface/participation/i_participation.dart';
 import 'package:sola/global/participation.dart';
 import 'package:sola/global/state_list.dart';
+import 'package:sola/presentation/providers/arrival_declaration/declaration.dart';
 import 'package:sola/presentation/providers/utils/countdownmixin.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 import 'package:sola/presentation/model/stats/daily_statistic.dart';
@@ -86,7 +89,7 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
   }
 
   void roundDeclarationRedirect(BuildContext context) {
-    Navigator.pushNamed(context, '/declaration', arguments: bus);
+    Navigator.pushNamed(context, '/declaration', arguments: this);
   }
 
   void participationRedirect(BuildContext context) {
@@ -109,5 +112,13 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
     notifyListeners();
     Navigator.pop(context);
     
+  }
+  Future<void> arrivalDeclaration(int amount, String comments, List<Violation> violation ,BuildContext context) async{
+    ArrivalDeclaration arrivalDeclaration= await ServiceArrivalDeclaration.getArrivalDeclaration();
+    arrivalDeclaration.declaration(bus, amount,comments, violation); 
+    bus.statusCheck = StateList.enableDeparture ;
+    bus.amount+= amount;
+    notifyListeners();
+    Navigator.pop(context);
   }
 }

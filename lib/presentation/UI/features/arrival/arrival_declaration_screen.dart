@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sola/application/injection_helper/check/service_arrival_declaration.dart';
 import 'package:sola/presentation/UI/config/color_checker.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/home/bus_card/bus_details.dart';
@@ -10,20 +9,19 @@ import 'package:sola/presentation/UI/widgets/gesture_detector_modal.dart';
 import 'package:sola/presentation/UI/widgets/input_field.dart';
 import 'package:sola/presentation/UI/widgets/multi_select.dart';
 import 'package:sola/presentation/model/stats/daily_statistic.dart';
-import 'package:sola/presentation/providers/arrival_declaration/declaration.dart';
 import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
+import 'package:sola/presentation/providers/home/daily_statistic_provider.dart';
 
 class ArrivalDeclarationScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    final monObjet = ModalRoute.of(context)!.settings.arguments as DailyStatisticView;
-    
+    final monObjetprovider = ModalRoute.of(context)!.settings.arguments as DailyStatisticProvider;
     return Scaffold(
       appBar: AppBar(
         title: Text(AppTheme.appName),
         scrolledUnderElevation: 0,
       ),
-      body: SimpleCardBUS(activeBus: monObjet), 
+      body: SimpleCardBUS(activeBus: monObjetprovider.bus ,dailyStatisticProvider: monObjetprovider,), 
 
       bottomNavigationBar: Bottomnav(),
     );
@@ -36,8 +34,9 @@ class ArrivalDeclarationScreen extends StatelessWidget{
 
 class SimpleCardBUS extends StatefulWidget {
   final DailyStatisticView activeBus;
+  final DailyStatisticProvider dailyStatisticProvider;
 
-  const SimpleCardBUS({super.key, required this.activeBus});
+  const SimpleCardBUS({super.key, required this.activeBus , required this.dailyStatisticProvider});
 
   @override
   _SimpleCardBUSState createState() => _SimpleCardBUSState();
@@ -66,9 +65,7 @@ class _SimpleCardBUSState extends State<SimpleCardBUS> {
   }
 
   void onValidate(ModalProvider myProvider)async{
-    ArrivalDeclaration arrivalDeclaration= await ServiceArrivalDeclaration.getArrivalDeclaration();
-        
-    arrivalDeclaration.declaration(widget.activeBus, int.parse(_amountController.text.trim()), _commentController.text, myProvider.getCheckedViolation() , context);
+     await widget.dailyStatisticProvider.arrivalDeclaration( int.parse(_amountController.text.trim()), _commentController.text, myProvider.getCheckedViolation() , context);
   }
 
 
