@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sola/global/participation.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/home/bus_card/participation_button.dart';
+import 'package:sola/presentation/UI/widgets/alert/confirmation_modal.dart';
 class BusActions extends StatelessWidget {
   final String isDepart;
   final VoidCallback onStartStop;
@@ -30,7 +31,17 @@ class BusActions extends StatelessWidget {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              onPressed: onStartStop,
+              onPressed: ()=>{
+                ConfirmationModal.show(
+                  context,
+                  title: "Attention",
+                  description: "Cette action est irréversible. Voulez-vous continuer ?",
+                  onProceed: () {
+                    // Ton code à exécuter après confirmation
+                    print("Action confirmée !");
+                  },
+                )
+              },
               child: Text(isDepart, style: TextStyle(color: AppTheme.scaff)),
             ),
           ),
