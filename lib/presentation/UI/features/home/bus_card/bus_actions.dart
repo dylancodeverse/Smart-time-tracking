@@ -36,10 +36,7 @@ class BusActions extends StatelessWidget {
                   context,
                   title: "Attention",
                   description: "Cette action est irréversible. Voulez-vous continuer ?",
-                  onProceed: () {
-                    // Ton code à exécuter après confirmation
-                    print("Action confirmée !");
-                  },
+                  onProceed: onStartStop,
                 )
               },
               child: Text(isDepart, style: TextStyle(color: AppTheme.scaff)),

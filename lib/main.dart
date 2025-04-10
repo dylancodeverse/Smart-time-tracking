@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +22,9 @@ import 'package:sola/presentation/UI/features/assignement/radio_assignement.dart
 import 'package:sola/presentation/UI/features/autotime/auto_time.dart';
 import 'package:sola/presentation/UI/features/home/home_screen.dart';
 import 'package:sola/presentation/UI/features/participation/participation_screen.dart';
+import 'package:sola/presentation/UI/widgets/alert/error_modal.dart';
 import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
+import 'package:sola/presentation/providers/error/error_provider.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 import 'package:sola/presentation/providers/home/search_filter_provider.dart';
 import 'package:sola/application/injection_helper/cache/participation_cache.dart';
@@ -37,20 +41,54 @@ void main() async {
   // (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
   // verification tous les jours en arriere plan
   (await BusStateCustomINJ.getBusStateCustomImplAUTO()).verification();
-
+  
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)),
         ChangeNotifierProvider(create: (context) => ModalProvider(iViolation: ViolationService(violationDatasource: violationDatasource))),
         ChangeNotifierProvider(create: (context) => RadioAssignmentProvider()),
-        ChangeNotifierProvider(create: (context) => FilterProvider(participationCountServiceCache: ParticipationCache.getParticipationCountRepositoryImplCache()))
+        ChangeNotifierProvider(create: (context) => FilterProvider(participationCountServiceCache: ParticipationCache.getParticipationCountRepositoryImplCache())),
+        ChangeNotifierProvider(create: (context)=> ErrorProvider())
       ],
-      child: MyApp(),
+      child: MyAppWithErrorHandling(), // Utilisation d'un Widget custom pour récupérer le contexte
     ),
   );
-  
 }
+
+class MyAppWithErrorHandling extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final errorProvider = Provider.of<ErrorProvider>(context, listen: false);
+
+    PlatformDispatcher.instance.onError = (error, stackTrace) {
+      errorProvider.setError(error.toString(), stackTrace);
+      return true;
+    };
+
+    return MaterialApp(
+      home: Consumer<ErrorProvider>(
+        builder: (context, errorProvider, child) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (errorProvider.lastError != null) {
+              ErrorActionModal.show(
+                context,
+                title: "Erreur détectée",
+                description: errorProvider.lastError.toString(),
+              );
+
+              // Réinitialiser l'erreur après affichage pour éviter plusieurs modals
+              errorProvider.clearError();
+            }
+          });
+
+          return MyApp(); // Ton widget principal
+        },
+      ),
+    );
+  }
+}
+
 
 class MyApp extends StatefulWidget {
   @override
