@@ -65,25 +65,29 @@ void callbackDispatcher() async{
       return Future.value(true); // Rien le week-end
     }
          
-    bool needsUpdate = await lastUpdateRepository.isUpdateNeeded();
-    if (needsUpdate) {
+    bool needsUpdateBus = await lastUpdateRepository.isUpdateNeeded();
+    bool alertState = await participationCountCache.isUpdateNeeded();
+    if (needsUpdateBus) {
       NotificationService.initialize(); // 🔔 Initialisation des notifications
       // partie reinitialisation etat des bus 
       await busStateCustom.update();
       await lastUpdateRepository.save(DateTime.now());
+      // 💡 Afficher une notification après mise à jour
+
+    }
+    if(alertState){
       // partie reinitialisation etat des comptes de participation (pour les alertes)
       await participationCountCache.reInitCount();
-      
-      // 💡 Afficher une notification après mise à jour
+    }
+
+    if(needsUpdateBus||alertState){
       await NotificationService.showNotification(
         title: 'Mise à jour terminée',
         body: 'Les données ont été mises à jour avec succès.',
       );
-
-      // Une fois la mise à jour réussie, on annule la répétition
+            // Une fois la mise à jour réussie, on annule la répétition
       await Workmanager().cancelByUniqueName(DenormalizeStateAuto.taskName);
     }
-
     return Future.value(true);
   });
   

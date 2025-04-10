@@ -17,19 +17,23 @@ class DenormalizeState implements IDenormalizeState {
 
   @override
   Future<void> verification()  async{
-    bool needsUpdate = await lastUpdateRepository.isUpdateNeeded();
+    bool needsUpdateBus = await lastUpdateRepository.isUpdateNeeded();
+    bool updateNeededParticipationState = await participationCountCache.isUpdateNeeded();
     NotificationService.initialize(); // 🔔 Initialisation des notifications
-    if (needsUpdate) {
+    if (needsUpdateBus) {
       // required task
       await busStateCustom.update();
       await lastUpdateRepository.save(DateTime.now());
+    }
+    if (updateNeededParticipationState) {
       await participationCountCache.reInitCount();
+    }
+    if (updateNeededParticipationState||needsUpdateBus) {
       // 💡 Afficher une notification après mise à jour
       await NotificationService.showNotification(
         title: 'Mise à jour terminée',
         body: 'Les données ont été mises à jour avec succès.',
-      );
-      
+      );      
     }
   }
 }

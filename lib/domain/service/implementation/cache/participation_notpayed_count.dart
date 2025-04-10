@@ -31,7 +31,7 @@ class ParticipationCountCache implements IParticipationCountCache {
 
   @override
   Future<void> reInitCount() async{
-    dataSource.update(ParticipationCount(participationCount: 0, dateTime: DateTime.now()));
+    dataSource.insert(ParticipationCount(participationCount: 0, dateTime: DateTime.now()));
   }
   
   @override
