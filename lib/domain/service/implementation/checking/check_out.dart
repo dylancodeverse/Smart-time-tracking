@@ -5,6 +5,7 @@ import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
 import 'package:sola/domain/service/implementation/stats/daily_statistic_list_service.dart';
+import 'package:sola/domain/service/implementation/time_check_service/time_check_service.dart';
 import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 import 'package:sola/domain/service/interface/checking/i_prediction_duration.dart';
 import 'package:sola/global/state_list.dart';
@@ -21,7 +22,10 @@ class CheckOut implements ICheckOut {
   @override
   Future<BusState> departure(String assignementId, String busId, int busStateId) async {
     // verification
-    if (! await canDoCheckOut(busId)) throw Exception("Doit respecter la cadence");
+    if (!TimeCheckService.isWithinAllowedHours()) {
+      throw Exception("Modification interdite en dehors des heures autorisées.");
+    }
+    if (! await _canDoCheckOut(busId)) throw Exception("Doit respecter la cadence");
     // init Bus
     Bus bus = Bus(id: busId);
     // init assignement
@@ -40,7 +44,7 @@ class CheckOut implements ICheckOut {
     return busState;
   }
 
-  Future<bool> canDoCheckOut(String busId) async{
+  Future<bool> _canDoCheckOut(String busId) async{
     // liste en cadence ireto
     List< DailyStatistic> dailyStatistic = ( await dailyStatisticListService.getDailyStatistics()) ;
     if (dailyStatistic.isEmpty) {

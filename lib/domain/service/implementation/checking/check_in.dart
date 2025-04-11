@@ -5,6 +5,7 @@ import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/violation/violation.dart';
 import 'package:sola/domain/entity/violation/violation_checking.dart';
+import 'package:sola/domain/service/implementation/time_check_service/time_check_service.dart';
 import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
 import 'package:sola/domain/service/interface/checking/i_check_in.dart';
 import 'package:sola/domain/service/interface/checking/i_prediction_duration.dart';
@@ -29,6 +30,10 @@ class CheckIn implements ICheckIn {
 
   @override
   Future<BusState> arrival(String assignementId, String busId, int busStateId, int amount, int lastChecking, int currentRound) async{
+    if (!TimeCheckService.isWithinAllowedHours()) {
+      throw Exception("Modification interdite en dehors des heures autorisées.");
+    }
+
     // init Bus
     Bus bus = Bus(id: busId);
     // init assignement
@@ -39,10 +44,10 @@ class CheckIn implements ICheckIn {
 
     await dataSourceCheck.updateAndIgnoreNullColumns(check);
 
-    return arrivalStateUpdate(busStateId, assignment, check, currentRound);
+    return _arrivalStateUpdate(busStateId, assignment, check, currentRound);
   }
 
-  Future<BusState> arrivalStateUpdate(int busStateId, Assignment lastAssignment, Check lastCheck,int currentRound) async{
+  Future<BusState> _arrivalStateUpdate(int busStateId, Assignment lastAssignment, Check lastCheck,int currentRound) async{
     // getPrediction
     int predictionArrival= await iPredictionDuration.getDepartureEstimation();
 
@@ -63,6 +68,9 @@ class CheckIn implements ICheckIn {
   
   @override
   Future<void> arrivalUpdate(String assignementId, String busId, int busStateId, int amount, int lastChecking, String comments, List<Violation> listViolation  ) async{
+    if (!TimeCheckService.isWithinAllowedHours()) {
+      throw Exception("Modification interdite en dehors des heures autorisées.");
+    }
     // init Bus
     Bus bus = Bus(id: busId);
     // init assignement
