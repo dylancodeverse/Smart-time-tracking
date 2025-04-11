@@ -4,10 +4,10 @@ import 'package:sola/application/injection_helper/assignement/assignement_dataso
 import 'package:sola/domain/entity/assignement.dart';
 import 'package:sola/presentation/UI/config/color_checker.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
-import 'package:sola/presentation/UI/features/assignement/radio_assignement.dart';
-import 'package:sola/presentation/UI/features/assignement/radio.dart';
-import 'package:sola/presentation/UI/features/home/bus_card/bus_details.dart';
-import 'package:sola/presentation/UI/features/home/bus_card/bus_info_header.dart';
+import 'package:sola/presentation/UI/features/queue/assignement/radio_assignement.dart';
+import 'package:sola/presentation/UI/features/queue/assignement/radio.dart';
+import 'package:sola/presentation/UI/features/queue/home/bus_card/bus_details.dart';
+import 'package:sola/presentation/UI/features/queue/home/bus_card/bus_info_header.dart';
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_provider.dart';
 

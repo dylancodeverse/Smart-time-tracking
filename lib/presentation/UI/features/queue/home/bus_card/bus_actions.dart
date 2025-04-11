@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sola/global/participation.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
-import 'package:sola/presentation/UI/features/home/bus_card/participation_button.dart';
+import 'package:sola/presentation/UI/features/queue/home/bus_card/participation_button.dart';
 import 'package:sola/presentation/UI/widgets/alert/confirmation_modal.dart';
 class BusActions extends StatelessWidget {
   final String isDepart;

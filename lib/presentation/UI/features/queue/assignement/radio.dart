@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sola/presentation/UI/features/assignement/radio_assignement.dart';
+import 'package:sola/presentation/UI/features/queue/assignement/radio_assignement.dart';
 import 'package:sola/presentation/UI/widgets/modal_object.dart';
 
 class SingleSelectRadio extends StatelessWidget {
