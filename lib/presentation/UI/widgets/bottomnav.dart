@@ -13,10 +13,12 @@ class Bottomnav extends StatelessWidget {
       unselectedItemColor: const Color.fromARGB(255, 42, 42, 42),
       unselectedLabelStyle: AppTheme.smallText,
       selectedLabelStyle: AppTheme.smallText,
-      currentIndex: 0, // L'élément sélectionné par défaut (peut être modifié dynamiquement)
+      currentIndex: 1, // L'élément sélectionné par défaut (peut être modifié dynamiquement)
       onTap: (index) {
         if (index == 0) {
           Navigator.pushNamed(context, "/"); // Redirection vers "/"
+        }else if(index ==1){
+          Navigator.pushNamed(context, "/payment");
         }
       },
       items: const [
