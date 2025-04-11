@@ -66,4 +66,9 @@ class SqlfliteRequest {
     return _completeAssignement.replaceAll("%", busId);
   }
 
+  // requete speciale ho anle BusStats ankoatra anle mahazatra (mi override anle requete mapped aminy) 
+  static String getBusInQueueASC(){
+    return ''' SELECT * from statistiquejournalierencadence ''';
+  }
+
 }

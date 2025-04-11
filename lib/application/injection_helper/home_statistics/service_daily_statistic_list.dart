@@ -83,4 +83,10 @@ class InjectiondailystatisticList {
       CustomSqlliteDatasource<DailyStatistic>(database: await SqfliteDatabaseHelper().database, rawQuery:SqlfliteRequest.getTodayStats() , 
                               fromMap: fromMap)); 
   }
+  static Future<DailyStatisticListService> getStatsQueueCadenceService() async{
+    return DailyStatisticListService(dataSource:
+      CustomSqlliteDatasource<DailyStatistic>(database: await SqfliteDatabaseHelper().database, rawQuery:SqlfliteRequest.getBusInQueueASC() , 
+                              fromMap: fromMap)); 
+  }
+
 }

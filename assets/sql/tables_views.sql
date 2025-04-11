@@ -215,3 +215,6 @@ etat_pointage = 10 ;
 create view statistiquejournalierVoitureSurTerminus 
 as select * from statistiquejournalier where
 etat_pointage!= 10 ;
+
+CREATE VIEW statistiquejournalierencadence as 
+select * from statistiquejournalierVoitureSurTerminus where estimation_prochaine_action is not null  ;
