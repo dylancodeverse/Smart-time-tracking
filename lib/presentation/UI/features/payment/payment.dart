@@ -57,7 +57,7 @@ class _PaymentState extends State<Payment> {
                 );
         },
       ),
-      bottomNavigationBar: Bottomnav(),
+      bottomNavigationBar: Bottomnav(currentIndex: 1,),
     );
   }
 

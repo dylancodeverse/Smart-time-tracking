@@ -23,7 +23,7 @@ class EditAssignement extends StatelessWidget{
       ),
       body: SimpleCardBUS(activeBusProvider: monObjet), 
 
-      bottomNavigationBar: Bottomnav(),
+      bottomNavigationBar: Bottomnav(currentIndex: 0,),
     );
   }
   

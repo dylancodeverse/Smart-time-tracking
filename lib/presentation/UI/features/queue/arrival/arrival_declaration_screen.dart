@@ -23,7 +23,7 @@ class ArrivalDeclarationScreen extends StatelessWidget{
       ),
       body: SimpleCardBUS(activeBus: monObjetprovider.bus ,dailyStatisticProvider: monObjetprovider,), 
 
-      bottomNavigationBar: Bottomnav(),
+      bottomNavigationBar: Bottomnav(currentIndex: 0,),
     );
   }
   

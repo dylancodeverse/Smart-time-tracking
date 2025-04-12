@@ -21,7 +21,7 @@ class ParticipationScreen extends StatelessWidget {
       ),
       body: SimpleCardBUS(activeBus: monObjet.bus,superProvider: monObjet,), 
 
-      bottomNavigationBar: Bottomnav(),
+      bottomNavigationBar: Bottomnav(currentIndex: 0,),
     );
 
   }
