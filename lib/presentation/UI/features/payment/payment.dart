@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/global/filter_strategy_list.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
-import 'package:sola/presentation/UI/features/payment/form_card.dart';
+import 'package:sola/presentation/UI/features/payment/payment_card.dart';
 import 'package:sola/presentation/UI/features/queue/home/bus_list_view.dart';
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
 import 'package:sola/presentation/UI/widgets/search_bar.dart';

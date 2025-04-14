@@ -29,6 +29,7 @@ import 'package:sola/presentation/providers/error/error_provider.dart';
 import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
 import 'package:sola/presentation/providers/home/search_filter_provider.dart';
 import 'package:sola/application/injection_helper/cache/participation_cache.dart';
+import 'package:sola/presentation/providers/payment/payment.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +51,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ModalProvider(iViolation: ViolationService(violationDatasource: violationDatasource))),
         ChangeNotifierProvider(create: (context) => RadioAssignmentProvider()),
         ChangeNotifierProvider(create: (context) => FilterProvider(participationCountServiceCache: ParticipationCache.getParticipationCountRepositoryImplCache())),
-        ChangeNotifierProvider(create: (context)=> ErrorProvider())
+        ChangeNotifierProvider(create: (context)=> ErrorProvider()),
+        ChangeNotifierProvider(create: (context)=> PaymentService())
       ],
       child: MyAppWithErrorHandling(), // Utilisation d'un Widget custom pour récupérer le contexte
     ),
