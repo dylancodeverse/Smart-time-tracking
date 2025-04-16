@@ -1,9 +1,9 @@
-import 'package:sola/data/implementation/sqflite/shared_preferences_datasource.dart';
+import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/update_cache/last_update.dart';
 import 'package:sola/domain/service/interface/cache/i_last_update_repo.dart';
 
 class LastUpdateRepositoryImpl implements LastUpdateRepository {
-  final SharedPreferencesDataSource<LastUpdate> dataSource;
+  final DataSource<LastUpdate> dataSource;
 
   LastUpdateRepositoryImpl(this.dataSource);
 
@@ -15,7 +15,7 @@ class LastUpdateRepositoryImpl implements LastUpdateRepository {
   @override
   Future<LastUpdate?> getLastUpdate() async {
     List<LastUpdate> updates = await dataSource.getAll();
-    return updates.isNotEmpty ? updates[updates.length-1] : null;
+    return updates.isNotEmpty ? updates[0] : null;
   }
 
   @override

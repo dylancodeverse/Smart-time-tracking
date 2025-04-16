@@ -1,9 +1,9 @@
-import 'package:sola/data/implementation/sqflite/shared_preferences_datasource.dart';
+import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/update_cache/participation_count.dart';
 import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
 
 class ParticipationCountCache implements IParticipationCountCache {
-  final SharedPreferencesDataSource<ParticipationCount> dataSource;
+  final DataSource<ParticipationCount> dataSource;
   ParticipationCountCache({required this.dataSource});
 
   @override
