@@ -133,8 +133,9 @@ CREATE TABLE violationparpointage(
     FOREIGN KEY (id_pointage) REFERENCES pointages(id)
 );
 
+-- details participation
 CREATE TABLE PARTICIPATION (
-    ID INTEGER PRIMARY KEY,
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
     id_vehicule TEXT ,
     PARTICIPATION_date int not NULL,
     montant int not null,
@@ -218,3 +219,11 @@ etat_pointage!= 10 ;
 
 CREATE VIEW statistiquejournalierencadence as 
 select * from statistiquejournalierVoitureSurTerminus where estimation_prochaine_action is not null  ;
+
+
+CREATE TABLE PAYMENTPARTICIPATION(
+  id integer PRIMARY KEY AUTOINCREMENT,
+  montanttotal integer ,
+  PARTICIPATION_date int not NULL,
+  reference text 
+);
