@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sola/application/injection_helper/cache/last_update_cache.dart';
 import 'package:sola/application/injection_helper/cache/participation_cache.dart';
+import 'package:sola/application/injection_helper/participation/payment_participation_datasource.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/bus_state_custom/bus_state_custom.dart';
 import 'package:sola/data/interface/bus_state_custom/bus_state_custom.dart';
+import 'package:sola/domain/entity/participation/payment.dart';
 import 'package:sola/domain/service/implementation/cache/participation_notpayed_count.dart';
 import 'package:sola/domain/service/implementation/notification/notification_service.dart';
 import 'package:sola/domain/service/interface/cache/i_last_update_repo.dart';
 import 'package:sola/domain/service/interface/denormalization/i_denormalize_state.dart';
+import 'package:sola/domain/service/interface/participation/i_payment.dart';
+import 'package:sola/lib/date_helper.dart';
 import 'package:workmanager/workmanager.dart';
 
 class DenormalizeStateAuto implements IDenormalizeState {
@@ -21,7 +25,7 @@ class DenormalizeStateAuto implements IDenormalizeState {
 
   @override
   Future<void> verification() async {
-    await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+    await Workmanager().initialize( callbackDispatcher, isInDebugMode: false);
     await _scheduleUpdateFrom7AMWeekdays();
   }
 
@@ -57,6 +61,10 @@ void callbackDispatcher() async{
   BusStateCustom busStateCustom = BusStateCustomImpl(database: await SqfliteDatabaseHelper().database );
   LastUpdateRepository lastUpdateRepository =  LastUpdateCache.getLastUpdateRepositoryImpl();
   ParticipationCountCache participationCountCache = ParticipationCache.getParticipationCountRepositoryImplCache();
+  // instance de service payment utilisant sqflite
+  IPaymentParticipation paymentParticipationService = await ServiceINJPaymentParticipation.getIPaymentParticipationInstance();
+  // instance de service payment utilisant cache
+  IPaymentParticipation paymentParticipationServiceCache= ServiceINJPaymentParticipation.getIPaymentParticipationInstanceCache();
 
   Workmanager().executeTask((task, inputData) async {
     final now = DateTime.now();
@@ -72,7 +80,12 @@ void callbackDispatcher() async{
       // partie reinitialisation etat des bus 
       await busStateCustom.update();
       await lastUpdateRepository.save(DateTime.now());
-      // 💡 Afficher une notification après mise à jour
+
+      // initialise payment donne (date du jour , generation de cle )
+      PaymentParticipation paymentParticipation = PaymentParticipation(montantTotal: 0,participationDate: Date.getTimestampNow());
+      await paymentParticipationService.save(paymentParticipation);      
+      // sauvegarder la cle generee comme cache || utile pour les participation de chaque bus
+      await paymentParticipationServiceCache.save(paymentParticipation);
 
     }
     if(alertState){
@@ -82,7 +95,7 @@ void callbackDispatcher() async{
 
     if(needsUpdateBus||alertState){
       await NotificationService.showNotification(
-        title: 'Mise à jour terminée',
+        title: 'Mise à jour automatique terminée',
         body: 'Les données ont été mises à jour avec succès.',
       );
             // Une fois la mise à jour réussie, on annule la répétition

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sola/domain/service/interface/participation/i_payment_participation_process_service.dart';
 
 class PaymentService extends ChangeNotifier {
-  String _reference = "";
 
-  String get reference => _reference;
+  IPaymentParticipationProcessService iPaymentParticipationProcessService ;
+  String reference ;
+  PaymentService({required this.iPaymentParticipationProcessService ,required this.reference});
 
   void setReference(String newRef) {
-    _reference = newRef;
+    iPaymentParticipationProcessService.updatePayment(newRef);
+    reference = newRef ;
     notifyListeners();
   }  
+
 }
