@@ -41,6 +41,7 @@ class SharedPreferencesDataSource<T> implements DataSource<T> {
   @override
   Future<List<T>> getAll() async {
     final prefs = await _prefs();
+    prefs.reload();
     final data = prefs.getString(key);
     if (data == null) return [];
     final List<dynamic> jsonList = jsonDecode(data);
