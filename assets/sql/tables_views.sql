@@ -227,3 +227,27 @@ CREATE TABLE PAYMENTPARTICIPATION(
   PARTICIPATION_date int not NULL,
   reference text 
 );
+
+CREATE TABLE MOTIFDEPENSE(
+  id integer PRIMARY KEY AUTOINCREMENT,
+  montant integer ,
+  datej integer not null,
+  motif text
+);
+
+
+CREATE  VIEW depense_par_jour as
+SELECT 
+  strftime('%Y-%m-%d', datej / 1000, 'unixepoch') AS datej,
+  SUM(montant) AS montant
+FROM 
+  MOTIFDEPENSE
+
+GROUP BY 
+  datej;
+
+
+
+CREATE VIEW  depense_du_jour AS
+select * from depense_par_jour 
+WHERE  datej  = strftime('%Y-%m-%d', 'now');
