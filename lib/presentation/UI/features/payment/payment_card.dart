@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/lib/price_format.dart';
+import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/payment/bottom_sheet/edit_bottom_sheet.dart';
 import 'package:sola/presentation/providers/payment/payment.dart';
 
@@ -24,7 +25,7 @@ class PaymentCard extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 215, 244, 237),
+              color: Color.fromARGB(255, 255, 255, 255),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
@@ -52,7 +53,7 @@ class PaymentCard extends StatelessWidget {
                 SizedBox(height: 8),
                 Text(
                   "${service.participants} participants",
-                  style: TextStyle(fontSize: 12, color: Colors.black54),
+                  style: TextStyle(fontSize: 12, color: const Color.fromARGB(225, 0, 0, 0)),
                 ),
                 SizedBox(height: 8),
                 Text(
@@ -62,14 +63,14 @@ class PaymentCard extends StatelessWidget {
                 SizedBox(height: 16),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _buildButton(Icons.payment, "Details", Colors.black54),
+                      _buildButton(Icons.payment, "Details", const Color.fromARGB(182, 0, 0, 0)),
                       _buildButton(
                         paymentScreenModel.paymentState.icon,
                         paymentScreenModel.paymentState.paymentState,
@@ -91,7 +92,7 @@ class PaymentCard extends StatelessWidget {
       children: [
         Icon(icon, color: buttonColor),
         SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 14, color: Colors.black54)),
+        Text(label, style: AppTheme.bodyMediu),
       ],
     );
   }
