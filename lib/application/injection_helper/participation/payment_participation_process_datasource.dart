@@ -6,6 +6,7 @@ class ServiceINJPaymentParticipationProcessDatasource {
     
   static Future<IPaymentParticipationProcessService> getIPaymentParticipationProcessInstance() async {
     return PaymentParticipationProcessService(paymentParticipationDatasourceSQL: await ServiceINJPaymentParticipation.getPaymentParticipationDatasource(),
-     paymentParticipationDatasourceCache:  ServiceINJPaymentParticipation.getPaymentParticipationDatasourceCache());
+     paymentParticipationDatasourceCache:  await ServiceINJPaymentParticipation.getPaymentParticipationDatasourceCache()
+     );
   }
 }

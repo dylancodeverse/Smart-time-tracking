@@ -1,64 +1,88 @@
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sola/lib/price_format.dart';
 import 'package:sola/presentation/UI/features/payment/bottom_sheet/edit_bottom_sheet.dart';
+import 'package:sola/presentation/providers/payment/payment.dart';
 
 class PaymentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 215, 244, 237),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final service = context.watch<PaymentService>();
+    final paymentScreenModel = service.paymentScreenModel;
+    final String reference = paymentScreenModel.getReferenceLabel();
+
+    return FutureBuilder(
+      future: service.initData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return Center(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 215, 244, 237),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
               children: [
-                Text(
-                  "345 721 094 839",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                InkWell(
-                  onTap: () => showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      reference,
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    builder: (_) => EditBottomSheet(),
+                    InkWell(
+                      onTap: () => showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                        ),
+                        builder: (_) => EditBottomSheet(),
+                      ),
+                      child: Icon(Icons.edit, color: Colors.black54),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "${service.participants} participants",
+                  style: TextStyle(fontSize: 12, color: Colors.black54),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "${PriceFormat.formatAR(service.toSend as int) }",
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 16),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Icon(Icons.edit, color: Colors.black54),
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _buildButton(Icons.payment, "Details", Colors.black54),
+                      _buildButton(
+                        paymentScreenModel.paymentState.icon,
+                        paymentScreenModel.paymentState.paymentState,
+                        paymentScreenModel.paymentState.color,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 8),
-            Text("15 / 18 participants", style: TextStyle(fontSize: 12, color: Colors.black54)),
-            SizedBox(height: 8),
-            Text(
-              "26,500 AR",
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildButton(Icons.payment, "Details", Colors.black54),
-                  _buildButton(Icons.check_circle, "Payé", Colors.green),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 

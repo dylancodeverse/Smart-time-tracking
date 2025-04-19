@@ -6,101 +6,83 @@ typedef FromJson<T> = T Function(Map<String, dynamic> json);
 
 class GetStorageDataSource<T> implements DataSource<T> {
   final GetStorage _box;
-  final String _collectionKey;
+  final String key;
   final ToJson<T> toJson;
   final FromJson<T> fromJson;
 
   GetStorageDataSource({
-    required String collectionKey,
+    required this.key,
     required this.toJson,
     required this.fromJson,
-    required GetStorage box
-  })  : _collectionKey = collectionKey,
-        _box = box;
-
-  // Récupère les données de la collection, si la clé n'existe pas, retourne une map vide.
-  Future<Map<String, dynamic>> _getCollection() async {
-    return Map<String, dynamic>.from(_box.read(_collectionKey) ?? {});
-  }
-
-  // Sauvegarde ou remplace l'intégralité de la collection dans la box
-  Future<void> _saveCollection(Map<String, dynamic> collection) async {
-    await _box.write(_collectionKey, collection);
-  }
+    required GetStorage box,
+  }) : _box = box;
 
   @override
-  Future<dynamic> insert(T item) async {
-    final data = await _getCollection(); // Récupère la collection actuelle
-    data[getCollectionKey(item)] = toJson(item); // Remplace la valeur sous la collectionKey
-    await _saveCollection(data); // Sauvegarde les données après modification
-    return true;
-  }
-
-  @override
-  Future<dynamic> insertAll(List<T> items) async {
-    final data = await _getCollection(); // Récupère la collection actuelle
-    for (var item in items) {
-      data[getCollectionKey(item)] = toJson(item); // Remplace la valeur sous la collectionKey
-    }
-    await _saveCollection(data); // Sauvegarde les données après modification
-    return true;
+  Future<T?> getById(String id) async {
+    // Pas applicable ici, on ignore le paramètre 'id' et retourne la seule valeur.
+    final json = _box.read(key);
+    if (json == null) return null;
+    return fromJson(Map<String, dynamic>.from(json));
   }
 
   @override
   Future<List<T>> getAll() async {
-    final data = await _getCollection(); // Récupère la collection actuelle
-    return data.values
-        .map((e) => fromJson(Map<String, dynamic>.from(e))) // Convertit les données en objets T
-        .toList();
+    final json = _box.read(key);
+    if (json == null) return [];
+    return [fromJson(Map<String, dynamic>.from(json))];
   }
 
   @override
-  Future<dynamic> update(T item) async {
-    final data = await _getCollection(); // Récupère la collection actuelle
-    data[getCollectionKey(item)] = toJson(item); // Remplace la valeur sous la collectionKey
-    await _saveCollection(data); // Sauvegarde les données après modification
+  Future insert(T item) async {
+    await _box.write(key, toJson(item));
+    await _box.save(); //  sauvegarde sur disque
     return true;
   }
 
   @override
-  Future<dynamic> updateAndIgnoreNullColumns(T item) async {
-    final data = await _getCollection(); // Récupère la collection actuelle
-    final current = Map<String, dynamic>.from(data[getCollectionKey(item)] ?? {});
+  Future insertAll(List<T> items) async {
+    // Écrase avec le dernier élément (car on stocke un seul objet)
+    throw UnimplementedError();
+  }
+
+  @override
+  Future update(T item) async {
+    await _box.write(key, toJson(item));
+    await _box.save(); //  sauvegarde sur disque
+    return true;
+  }
+
+  @override
+  Future updateAndIgnoreNullColumns(T item) async {
+    final existing = _box.read(key);
+    Map<String, dynamic> current = existing != null
+        ? Map<String, dynamic>.from(existing)
+        : {};
     final updateData = toJson(item);
 
-    // Ignore les colonnes nulles
     updateData.forEach((key, value) {
       if (value != null) {
         current[key] = value;
       }
     });
 
-    data[getCollectionKey(item)] = current; // Sauvegarde après mise à jour
-    await _saveCollection(data); // Sauvegarde les données après modification
+    await _box.write(key, current);
+    await _box.save(); //  sauvegarde sur disque    
     return true;
   }
 
   @override
-  Future<dynamic> delete(String id) async {
-    final data = await _getCollection(); // Récupère la collection actuelle
-    data.remove(id); // Supprime la donnée par clé
-    await _saveCollection(data); // Sauvegarde les données après suppression
+  Future delete(String id) async {
+    // On ignore le paramètre `id` ici, car on supprime la seule donnée existante
+    await _box.remove(key);
+    await _box.save(); //  sauvegarde sur disque    
     return true;
   }
 
   @override
-  Future<dynamic> runTransaction(Future<void> Function() action) async {
-    await action(); // Exécute l'action passée en paramètre
+  Future runTransaction(Future<void> Function() action) async {
+    await action();
+    await _box.save(); //  sauvegarde sur disque    
     return true;
-  }
-
-  // Cette méthode permet de récupérer la clé de collection pour chaque objet (ici basé sur la collectionKey)
-  String getCollectionKey(T item) {
-    return _collectionKey; // Par défaut, on retourne simplement la collectionKey
-  }
-  
-  @override
-  Future<T?> getById(String id) {
-    throw UnimplementedError();
   }
 }

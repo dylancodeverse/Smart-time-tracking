@@ -84,7 +84,7 @@ class ServiceCheck {
 
      return CheckIn(dataSourceCheck: c, dataSourceBusState: bs ,iPredictionDuration: PredictionDuration(busState: busStateDatasourcePrediction)
           ,iViolationChecking: ViolationCheckingService(violationCheckingDatasource: await ViolationCheckingDatasource.getViolationCheckingDatasourceSQFLITE())
-          ,participationCountServiceCache: ParticipationCache.getParticipationCountRepositoryImplCache()
+          ,participationCountServiceCache: await ParticipationCache.getParticipationCountRepositoryImplCache()
      );
   }
 

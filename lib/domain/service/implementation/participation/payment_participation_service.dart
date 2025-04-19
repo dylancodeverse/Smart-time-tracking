@@ -24,4 +24,9 @@ class PaymentParticipationService implements IPaymentParticipation {
   Future<void> update(PaymentParticipation participation) async{
     await paymentParticipationDatasource.update(participation);
   }
+  
+  @override
+  Future<PaymentParticipation> getTodayPaymentInfo() async{
+    return (await paymentParticipationDatasource.getAll())[0];
+  }
 }

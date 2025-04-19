@@ -18,9 +18,10 @@ class GetStorageHelper{
   }
   static Future<void> initGetStorage(bool reset) async{
     await GetStorage.init(boxName);
-    if(reset) _resetGetStorage() ;
+    if(reset) await _resetGetStorage() ;
   }
-  static GetStorage getStorage(){
+  static Future<GetStorage> getStorage() async{
+    await GetStorage.init(boxName);
     return GetStorage(boxName);
   }
  

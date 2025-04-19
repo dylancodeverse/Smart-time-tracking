@@ -1,6 +1,7 @@
 import 'package:sola/application/injection_helper/cache/participation_cache.dart';
 import 'package:sola/application/injection_helper/check/service_check.dart';
 import 'package:sola/application/entity_helper/participation/participation_helper.dart';
+import 'package:sola/application/injection_helper/participation/payment_participation_datasource.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
 import 'package:sola/data/implementation/sqflite/sqflite_datasource.dart';
 import 'package:sola/data/interface/datasource/datasource.dart';
@@ -16,7 +17,8 @@ class ServiceINJParticipation {
 
   static Future<IParticipation> getIParticipationInstance() async {
     return ParticipationRepository(participationDatasource:await getParticipationDatasourceSQFLITE(), busStateDatasource: await ServiceCheck.getBusStateDatasourceSimple()
-    , participationCountServiceCache: ParticipationCache.getParticipationCountRepositoryImplCache()
+    , participationCountServiceCache: await ParticipationCache.getParticipationCountRepositoryImplCache()
+    ,paymentParticipationService: await ServiceINJPaymentParticipation.getIPaymentParticipationInstanceCache() 
     );
   }
 

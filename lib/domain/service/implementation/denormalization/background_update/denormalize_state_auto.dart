@@ -58,15 +58,17 @@ class DenormalizeStateAuto implements IDenormalizeState {
 void callbackDispatcher() async{
   WidgetsFlutterBinding.ensureInitialized(); // 💡  Cette ligne garantit que Flutter initialise ses services natifs dans l'isolate en arrière-plan avant d'effectuer toute opération nécessitant MethodChannel (comme accéder à la base de données SQLite).
 
-  BusStateCustom busStateCustom = BusStateCustomImpl(database: await SqfliteDatabaseHelper().database );
-  LastUpdateRepository lastUpdateRepository =  LastUpdateCache.getLastUpdateRepositoryImpl();
-  ParticipationCountCache participationCountCache = ParticipationCache.getParticipationCountRepositoryImplCache();
-  // instance de service payment utilisant sqflite
-  IPaymentParticipation paymentParticipationService = await ServiceINJPaymentParticipation.getIPaymentParticipationInstance();
-  // instance de service payment utilisant cache
-  IPaymentParticipation paymentParticipationServiceCache= ServiceINJPaymentParticipation.getIPaymentParticipationInstanceCache();
 
   Workmanager().executeTask((task, inputData) async {
+    BusStateCustom busStateCustom = BusStateCustomImpl(database: await SqfliteDatabaseHelper().database );
+    LastUpdateRepository lastUpdateRepository =  await LastUpdateCache.getLastUpdateRepositoryImpl();
+    ParticipationCountCache participationCountCache = await ParticipationCache.getParticipationCountRepositoryImplCache();
+    // instance de service payment utilisant sqflite
+    IPaymentParticipation paymentParticipationService = await ServiceINJPaymentParticipation.getIPaymentParticipationInstance();
+    // instance de service payment utilisant cache
+    IPaymentParticipation paymentParticipationServiceCache= await ServiceINJPaymentParticipation.getIPaymentParticipationInstanceCache();
+
+
     final now = DateTime.now();
        
     if (now.weekday == 6 || now.weekday == 7) {
@@ -80,9 +82,8 @@ void callbackDispatcher() async{
       // partie reinitialisation etat des bus 
       await busStateCustom.update();
       await lastUpdateRepository.save(DateTime.now());
-
       // initialise payment donne (date du jour , generation de cle )
-      PaymentParticipation paymentParticipation = PaymentParticipation(montantTotal: 0,participationDate: Date.getTimestampNow());
+      PaymentParticipation paymentParticipation = PaymentParticipation(participationDate: Date.getTimestampNow());
       await paymentParticipationService.save(paymentParticipation);      
       // sauvegarder la cle generee comme cache || utile pour les participation de chaque bus
       await paymentParticipationServiceCache.save(paymentParticipation);

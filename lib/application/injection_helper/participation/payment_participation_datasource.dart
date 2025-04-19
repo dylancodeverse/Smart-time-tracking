@@ -15,12 +15,12 @@ class ServiceINJPaymentParticipation {
     tableName: "PAYMENTPARTICIPATION", fromMap: PaymentParticipationHelper.fromMap, toMap: PaymentParticipationHelper.toMap);
   }
 
-  static DataSource<PaymentParticipation> getPaymentParticipationDatasourceCache() {
+  static Future<DataSource<PaymentParticipation>> getPaymentParticipationDatasourceCache() async{
     GetStorageDataSource<PaymentParticipation>lastUpdateDataSource = GetStorageDataSource<PaymentParticipation>(
-        collectionKey: "payment_participation_cache",
+        key: "payment_participation_cache",
         fromJson: PaymentParticipationHelper.fromMap,
         toJson: (update) => PaymentParticipationHelper.toMap(update),
-        box: GetStorageHelper.getStorage()
+        box: await GetStorageHelper.getStorage()
       );
     return lastUpdateDataSource;
   }
@@ -29,8 +29,8 @@ class ServiceINJPaymentParticipation {
     return PaymentParticipationService(paymentParticipationDatasource:await getPaymentParticipationDatasource(),);
   }
 
-  static IPaymentParticipation getIPaymentParticipationInstanceCache() {
-    return PaymentParticipationService(paymentParticipationDatasource: getPaymentParticipationDatasourceCache(),);
+  static Future<IPaymentParticipation> getIPaymentParticipationInstanceCache() async{
+    return PaymentParticipationService(paymentParticipationDatasource: await getPaymentParticipationDatasourceCache(),);
   }
 
 }

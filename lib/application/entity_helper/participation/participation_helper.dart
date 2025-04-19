@@ -3,13 +3,19 @@ import 'package:sola/domain/entity/participation/participation.dart';
 class ParticipationHelper {
   // Convert an instance to a Map for database insertion
   static Map<String, dynamic> toMap(Participation participation) {
-    return {
-      'id': participation.id,
+
+    Map<String,dynamic> map = {
       'id_vehicule': participation.busId,
       'PARTICIPATION_date': participation.participationDate,
       'montant': participation.amount,
-      'comments':participation.comments
+      'comments':participation.comments,
+      'id_PAYMENTPARTICIPATION' : participation.superParticipation
+
     };
+    if (participation.id!=null) {
+      map['id']= participation.id;
+    }
+    return map ;
   }
 
   // Create an instance from a Map
@@ -19,7 +25,8 @@ class ParticipationHelper {
       busId: map['id_vehicule'],
       participationDate: map['PARTICIPATION_date'],
       amount: map['montant'],
-      comments: map['comments']
+      comments: map['comments'],
+      superParticipation: map['id_PAYMENTPARTICIPATION']
     );
   }
 }

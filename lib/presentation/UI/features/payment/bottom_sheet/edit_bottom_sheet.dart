@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sola/lib/price_format.dart';
 import 'package:sola/presentation/UI/widgets/bottom_sheet/input_field.dart';
 import 'package:sola/presentation/providers/payment/payment.dart';
 
@@ -10,11 +11,12 @@ class EditBottomSheet extends StatefulWidget {
 
 class _EditBottomSheetState extends State<EditBottomSheet> {
   late TextEditingController _controller;
-
+  late PaymentService service ;
   @override
   void initState() {
     super.initState();
-    final ref = context.read<PaymentService>().reference;
+    service =  context.read<PaymentService>();
+    final ref =service.paymentScreenModel.getReference();
     _controller = TextEditingController(text: ref);
   }
 
@@ -66,11 +68,11 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
                 SizedBox(height: 16),
 
                 // Static fields
-                buildInputField(Icons.money, "A envoyer: 40,000 AR"),
+                buildInputField(Icons.money, "A envoyer: ${PriceFormat.formatAR(service.toSend as int)}"),
                 SizedBox(height: 12),
-                buildInputField(Icons.money_off, "Dépense: 8,000 AR"),
+                buildInputField(Icons.money_off, "Dépense: ${PriceFormat.formatAR(service.depense as int)}"),
                 SizedBox(height: 12),
-                buildInputField(Icons.person, "16 Participants"),
+                buildInputField(Icons.person, "${service.countTotal} Participants"),
                 SizedBox(height: 12),
 
                 // Editable

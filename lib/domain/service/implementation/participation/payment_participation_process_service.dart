@@ -8,13 +8,13 @@ class PaymentParticipationProcessService implements IPaymentParticipationProcess
   DataSource<PaymentParticipation> paymentParticipationDatasourceSQL;
   DataSource<PaymentParticipation> paymentParticipationDatasourceCache;
 
-  PaymentParticipationProcessService({required this.paymentParticipationDatasourceSQL, required this.paymentParticipationDatasourceCache});
+  PaymentParticipationProcessService({required this.paymentParticipationDatasourceSQL, required this.paymentParticipationDatasourceCache, 
+  });
 
   @override
   Future<int> getLastId() async{
     List<PaymentParticipation> list=  await(paymentParticipationDatasourceCache.getAll());
     try{
-      print(list[0].participationDate);
       return list[0].id as int; 
 
     }catch(e){
@@ -27,11 +27,10 @@ class PaymentParticipationProcessService implements IPaymentParticipationProcess
 
   @override
   Future<void> updatePayment(String reference, ) async{
-    int id=  await getLastId();
-    int montant =3434;
-    PaymentParticipation paymentParticipation = PaymentParticipation(participationDate: Date.getTimestampNow(),reference: reference,id: id, montantTotal: montant);
 
-    // normalement tokony mbola misy calcul ana depense
+    int id=  await getLastId();
+    PaymentParticipation paymentParticipation = PaymentParticipation(participationDate: Date.getTimestampNow(),reference: reference,id: id);
+
     await paymentParticipationDatasourceSQL.updateAndIgnoreNullColumns(paymentParticipation);
     // cache
     await paymentParticipationDatasourceCache.insert(paymentParticipation);

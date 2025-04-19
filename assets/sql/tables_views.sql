@@ -133,14 +133,7 @@ CREATE TABLE violationparpointage(
     FOREIGN KEY (id_pointage) REFERENCES pointages(id)
 );
 
--- details participation
-CREATE TABLE PARTICIPATION (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_vehicule TEXT ,
-    PARTICIPATION_date int not NULL,
-    montant int not null,
-    comments text
-);
+
 
 
 
@@ -223,9 +216,19 @@ select * from statistiquejournalierVoitureSurTerminus where estimation_prochaine
 
 CREATE TABLE PAYMENTPARTICIPATION(
   id integer PRIMARY KEY AUTOINCREMENT,
-  montanttotal integer ,
   PARTICIPATION_date int not NULL,
   reference text 
+);
+
+-- details participation
+CREATE TABLE PARTICIPATION (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_vehicule TEXT ,
+    PARTICIPATION_date int not NULL,
+    montant int not null,
+    comments text,
+    id_PAYMENTPARTICIPATION int ,
+    FOREIGN KEY (id_PAYMENTPARTICIPATION) REFERENCES PAYMENTPARTICIPATION(id)
 );
 
 CREATE TABLE MOTIFDEPENSE(
@@ -236,6 +239,8 @@ CREATE TABLE MOTIFDEPENSE(
 );
 
 
+
+
 CREATE  VIEW depense_par_jour as
 SELECT 
   strftime('%Y-%m-%d', datej / 1000, 'unixepoch') AS datej,
@@ -244,10 +249,57 @@ FROM
   MOTIFDEPENSE
 
 GROUP BY 
-  datej;
+  strftime('%Y-%m-%d', datej / 1000, 'unixepoch');
 
 
 
-CREATE VIEW  depense_du_jour AS
-select * from depense_par_jour 
-WHERE  datej  = strftime('%Y-%m-%d', 'now');
+CREATE VIEW DEPENSE_DU_JOUR_DEFAUT AS
+SELECT strftime('%Y-%m-%d', 'now') AS datej, 0 AS montant;
+
+
+
+CREATE VIEW depense_du_jour_temp AS
+SELECT * FROM depense_par_jour 
+WHERE datej = strftime('%Y-%m-%d', 'now')
+UNION 
+SELECT * FROM DEPENSE_DU_JOUR_DEFAUT;
+
+
+CREATE VIEW depense_du_jour AS 
+SELECT datej, SUM(montant) AS montant 
+FROM depense_du_jour_temp 
+GROUP BY datej;
+
+
+
+
+CREATE VIEW participation_par_jour AS
+SELECT 
+  strftime('%Y-%m-%d', PARTICIPATION_date / 1000, 'unixepoch') AS PARTICIPATION_date,
+  SUM(montant) AS montant, count(montant) as count
+FROM 
+  PARTICIPATION
+GROUP BY 
+  strftime('%Y-%m-%d', PARTICIPATION_date / 1000, 'unixepoch')
+ORDER BY 
+  PARTICIPATION_date DESC;
+
+create view participation_du_jour_defaut as 
+select strftime('%Y-%m-%d', 'now') as  PARTICIPATION_date , 0 as montant , 0 as count;
+
+CREATE VIEW PARTICIPATION_DU_JOUR_TEMP AS 
+SELECT * from participation_par_jour 
+where PARTICIPATION_date =  strftime('%Y-%m-%d', 'now')
+union select * from participation_du_jour_defaut ;
+
+
+CREATE VIEW participation_du_jour as 
+SELECT PARTICIPATION_date , sum(montant) as montant , count from PARTICIPATION_DU_JOUR_TEMP 
+GROUP by  PARTICIPATION_date;
+
+
+CREATE VIEW statsparticipationavecdepensedujour as 
+select participation_date , participation_du_jour.montant as montant_participation
+, depense_du_jour.montant as depense , count
+from participation_du_jour
+join depense_du_jour on participation_du_jour.participation_date = depense_du_jour.datej ;

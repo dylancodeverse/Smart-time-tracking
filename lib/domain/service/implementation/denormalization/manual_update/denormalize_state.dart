@@ -31,7 +31,7 @@ class DenormalizeState implements IDenormalizeState {
       await busStateCustom.update();
       await lastUpdateRepository.save(DateTime.now());
       // initialise payment donne (date du jour , generation de cle )
-      PaymentParticipation paymentParticipation = PaymentParticipation(montantTotal: 0,participationDate: Date.getTimestampNow());
+      PaymentParticipation paymentParticipation = PaymentParticipation(participationDate: Date.getTimestampNow());
       await paymentParticipationService.save(paymentParticipation);     
       // sauvegarder la cle generee comme cache || utile pour les participation de chaque bus
       await paymentParticipationServiceCache.save(paymentParticipation);

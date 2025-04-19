@@ -6,10 +6,6 @@ import 'package:sola/domain/entity/depense/depense.dart';
 import 'package:sola/domain/service/implementation/depense/depense_service.dart';
 
 class InjDepense {
-  static Future<DataSource<Depense>> getTodayDepenseDatasource() async{
-    return SQLiteDataSource(database: await SqfliteDatabaseHelper().database, 
-    tableName: "depense_du_jour", fromMap: DepenseHelper.fromMap, toMap:DepenseHelper.toMap); 
-  }
   static Future<DataSource<Depense>> getDepenseDatasource() async{
     return SQLiteDataSource(database: await SqfliteDatabaseHelper().database,
      tableName: "MOTIFDEPENSE", fromMap: DepenseHelper.fromMap, toMap: DepenseHelper.toMap);
@@ -17,9 +13,6 @@ class InjDepense {
 
   static Future<DepenseService> getDepenseService() async{
     return DepenseService(depenseDatasource: await getDepenseDatasource());
-  }
-  static Future<DepenseService> getDepenseServiceToday() async{
-    return DepenseService(depenseDatasource: await getTodayDepenseDatasource());
   }
   
 }

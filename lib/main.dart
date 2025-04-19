@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sola/application/data_init/service_init_db.dart';
 import 'package:sola/application/injection_helper/bus_state/bus_state_custom_inj.dart';
 import 'package:sola/application/injection_helper/home_statistics/service_daily_statistic_list.dart';
+import 'package:sola/application/injection_helper/participation/inj_stats_participation_with_depense.dart';
 import 'package:sola/application/injection_helper/participation/payment_participation_process_datasource.dart';
 import 'package:sola/application/injection_helper/violation/violation_datasource.dart';
 // ignore: unused_import
@@ -15,7 +16,9 @@ import 'package:sola/domain/entity/violation/violation.dart';
 import 'package:sola/domain/service/channel/time_auto_event.dart';
 import 'package:sola/domain/service/implementation/notification/notification_service.dart';
 import 'package:sola/domain/service/implementation/violation/violation_service.dart';
+import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
 import 'package:sola/domain/service/interface/participation/i_payment_participation_process_service.dart';
+import 'package:sola/domain/service/interface/participation/i_stats_participation_with_depense.dart';
 import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/payment/payment.dart';
@@ -43,9 +46,9 @@ void main() async {
   final DataSource<Violation> violationDatasource = await ViolationDatasource.getViolationDatasourceSQFLITE();
   final IPaymentParticipationProcessService iPaymentParticipationProcessService =await ServiceINJPaymentParticipationProcessDatasource.getIPaymentParticipationProcessInstance();
   final  String reference =  await iPaymentParticipationProcessService.getLastReference() ;
-  // verification si mis a jour requis partie manuelle
-  // (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
-  // verification tous les jours en arriere plan
+  final IParticipationCountCache iParticipationCountCache =  await  ParticipationCache.getParticipationCountRepositoryImplCache() ;
+  final IStatsParticipationWithDepense statsParticipationWithDepenseService =  await InjStatsParticipationWithDepense.getStatsParticipationWithDepenseService(); 
+    
   (await BusStateCustomINJ.getBusStateCustomImplAUTO()).verification();
   
   runApp(
@@ -54,13 +57,17 @@ void main() async {
         ChangeNotifierProvider(create: (context) => DailyStatisticListProvider(iDailyStatisticListService: iDailyStatisticListService)),
         ChangeNotifierProvider(create: (context) => ModalProvider(iViolation: ViolationService(violationDatasource: violationDatasource))),
         ChangeNotifierProvider(create: (context) => RadioAssignmentProvider()),
-        ChangeNotifierProvider(create: (context) => FilterProvider(participationCountServiceCache: ParticipationCache.getParticipationCountRepositoryImplCache())),
+        ChangeNotifierProvider(create: (context) => FilterProvider(participationCountServiceCache: iParticipationCountCache)),
         ChangeNotifierProvider(create: (context)=> ErrorProvider()),
-        ChangeNotifierProvider(create: (context)=> PaymentService(iPaymentParticipationProcessService: iPaymentParticipationProcessService ,reference: reference))
+        ChangeNotifierProvider(create: (context)=> PaymentService(iPaymentParticipationProcessService: iPaymentParticipationProcessService ,reference: reference, iStatsParticipationWithDepense: statsParticipationWithDepenseService
+                                                  ,participationCountServiceCache: iParticipationCountCache,))
       ],
       child: MyAppWithErrorHandling(), // Utilisation d'un Widget custom pour récupérer le contexte
     ),
   );
+  // /// Appel différé à `verification()`
+  // WidgetsBinding.instance.addPostFrameCallback((_) async {
+  // });
 }
 
 class MyAppWithErrorHandling extends StatelessWidget {

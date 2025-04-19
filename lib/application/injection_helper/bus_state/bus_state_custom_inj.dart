@@ -10,15 +10,15 @@ import 'package:sola/domain/service/interface/participation/i_payment.dart';
 
 class BusStateCustomINJ {
   static Future<DenormalizeState> getBusStateCustomImpl() async{
-    LastUpdateRepositoryImpl lastUpdateRepositoryImpl=  LastUpdateCache.getLastUpdateRepositoryImpl();
+    LastUpdateRepositoryImpl lastUpdateRepositoryImpl= await LastUpdateCache.getLastUpdateRepositoryImpl();
     BusStateCustomImpl busStateCustomImpl= BusStateCustomImpl(database: await SqfliteDatabaseHelper().database );
     // instance de service payment utilisant sqflite
     IPaymentParticipation paymentParticipationService = await ServiceINJPaymentParticipation.getIPaymentParticipationInstance();
     // instance de service payment utilisant cache
-    IPaymentParticipation paymentParticipationServiceCache= ServiceINJPaymentParticipation.getIPaymentParticipationInstanceCache();
+    IPaymentParticipation paymentParticipationServiceCache= await ServiceINJPaymentParticipation.getIPaymentParticipationInstanceCache();
 
     return DenormalizeState (busStateCustom: busStateCustomImpl,lastUpdateRepository: lastUpdateRepositoryImpl
-    ,participationCountCache:  ParticipationCache.getParticipationCountRepositoryImplCache() ,
+    ,participationCountCache:  await ParticipationCache.getParticipationCountRepositoryImplCache() ,
     paymentParticipationService: paymentParticipationService,
     paymentParticipationServiceCache: paymentParticipationServiceCache
     );      

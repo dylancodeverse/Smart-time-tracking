@@ -4,12 +4,12 @@ import 'package:sola/domain/entity/update_cache/participation_count.dart';
 import 'package:sola/domain/service/implementation/cache/participation_notpayed_count.dart';
 
 class ParticipationCache{
-  static ParticipationCountCache getParticipationCountRepositoryImplCache(){
+  static Future<ParticipationCountCache> getParticipationCountRepositoryImplCache() async{
     GetStorageDataSource<ParticipationCount>lastUpdateDataSource = GetStorageDataSource<ParticipationCount>(
-        collectionKey: "participation_count_last_update",
+        key: "participation_count_last_update",
         fromJson: ParticipationCount.fromJson,
         toJson: (update) => update.toJson(),
-        box: GetStorageHelper.getStorage()
+        box: await GetStorageHelper.getStorage()
       );
     return ParticipationCountCache(dataSource: lastUpdateDataSource);
   }
