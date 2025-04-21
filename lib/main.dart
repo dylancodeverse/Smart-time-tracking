@@ -17,6 +17,8 @@ import 'package:sola/data/helper/sharedpreferences/database_reinit.dart';
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/violation/violation.dart';
 import 'package:sola/domain/service/channel/time_auto_event.dart';
+import 'package:sola/domain/service/implementation/import_export/export.dart';
+import 'package:sola/domain/service/implementation/import_export/import.dart';
 import 'package:sola/domain/service/implementation/notification/notification_service.dart';
 import 'package:sola/domain/service/implementation/violation/violation_service.dart';
 import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
@@ -41,6 +43,8 @@ import 'package:sola/presentation/providers_services/home/search_filter_provider
 import 'package:sola/application/injection_helper/cache/participation_cache.dart';
 import 'package:sola/presentation/providers_services/participation/participation_today.dart';
 import 'package:sola/presentation/providers_services/payment/payment.dart';
+import 'package:sola/presentation/providers_services/settings/export_service.dart';
+import 'package:sola/presentation/providers_services/settings/import_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,6 +75,9 @@ void main() async {
                                                   ,participationCountServiceCache: iParticipationCountCache,)),
         ChangeNotifierProvider(create: (context)=>DepenseToday(depenseTodayService: iTodayDepense, depenseService: iStandardDepense) ),
         ChangeNotifierProvider(create: (context) => ParticipationToday(participationTodayService:iTodayParticipation , participationService:iParticipation )),
+        ChangeNotifierProvider(create: (context) => ImportUIService(ImportService()))   ,
+        ChangeNotifierProvider(create: (context) => ExportUIService(ExportService()))   ,
+
       ],
       child: MyAppWithErrorHandling(), // Utilisation d'un Widget custom pour récupérer le contexte
     ),

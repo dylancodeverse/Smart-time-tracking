@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
 import 'package:sola/presentation/providers_services/home/daily_statistic_list_provider.dart';
+import 'package:sola/presentation/providers_services/settings/export_service.dart';
+import 'package:sola/presentation/providers_services/settings/import_service.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -26,18 +31,52 @@ class Settings extends StatelessWidget {
                 color: Colors.indigo,
                 title: "Exporter les données",
                 subtitle: "Sauvegarder vos données localement",
-                onTap: () {
-                  // Export action
-                },
+                onTap: () async {
+                  try {
+                    final exportService = Provider.of<ExportUIService>(context, listen: false);
+                    await exportService.export();
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Exportation réussie")),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Erreur d'export : $e")),
+                    );
+                  }
+                }
+
               ),
               _SettingsTile(
                 icon: Icons.download,
                 color: Colors.deepPurple,
                 title: "Importer les données",
                 subtitle: "Restaurer depuis un fichier",
-                onTap: () {
-                  // Import action
+                onTap: () async {
+                  try {
+                    final importService = Provider.of<ImportUIService>(context, listen: false);
+
+                    FilePickerResult? result = await FilePicker.platform.pickFiles(
+                      type: FileType.any,
+                      // allowedExtensions: ['txt'],
+                    );
+
+                    if (result != null && result.files.single.path != null) {
+                      final file = File(result.files.single.path!);
+                      await importService.importFromFile(file);
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Importation réussie")),
+                      );
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Erreur d'import : $e")),
+                    );
+                  }
                 },
+
+
               ),
               _SettingsTile(
                 icon: Icons.system_update,
