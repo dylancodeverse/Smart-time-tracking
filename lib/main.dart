@@ -28,12 +28,9 @@ import 'package:sola/domain/service/interface/participation/i_today_participatio
 import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/features/summary/summary.dart';
-import 'package:sola/presentation/UI/features/queue/arrival/arrival_declaration_screen.dart';
-import 'package:sola/presentation/UI/features/queue/assignement/edit_assignement.dart';
 import 'package:sola/presentation/UI/features/queue/assignement/radio_assignement.dart';
 import 'package:sola/presentation/UI/features/autotime/auto_time.dart';
 import 'package:sola/presentation/UI/features/queue/home/home_screen.dart';
-import 'package:sola/presentation/UI/features/queue/participation/participation_screen.dart';
 import 'package:sola/presentation/UI/widgets/alert/error_modal.dart';
 import 'package:sola/presentation/providers_services/arrival_declaration/modal_provider.dart';
 import 'package:sola/presentation/providers_services/depense/depense_today.dart';
@@ -151,13 +148,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'SOLA',
       theme: AppTheme.lightTheme,
+      // queue module
       home: autoTimeEnabled ? HomeScreen() : AutoTimeRequiredScreen(),  // Écran conditionnel en fonction de `autoTimeEnabled`
       initialRoute: '/',
       routes: {
-        // queue module
-        '/declaration': (context) => autoTimeEnabled ? ArrivalDeclarationScreen() : AutoTimeRequiredScreen(),
-        '/participation': (context) => autoTimeEnabled ? ParticipationScreen() : AutoTimeRequiredScreen(),
-        '/edit/assignement': (context) => autoTimeEnabled ? EditAssignement() : AutoTimeRequiredScreen(),
         // payment module
         '/summary': (context) => autoTimeEnabled ? Summary(): AutoTimeRequiredScreen(),
       },

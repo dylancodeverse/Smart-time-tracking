@@ -12,6 +12,8 @@ import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 import 'package:sola/domain/service/interface/participation/i_participation.dart';
 import 'package:sola/global/participation.dart';
 import 'package:sola/global/state_list.dart';
+import 'package:sola/presentation/UI/features/queue/arrival/arrival_declaration_screen_helper.dart';
+import 'package:sola/presentation/UI/features/queue/participation/participation_screen_helper.dart';
 import 'package:sola/presentation/providers_services/arrival_declaration/declaration.dart';
 import 'package:sola/presentation/providers_services/payment/payment.dart';
 import 'package:sola/presentation/providers_services/utils/countdownmixin.dart';
@@ -92,11 +94,12 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
   }
 
   void roundDeclarationRedirect(BuildContext context) {
-    Navigator.pushNamed(context, '/declaration', arguments: this);
+    showArrivalDeclarationSheet(context, this);
+
   }
 
   void participationRedirect(BuildContext context) {
-    Navigator.pushNamed(context, "/participation", arguments: this);
+    showParticipationSheet(context, this);
   }
 
   void updateParticipation(BuildContext context, String montant, String comments) async {

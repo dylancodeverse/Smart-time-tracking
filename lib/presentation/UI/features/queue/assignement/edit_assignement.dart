@@ -43,18 +43,23 @@ class SimpleCardBUS extends StatefulWidget {
 
 class _SimpleCardBUSState extends State<SimpleCardBUS> {
 
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(()async =>
-        Provider.of<RadioAssignmentProvider>(context, listen: false).initDatas(widget.activeBusProvider.bus,await AssignementDatasource.getIAssignement(widget.activeBusProvider.bus.busID)));
-  }
+@override
+void initState() {
+  super.initState();
+  Future.microtask(() async {
+    final assignement = await AssignementDatasource.getIAssignement(widget.activeBusProvider.bus.busID);
+    await Provider.of<RadioAssignmentProvider>(context, listen: false)
+        .initDatas(widget.activeBusProvider.bus, assignement);
+  });
+}
   
 
 
 
   void onValidate( BuildContext context , RadioAssignmentProvider myProvider)async{
-    widget.activeBusProvider.setAssignement(context ,myProvider.selectedItem.objectInit as Assignment);
+    if (myProvider.selectedItem != null) {
+      widget.activeBusProvider.setAssignement(context, myProvider.selectedItem!.objectInit as Assignment);
+    }
 
   }
 
