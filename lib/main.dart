@@ -27,6 +27,7 @@ import 'package:sola/domain/service/interface/participation/i_stats_participatio
 import 'package:sola/domain/service/interface/participation/i_today_participation_lib.dart';
 import 'package:sola/domain/service/interface/stats/i_daily_statistic_list_service.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
+import 'package:sola/presentation/UI/features/settings/settings.dart';
 import 'package:sola/presentation/UI/features/summary/summary.dart';
 import 'package:sola/presentation/UI/features/queue/assignement/radio_assignement.dart';
 import 'package:sola/presentation/UI/features/autotime/auto_time.dart';
@@ -154,6 +155,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         // payment module
         '/summary': (context) => autoTimeEnabled ? Summary(): AutoTimeRequiredScreen(),
+        '/settings': (context) => autoTimeEnabled ? Settings(): AutoTimeRequiredScreen(),
       },
     );
   }
