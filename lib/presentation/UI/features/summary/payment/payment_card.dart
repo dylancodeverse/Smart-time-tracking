@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/lib/price_format.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
-import 'package:sola/presentation/UI/features/payment/bottom_sheet/edit_bottom_sheet.dart';
-import 'package:sola/presentation/providers/payment/payment.dart';
+import 'package:sola/presentation/UI/features/summary/payment/bottom_sheet/edit_bottom_sheet.dart';
+import 'package:sola/presentation/UI/features/summary/payment/bottom_sheet/participation_bottom_list.dart';
+import 'package:sola/presentation/UI/widgets/bottom_sheet/input_field.dart';
+import 'package:sola/presentation/providers_services/payment/payment.dart';
 
 class PaymentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final service = context.watch<PaymentService>();
+    final service =Provider.of<PaymentService>(context);
     final paymentScreenModel = service.paymentScreenModel;
     final String reference = paymentScreenModel.getReferenceLabel();
 
@@ -35,7 +37,7 @@ class PaymentCard extends StatelessWidget {
                   children: [
                     Text(
                       reference,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.primaryColor),
                     ),
                     InkWell(
                       onTap: () => showModalBottomSheet(
@@ -70,11 +72,13 @@ class PaymentCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _buildButton(Icons.payment, "Details", const Color.fromARGB(182, 0, 0, 0)),
-                      _buildButton(
+                      buildButton(Icons.payment, "Détails", AppTheme.darkPrimary , context, ParticipationBottomList()),
+                      buildButton(
                         paymentScreenModel.paymentState.icon,
                         paymentScreenModel.paymentState.paymentState,
-                        paymentScreenModel.paymentState.color,
+                        paymentScreenModel.paymentState.color, 
+                        context,
+                        EditBottomSheet()
                       ),
                     ],
                   ),
@@ -87,13 +91,5 @@ class PaymentCard extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(IconData icon, String label, Color buttonColor) {
-    return Column(
-      children: [
-        Icon(icon, color: buttonColor),
-        SizedBox(height: 4),
-        Text(label, style: AppTheme.bodyMediu),
-      ],
-    );
-  }
+
 }

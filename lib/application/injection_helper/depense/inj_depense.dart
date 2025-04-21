@@ -11,6 +11,17 @@ class InjDepense {
      tableName: "MOTIFDEPENSE", fromMap: DepenseHelper.fromMap, toMap: DepenseHelper.toMap);
   }
 
+
+
+  static Future<DataSource<Depense>> getTodayDepenseDatasource() async{
+    return SQLiteDataSource(database: await SqfliteDatabaseHelper().database,
+     tableName: "motifdepense_du_jour", fromMap: DepenseHelper.fromMap, toMap: DepenseHelper.toMap);
+  }
+
+  static Future<DepenseService> getTodayDepenseService() async{
+    return DepenseService(depenseDatasource: await getTodayDepenseDatasource());
+  }
+
   static Future<DepenseService> getDepenseService() async{
     return DepenseService(depenseDatasource: await getDepenseDatasource());
   }

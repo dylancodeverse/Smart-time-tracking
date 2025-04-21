@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sola/presentation/providers/home/daily_statistic_provider.dart';
+import 'package:sola/presentation/providers_services/home/daily_statistic_provider.dart';
 
 class EditAssignementService {
   static void redirectWithBus(BuildContext context, DailyStatisticProvider activeBusProvider){

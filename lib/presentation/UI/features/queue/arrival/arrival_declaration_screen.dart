@@ -9,8 +9,8 @@ import 'package:sola/presentation/UI/widgets/gesture_detector_modal.dart';
 import 'package:sola/presentation/UI/widgets/input_field.dart';
 import 'package:sola/presentation/UI/widgets/multi_select.dart';
 import 'package:sola/presentation/model/stats/daily_statistic.dart';
-import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
-import 'package:sola/presentation/providers/home/daily_statistic_provider.dart';
+import 'package:sola/presentation/providers_services/arrival_declaration/modal_provider.dart';
+import 'package:sola/presentation/providers_services/home/daily_statistic_provider.dart';
 
 class ArrivalDeclarationScreen extends StatelessWidget{
   @override

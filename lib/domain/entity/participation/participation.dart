@@ -4,7 +4,7 @@ class Participation {
   int? participationDate;
   int? amount;
   String? comments;
-  int superParticipation ;
+  int? superParticipation ;
   Participation({
     this.id,
     required this.busId,

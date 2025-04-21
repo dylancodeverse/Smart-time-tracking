@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/global/filter_strategy_list.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
-import 'package:sola/presentation/UI/features/payment/payment_card.dart';
-import 'package:sola/presentation/UI/features/queue/home/bus_list_view.dart';
+import 'package:sola/presentation/UI/features/summary/depense/depense_card.dart';
+import 'package:sola/presentation/UI/features/summary/payment/payment_card.dart';
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
 import 'package:sola/presentation/UI/widgets/search_bar.dart';
-import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
-import 'package:sola/presentation/providers/home/search_filter_provider.dart';
+import 'package:sola/presentation/providers_services/home/daily_statistic_list_provider.dart';
+import 'package:sola/presentation/providers_services/home/search_filter_provider.dart';
 
-class Payment extends StatefulWidget {
+class Summary extends StatefulWidget {
   @override
-  _PaymentState createState() => _PaymentState();
+  _SummaryState createState() => _SummaryState();
 }
-class _PaymentState extends State<Payment> {
+class _SummaryState extends State<Summary> {
 
   @override
   void initState() {
@@ -48,11 +48,9 @@ class _PaymentState extends State<Payment> {
                           
                     SizedBox(height: 14),
               
-                    Text("Participations non payées"),
+                    DepenseCard(),
 
-                    SizedBox(height: 10),
 
-                    BusListView()
                   ],
                 );
         },

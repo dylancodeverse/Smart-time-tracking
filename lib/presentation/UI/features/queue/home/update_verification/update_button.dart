@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
+import 'package:sola/presentation/providers_services/home/daily_statistic_list_provider.dart';
 
 class UpdateButton extends StatelessWidget {
 

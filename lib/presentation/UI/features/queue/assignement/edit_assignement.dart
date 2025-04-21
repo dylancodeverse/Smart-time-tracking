@@ -9,7 +9,7 @@ import 'package:sola/presentation/UI/features/queue/assignement/radio.dart';
 import 'package:sola/presentation/UI/features/queue/home/bus_card/bus_details.dart';
 import 'package:sola/presentation/UI/features/queue/home/bus_card/bus_info_header.dart';
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
-import 'package:sola/presentation/providers/home/daily_statistic_provider.dart';
+import 'package:sola/presentation/providers_services/home/daily_statistic_provider.dart';
 
 class EditAssignement extends StatelessWidget{
   @override

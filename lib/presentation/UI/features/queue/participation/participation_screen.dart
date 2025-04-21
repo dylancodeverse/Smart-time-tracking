@@ -7,8 +7,7 @@ import 'package:sola/presentation/UI/features/queue/home/bus_card/bus_info_heade
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
 import 'package:sola/presentation/UI/widgets/input_field.dart';
 import 'package:sola/presentation/model/stats/daily_statistic.dart';
-import 'package:sola/presentation/providers/home/daily_statistic_provider.dart';
-
+import 'package:sola/presentation/providers_services/home/daily_statistic_provider.dart';
 class ParticipationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sola/application/injection_helper/check/service_arrival_declaration.dart';
 import 'package:sola/application/injection_helper/check/service_bus_state.dart';
 import 'package:sola/application/injection_helper/check/service_check.dart';
@@ -11,11 +12,12 @@ import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 import 'package:sola/domain/service/interface/participation/i_participation.dart';
 import 'package:sola/global/participation.dart';
 import 'package:sola/global/state_list.dart';
-import 'package:sola/presentation/providers/arrival_declaration/declaration.dart';
-import 'package:sola/presentation/providers/utils/countdownmixin.dart';
-import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
+import 'package:sola/presentation/providers_services/arrival_declaration/declaration.dart';
+import 'package:sola/presentation/providers_services/payment/payment.dart';
+import 'package:sola/presentation/providers_services/utils/countdownmixin.dart';
+import 'package:sola/presentation/providers_services/home/daily_statistic_list_provider.dart';
 import 'package:sola/presentation/model/stats/daily_statistic.dart';
-import 'package:sola/presentation/providers/participation/participation_service.dart';
+import 'package:sola/presentation/providers_services/participation/participation_service.dart';
 
 class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
   DailyStatisticView bus;
@@ -69,6 +71,7 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
       bus.round,
     );
     _updateBusState(newBusState,context);
+    Provider.of<PaymentService>(context,listen: false).refreshData();
   }
 
   void demarrerTour(BuildContext context) async {
@@ -97,7 +100,7 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
   }
 
   void updateParticipation(BuildContext context, String montant, String comments) async {
-    await ParticipationService.save(iParticipation, bus, int.parse(montant), comments);
+    await ParticipationService.save(iParticipation, bus, int.parse(montant), comments, Provider.of<PaymentService>(context,listen: false));
     bus.participationState= ParticipationVar.okParticipation ;
     notifyListeners();
     Navigator.pop(context);

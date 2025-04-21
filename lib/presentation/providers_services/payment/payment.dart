@@ -28,26 +28,33 @@ class PaymentService extends ChangeNotifier {
     required this.participationCountServiceCache,
   }) : paymentScreenModel = PaymentScreenModel(reference: reference);
 
-  void setReference(String newRef) {
-    iPaymentParticipationProcessService.updatePayment(newRef);
+  void setReference(String newRef) async{
+    await iPaymentParticipationProcessService.updatePayment(newRef);
     paymentScreenModel.setReference(newRef);
     notifyListeners();
   }
 
   Future<void> initData() async {
     if (isLoaded) return; // éviter de recharger plusieurs fois
-    final stats = await iStatsParticipationWithDepense.getTodayStats(); // Méthode async
+    refreshData();
+  }
+
+  Future<void> refreshData() async {
+    isLoaded = false; // on réinitialise d’abord le flag
+
+    final stats = await iStatsParticipationWithDepense.getTodayStats();
     depense = stats.depense;
     participation = stats.montantParticipation;
-    toSend = (participation as int) -(depense as int);
+    toSend = (participation as int) - (depense as int);
 
-    int remainder= await  participationCountServiceCache.getCount() ;
+    int remainder = await participationCountServiceCache.getCount();
 
     countTotal = stats.count;
-    participants ="$countTotal/${remainder+(countTotal as int) }";
+    participants = "$countTotal/${remainder + (countTotal as int)}";
 
-
-    isLoaded = true;
-    notifyListeners();
+    isLoaded = true; // on remet à jour
+    notifyListeners(); // on notifie l’UI
   }
+
+
 }

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
 import 'package:sola/global/filter_strategy_list.dart';
 import 'package:sola/presentation/model/filter/filter_home.dart';
-import 'package:sola/presentation/providers/home/daily_statistic_list_provider.dart';
+import 'package:sola/presentation/providers_services/home/daily_statistic_list_provider.dart';
 
 class FilterProvider extends ChangeNotifier {
 

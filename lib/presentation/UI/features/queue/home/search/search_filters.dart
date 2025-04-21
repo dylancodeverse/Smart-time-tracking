@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/presentation/model/filter/filter_home.dart';
-import 'package:sola/presentation/providers/home/search_filter_provider.dart';
+import 'package:sola/presentation/providers_services/home/search_filter_provider.dart';
 
 class SearchFilters extends StatelessWidget {
   @override

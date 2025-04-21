@@ -1,5 +1,6 @@
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/participation/payment.dart';
+import 'package:sola/domain/excpetion/update_exception.dart';
 import 'package:sola/domain/service/interface/participation/i_payment_participation_process_service.dart';
 import 'package:sola/lib/date_helper.dart';
 
@@ -18,8 +19,7 @@ class PaymentParticipationProcessService implements IPaymentParticipationProcess
       return list[0].id as int; 
 
     }catch(e){
-      print(e);
-      throw Exception("Une mise à jour est necessaire pour poursuivre cette action");
+      throw UpdateException();
     }
   }
 

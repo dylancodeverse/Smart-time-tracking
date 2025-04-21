@@ -14,7 +14,7 @@ class Bottomnav extends StatelessWidget {
         Navigator.pushReplacementNamed(context, '/');
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/payment');
+        Navigator.pushReplacementNamed(context, '/summary');
         break;
       case 2:
         Navigator.pushReplacementNamed(context, '/settings');

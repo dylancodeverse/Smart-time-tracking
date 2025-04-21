@@ -1,6 +1,7 @@
 
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/participation/payment.dart';
+import 'package:sola/domain/excpetion/update_exception.dart';
 import 'package:sola/domain/service/interface/participation/i_payment.dart';
 
 class PaymentParticipationService implements IPaymentParticipation {
@@ -27,6 +28,10 @@ class PaymentParticipationService implements IPaymentParticipation {
   
   @override
   Future<PaymentParticipation> getTodayPaymentInfo() async{
-    return (await paymentParticipationDatasource.getAll())[0];
+    try {
+      return (await paymentParticipationDatasource.getAll())[0];
+    } catch (e) {
+      throw UpdateException();
+    }
   }
 }

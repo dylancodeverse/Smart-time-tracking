@@ -187,7 +187,7 @@ create view statistiquejournalier AS
       JOIN affectations a ON dpe.id_affectation = a.id
       JOIN chauffeurs c ON a.id_chauffeur = c.id
       JOIN copilote co ON a.id_copilote = co.id
-      order by estimation_prochaine_action asc ;
+      order by estimation_prochaine_action is null, estimation_prochaine_action asc ;
 
 
 CREATE VIEW statistiquejournalierParticipationNonPayee
@@ -238,6 +238,10 @@ CREATE TABLE MOTIFDEPENSE(
   motif text
 );
 
+create view motifdepense_du_jour as 
+select * from MOTIFDEPENSE 
+where strftime('%Y-%m-%d', datej / 1000, 'unixepoch') = strftime('%Y-%m-%d', 'now');
+
 
 
 
@@ -276,7 +280,7 @@ GROUP BY datej;
 CREATE VIEW participation_par_jour AS
 SELECT 
   strftime('%Y-%m-%d', PARTICIPATION_date / 1000, 'unixepoch') AS PARTICIPATION_date,
-  SUM(montant) AS montant, count(montant) as count
+  SUM(montant) AS montant, count(*) as count
 FROM 
   PARTICIPATION
 GROUP BY 
@@ -294,7 +298,7 @@ union select * from participation_du_jour_defaut ;
 
 
 CREATE VIEW participation_du_jour as 
-SELECT PARTICIPATION_date , sum(montant) as montant , count from PARTICIPATION_DU_JOUR_TEMP 
+SELECT PARTICIPATION_date , sum(montant) as montant ,sum(count) as count from PARTICIPATION_DU_JOUR_TEMP 
 GROUP by  PARTICIPATION_date;
 
 
@@ -303,3 +307,13 @@ select participation_date , participation_du_jour.montant as montant_participati
 , depense_du_jour.montant as depense , count
 from participation_du_jour
 join depense_du_jour on participation_du_jour.participation_date = depense_du_jour.datej ;
+
+
+CREATE VIEW participation_du_jour_liste as
+select * from participation where strftime('%Y-%m-%d', PARTICIPATION_date / 1000, 'unixepoch') =   strftime('%Y-%m-%d', 'now') ;
+
+CREATE VIEW participation_du_jour_liste_lib as 
+select  vehicules.immatriculation, vehicules.modele, 
+participation_du_jour_liste.* 
+from vehicules join participation_du_jour_liste 
+on participation_du_jour_liste.id_vehicule =vehicules.id ;

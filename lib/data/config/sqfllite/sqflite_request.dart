@@ -50,7 +50,7 @@ class SqlfliteRequest {
       JOIN affectations a ON dpe.id_affectation = a.id
       JOIN chauffeurs c ON a.id_chauffeur = c.id
       JOIN copilote co ON a.id_copilote = co.id
-      order by estimation_prochaine_action asc
+      order by estimation_prochaine_action is null, estimation_prochaine_action asc
    ''';  
 
   static getTodayStats(){

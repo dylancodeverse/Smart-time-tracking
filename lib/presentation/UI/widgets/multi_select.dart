@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/widgets/modal_object.dart';
-import 'package:sola/presentation/providers/arrival_declaration/modal_provider.dart';
+import 'package:sola/presentation/providers_services/arrival_declaration/modal_provider.dart';
 
 class MultiSelect extends StatelessWidget {
   const MultiSelect({super.key});
