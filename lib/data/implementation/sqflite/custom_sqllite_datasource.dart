@@ -15,7 +15,6 @@ class CustomSqlliteDatasource<T> implements DataSource<T> {
   @override
   Future<List<T>> getAll() async {
     final result = await database.rawQuery(rawQuery);
-    final result1= await database.rawQuery("select *  from vehicules");
     return result.map(fromMap).toList();
   }
 
