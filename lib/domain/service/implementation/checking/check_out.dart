@@ -23,8 +23,7 @@ class CheckOut implements ICheckOut {
   Future<BusState> departure(String assignementId, String busId, int busStateId) async {
     // verification
     if (!TimeCheckService.isWithinAllowedHours()) {
-      // throw Exception("Modification interdite en dehors des heures autorisées.");
-int a= 2;
+      throw Exception("Modification interdite en dehors des heures autorisées.");
     }
     if (! await _canDoCheckOut(busId)) throw Exception("Doit respecter la cadence");
     // init Bus

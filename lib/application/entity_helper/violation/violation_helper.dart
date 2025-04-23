@@ -16,4 +16,17 @@ class ViolationHelper {
       lib: map['lib'],
     );
   }  
+
+  static Map<String, dynamic> toMapIMPORT(Violation violation) {
+    return {
+      'lib': violation.lib,
+    };
+  }
+
+  // Conversion d'une mapIMPORT en une instance de Violation
+  static Violation fromMapIMPORT(Map<String, dynamic> map) {
+    return Violation(
+      lib: map['lib'],
+    );
+  }  
 }

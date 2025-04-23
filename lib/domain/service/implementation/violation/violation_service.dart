@@ -12,4 +12,9 @@ class ViolationService implements IViolation{
   Future< List<Violation>> getAllViolation() async{
     return await violationDatasource.getAll();
   }
+  
+  @override
+  Future<void> saveAll(List<Violation> violations) {
+    return violationDatasource.insertAll(violations);
+  }
 }

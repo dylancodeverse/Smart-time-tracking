@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart';
-import 'package:sola/domain/service/implementation/import_export/export.dart';
+import 'package:sola/domain/service/interface/import_export/i_export_data.dart';
 
 class ExportUIService extends ChangeNotifier{
-  final ExportService exportService;
+  final IExportData exportService;
 
   ExportUIService(this.exportService);
 
   Future<void> export() async {
-    await exportService.exportToFile();
+    await exportService.exportDatas();
   }
 }

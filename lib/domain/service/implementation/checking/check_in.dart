@@ -31,8 +31,7 @@ class CheckIn implements ICheckIn {
   @override
   Future<BusState> arrival(String assignementId, String busId, int busStateId, int amount, int lastChecking, int currentRound) async{
     if (!TimeCheckService.isWithinAllowedHours()) {
-      // throw Exception("Modification interdite en dehors des heures autorisées.");
-int a= 2;
+      throw Exception("Modification interdite en dehors des heures autorisées.");
     }
 
     // init Bus
@@ -70,8 +69,7 @@ int a= 2;
   @override
   Future<void> arrivalUpdate(String assignementId, String busId, int busStateId, int amount, int lastChecking, String comments, List<Violation> listViolation  ) async{
     if (!TimeCheckService.isWithinAllowedHours()) {
-      // throw Exception("Modification interdite en dehors des heures autorisées.");
-int a= 2;
+      throw Exception("Modification interdite en dehors des heures autorisées.");
     }
     // init Bus
     Bus bus = Bus(id: busId);

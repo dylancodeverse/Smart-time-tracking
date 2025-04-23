@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:sola/application/data_init/service_init_db.dart';
 import 'package:sola/application/injection_helper/bus_state/bus_state_custom_inj.dart';
 import 'package:sola/application/injection_helper/depense/inj_depense.dart';
+import 'package:sola/application/injection_helper/export/inj_export_data.dart';
 import 'package:sola/application/injection_helper/home_statistics/service_daily_statistic_list.dart';
+import 'package:sola/application/injection_helper/import/inj_import_data.dart';
 import 'package:sola/application/injection_helper/participation/inj_stats_participation_with_depense.dart';
 import 'package:sola/application/injection_helper/participation/inj_today_participation.dart';
 import 'package:sola/application/injection_helper/participation/participation_datasource.dart';
@@ -17,12 +19,12 @@ import 'package:sola/data/helper/sharedpreferences/database_reinit.dart';
 import 'package:sola/data/interface/datasource/datasource.dart';
 import 'package:sola/domain/entity/violation/violation.dart';
 import 'package:sola/domain/service/channel/time_auto_event.dart';
-import 'package:sola/domain/service/implementation/import_export/export.dart';
-import 'package:sola/domain/service/implementation/import_export/import.dart';
 import 'package:sola/domain/service/implementation/notification/notification_service.dart';
 import 'package:sola/domain/service/implementation/violation/violation_service.dart';
 import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
 import 'package:sola/domain/service/interface/depense/i_depense.dart';
+import 'package:sola/domain/service/interface/import_export/i_export_data.dart';
+import 'package:sola/domain/service/interface/import_export/i_import_data.dart';
 import 'package:sola/domain/service/interface/participation/i_participation.dart';
 import 'package:sola/domain/service/interface/participation/i_payment_participation_process_service.dart';
 import 'package:sola/domain/service/interface/participation/i_stats_participation_with_depense.dart';
@@ -63,6 +65,8 @@ void main() async {
   (await BusStateCustomINJ.getBusStateCustomImplAUTO()).verification();
   final IParticipation iParticipation= await ServiceINJParticipation.getIParticipationInstance();
   final ITodayParticipationLib iTodayParticipation = await InjTodayParticipation.getTodayParticipationLibInstance(); 
+  final IExportData iExportData = await InjExportData.exportData();
+  final IImportData iImportData = await InjImportData.getImportServiceInstance();
   runApp(
     MultiProvider(
       providers: [
@@ -75,8 +79,8 @@ void main() async {
                                                   ,participationCountServiceCache: iParticipationCountCache,)),
         ChangeNotifierProvider(create: (context)=>DepenseToday(depenseTodayService: iTodayDepense, depenseService: iStandardDepense) ),
         ChangeNotifierProvider(create: (context) => ParticipationToday(participationTodayService:iTodayParticipation , participationService:iParticipation )),
-        ChangeNotifierProvider(create: (context) => ImportUIService(ImportService()))   ,
-        ChangeNotifierProvider(create: (context) => ExportUIService(ExportService()))   ,
+        ChangeNotifierProvider(create: (context) => ImportUIService(iImportData )),
+        ChangeNotifierProvider(create: (context) => ExportUIService(iExportData)),
 
       ],
       child: MyAppWithErrorHandling(), // Utilisation d'un Widget custom pour récupérer le contexte

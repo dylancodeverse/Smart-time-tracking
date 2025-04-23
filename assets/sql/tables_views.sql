@@ -29,7 +29,9 @@
       is_default int ,
       FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
       FOREIGN KEY (id_chauffeur) REFERENCES chauffeurs(id),
-      FOREIGN KEY (id_copilote) REFERENCES chauffeurs(id)
+      FOREIGN KEY (id_copilote) REFERENCES chauffeurs(id),
+      UNIQUE (id_vehicule, id_chauffeur, id_copilote, affectation_date)
+
     );
 
 
@@ -43,7 +45,8 @@
       montant int,
       commentaires TEXT,
       FOREIGN KEY (id_affectation) REFERENCES affectations(id),
-      FOREIGN KEY (id_vehicule) REFERENCES vehicules(id)
+      FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
+      UNIQUE (id_vehicule, date_arrivee, date_depart)
     );
 
 
@@ -63,7 +66,8 @@ CREATE TABLE etat_voitures_actu (
                             -- de pointage du jour))
     FOREIGN KEY (id_affectation) REFERENCES affectations(id),
     FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
-    FOREIGN KEY (dernier_pointage) REFERENCES pointages(id)
+    FOREIGN KEY (dernier_pointage) REFERENCES pointages(id),
+    UNIQUE(id_vehicule)
 );
 
 
@@ -71,6 +75,7 @@ CREATE VIEW affectations_completes AS
     SELECT 
         a.id AS affectation_id,
         a.affectation_date,
+        a.is_default,
         v.id AS vehicule_id,
         v.immatriculation,
         v.modele,
@@ -217,7 +222,7 @@ select * from statistiquejournalierVoitureSurTerminus where estimation_prochaine
 CREATE TABLE PAYMENTPARTICIPATION(
   id integer PRIMARY KEY AUTOINCREMENT,
   PARTICIPATION_date int not NULL,
-  reference text 
+  reference text unique
 );
 
 -- details participation
@@ -228,7 +233,8 @@ CREATE TABLE PARTICIPATION (
     montant int not null,
     comments text,
     id_PAYMENTPARTICIPATION int ,
-    FOREIGN KEY (id_PAYMENTPARTICIPATION) REFERENCES PAYMENTPARTICIPATION(id)
+    FOREIGN KEY (id_PAYMENTPARTICIPATION) REFERENCES PAYMENTPARTICIPATION(id),
+    unique(id_vehicule,id_PAYMENTPARTICIPATION)
 );
 
 CREATE TABLE MOTIFDEPENSE(
@@ -317,3 +323,54 @@ select  vehicules.immatriculation, vehicules.modele,
 participation_du_jour_liste.* 
 from vehicules join participation_du_jour_liste 
 on participation_du_jour_liste.id_vehicule =vehicules.id ;
+
+
+
+
+CREATE TABLE import_affectations_completes (
+    affectation_date TEXT,
+    immatriculation TEXT,
+    modele TEXT,
+    statut INTEGER,
+    chauffeur_nom TEXT,
+    chauffeur_prenom TEXT,
+    copilote_nom TEXT,
+    copilote_prenom TEXT,
+    is_default int 
+);
+
+
+CREATE TABLE import_violation(
+    lib text 
+);
+
+
+CREATE VIEW violations_des_pointages_complets AS
+SELECT 
+  p.date_arrivee,
+  p.date_depart,
+  ac.immatriculation,
+  ac.chauffeur_nom,
+  ac.chauffeur_prenom,
+  ac.copilote_nom,
+  ac.copilote_prenom,
+  p.montant,
+  p.commentaires,
+  v.lib AS violation_libelle
+FROM pointages p
+JOIN affectations_completes ac ON p.id_affectation = ac.affectation_id
+LEFT JOIN violationparpointage vp ON p.id = vp.id_pointage
+LEFT JOIN violation v ON vp.id_violation = v.id;
+
+
+CREATE VIEW participation_complete AS
+SELECT
+  p.PARTICIPATION_date,
+  v.immatriculation,
+  p.montant,
+  p.comments,
+  pay.reference AS reference_paiement,
+  pay.PARTICIPATION_date AS date_paiement
+FROM PARTICIPATION p
+JOIN PAYMENTPARTICIPATION pay ON p.id_PAYMENTPARTICIPATION = pay.id
+JOIN vehicules v ON p.id_vehicule = v.id;

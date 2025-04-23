@@ -1,5 +1,5 @@
+import 'package:flutter/services.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
-import 'package:sola/data/mock/init_datas.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ServiceInitdb {
@@ -9,9 +9,28 @@ class ServiceInitdb {
       await deleteDatabase(dbPath); // Supprime l'ancienne base
     }
     // create tables if not created
-    Database db= await  SqfliteDatabaseHelper().database;
-    if (reset) {
-      await InitDatas().insertInitialData(db);      
+    // Database db= 
+    await  SqfliteDatabaseHelper().database;
+    // if (reset) {
+    //   await InitDatas().insertInitialData(db);      
+    // }
+  }
+
+  static Future<void> synchronizeImportedData() async {
+    Database db = await SqfliteDatabaseHelper().database;
+
+    // 1. Charger le contenu du fichier SQL depuis les assets
+    String sqlScript = await rootBundle.loadString('assets/sql/import.sql');
+
+    // 2. Découper les requêtes si plusieurs séparées par ;
+    List<String> queries = sqlScript.split(';');
+
+    // 3. Exécuter chaque requête non vide
+    for (var query in queries) {
+      String trimmed = query.trim();
+      if (trimmed.isNotEmpty) {
+        await db.execute(trimmed);
+      }
     }
   }
   
