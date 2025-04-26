@@ -59,8 +59,10 @@ class CheckIn implements ICheckIn {
       // participation state update
       participationCountServiceCache.save();
 
-    }else{
+    }else if(currentRound+1<RoundVar.roundStartParticipation){
       busState.participationState=ParticipationVar.noParticipation;
+    }else{
+      busState.participationState = ParticipationVar.showParticipation;      
     }
     await dataSourceBusState.update(busState);
     return busState;
