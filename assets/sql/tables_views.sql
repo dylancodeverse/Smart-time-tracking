@@ -22,7 +22,7 @@
       
     CREATE TABLE affectations (
       id integer PRIMARY KEY AUTOINCREMENT ,
-      affectation_date int DEFAULT (strftime('%s', 'now')),
+      affectation_date int ,
       id_vehicule TEXT NOT NULL,
       id_chauffeur TEXT NOT NULL,
       id_copilote TEXT,

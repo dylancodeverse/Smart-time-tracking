@@ -8,12 +8,8 @@ class ServiceInitdb {
     if(reset){
       await deleteDatabase(dbPath); // Supprime l'ancienne base
     }
-    // create tables if not created
-    // Database db= 
     await  SqfliteDatabaseHelper().database;
-    // if (reset) {
-    //   await InitDatas().insertInitialData(db);      
-    // }
+
   }
 
   static Future<void> synchronizeImportedData() async {

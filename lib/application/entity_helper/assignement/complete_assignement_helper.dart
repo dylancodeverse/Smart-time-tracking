@@ -1,4 +1,5 @@
 import 'package:sola/domain/entity/assignment/complete_assignement.dart';
+import 'package:sola/global/import_export_conf/complete_assignment_configuration.dart';
 
 class CompleteAssignmentHelper {
   static CompleteAssignment fromMap(Map<String, dynamic> map) {
@@ -14,6 +15,22 @@ class CompleteAssignmentHelper {
       isDefault: map['is_default'] , 
     );
   }
+
+  static CompleteAssignment fromMapIMPORT(Map<String, dynamic> map) {
+    return CompleteAssignment(
+      assignmentDate: map[CompleteAssignmentConfiguration.affectationDate],
+      licensePlate: map[CompleteAssignmentConfiguration.immatriculation],
+      model: map[CompleteAssignmentConfiguration.modele],
+      status: map[CompleteAssignmentConfiguration.statut],
+      driverLastName: map[CompleteAssignmentConfiguration.chauffeurNom],
+      driverFirstName: map[CompleteAssignmentConfiguration.chauffeurPrenom],
+      coDriverLastName: map[CompleteAssignmentConfiguration.copiloteNom],
+      coDriverFirstName: map[CompleteAssignmentConfiguration.copilotePrenom],
+      isDefault: map[CompleteAssignmentConfiguration.isDefault] , 
+    );
+  }
+
+
 
   static Map<String, dynamic> toMap(CompleteAssignment data) {
     return {

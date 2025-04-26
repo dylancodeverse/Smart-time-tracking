@@ -14,7 +14,7 @@ class ViolationDatasource {
   }
 
   static Future<DataSource<Violation>> getViolationDatasourceSQFLITEIMPORT() async{
-    return SQLiteDataSource(database: await SqfliteDatabaseHelper().database, tableName: "import_violation", fromMap: ViolationHelper.fromMapIMPORT, toMap: ViolationHelper.toMapIMPORT);
+    return SQLiteDataSource(database: await SqfliteDatabaseHelper().database, tableName: "import_violation", fromMap: ViolationHelper.fromMapIMPORT, toMap: ViolationHelper.toMapSqlIMPORT);
   }
   static Future<ViolationService> getViolationServiceIMPORT() async{
     return ViolationService(violationDatasource: await getViolationDatasourceSQFLITEIMPORT());

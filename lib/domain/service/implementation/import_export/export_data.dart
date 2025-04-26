@@ -11,7 +11,7 @@ import 'package:sola/domain/service/interface/complete_participation/i_complete_
 import 'package:sola/domain/service/interface/complete_violation/i_complete_violation.dart';
 import 'package:sola/domain/service/interface/depense/i_depense.dart';
 import 'package:sola/domain/service/interface/import_export/i_export_data.dart';
-import 'package:sola/global/keys_export.dart';
+import 'package:sola/global/import_export_conf/keys_export.dart';
 
 class ExportData implements IExportData {
 
@@ -64,9 +64,9 @@ class ExportData implements IExportData {
 
     // Définir les fonctions de conversion pour chaque type d'objet
     List<Map<String, dynamic> Function(Object objet)> toMapFunctions = [
-      (objet) => CompleteParticipationHelper.toMap(objet as CompleteParticipation),
-      (objet) => CompleteViolationHelper.toMap(objet as CompleteViolation),
-      (objet) => DepenseHelper.toMap(objet as Depense)
+      (objet) => CompleteParticipationHelper.toMapExport(objet as CompleteParticipation),
+      (objet) => CompleteViolationHelper.toMapExport(objet as CompleteViolation),
+      (objet) => DepenseHelper.toMapExport(objet as Depense)
     ];
 
     // Définir les clés pour le JSON

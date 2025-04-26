@@ -1,4 +1,5 @@
 import 'package:sola/domain/entity/complete_violation/complete_violation.dart';
+import 'package:sola/global/import_export_conf/complete_violation_configuration.dart';
 
 class CompleteViolationHelper {
   static CompleteViolation fromMap(Map<String, dynamic> map) {
@@ -28,6 +29,20 @@ class CompleteViolationHelper {
       'montant': entity.amount,
       'commentaires': entity.comments,
       'violation_libelle': entity.violationLabel,
+    };
+  }
+    static Map<String, dynamic> toMapExport(CompleteViolation entity) {
+    return {
+      CompleteViolationConfiguration.arrivalDate: entity.arrivalDate,
+      CompleteViolationConfiguration.departureDate: entity.departureDate,
+      CompleteViolationConfiguration.registration: entity.registration,
+      CompleteViolationConfiguration.driverLastName: entity.driverLastName,
+      CompleteViolationConfiguration.driverFirstName: entity.driverFirstName,
+      CompleteViolationConfiguration.coDriverLastName: entity.coDriverLastName,
+      CompleteViolationConfiguration.coDriverFirstName: entity.coDriverFirstName,
+      CompleteViolationConfiguration.amount: entity.amount,
+      CompleteViolationConfiguration.comments: entity.comments,
+      CompleteViolationConfiguration.violationLabel: entity.violationLabel,
     };
   }
 }

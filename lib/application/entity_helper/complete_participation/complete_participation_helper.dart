@@ -1,4 +1,5 @@
 import 'package:sola/domain/entity/complete_participation/complete_participation.dart';
+import 'package:sola/global/import_export_conf/complete_participation_configuration.dart';
 
 class CompleteParticipationHelper {
   static CompleteParticipation fromMap(Map<String, dynamic> map) {
@@ -20,6 +21,16 @@ class CompleteParticipationHelper {
       'comments': entity.comments,
       'reference_paiement': entity.paymentReference,
       'date_paiement': entity.paymentDate,
+    };
+  }
+  static Map<String, dynamic> toMapExport(CompleteParticipation entity) {
+    return {
+      CompleteParticipationConfiguration.participationDate: entity.participationDate,
+      CompleteParticipationConfiguration.immatriculation: entity.registration,
+      CompleteParticipationConfiguration.montant: entity.amount,
+      CompleteParticipationConfiguration.comments: entity.comments,
+      CompleteParticipationConfiguration.referenceRaiement: entity.paymentReference,
+      CompleteParticipationConfiguration.datePaiement: entity.paymentDate,
     };
   }
 }

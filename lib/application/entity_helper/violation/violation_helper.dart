@@ -1,4 +1,5 @@
 import 'package:sola/domain/entity/violation/violation.dart';
+import 'package:sola/global/violation_configuration.dart';
 
 class ViolationHelper {
     // Conversion d'une instance en une map pour l'insertion dans la base de données
@@ -17,16 +18,15 @@ class ViolationHelper {
     );
   }  
 
-  static Map<String, dynamic> toMapIMPORT(Violation violation) {
+  static Map<String, dynamic> toMapSqlIMPORT(Violation violation) {
     return {
       'lib': violation.lib,
     };
   }
 
-  // Conversion d'une mapIMPORT en une instance de Violation
   static Violation fromMapIMPORT(Map<String, dynamic> map) {
     return Violation(
-      lib: map['lib'],
+      lib: map[ViolationConfiguration.lib],
     );
   }  
 }

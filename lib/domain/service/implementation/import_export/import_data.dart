@@ -10,7 +10,7 @@ import 'package:sola/domain/service/implementation/import_export/read_service.da
 import 'package:sola/domain/service/interface/assignement/i_complete_assignement.dart';
 import 'package:sola/domain/service/interface/import_export/i_import_data.dart';
 import 'package:sola/domain/service/interface/violation/i_violation.dart';
-import 'package:sola/global/keys_export.dart';
+import 'package:sola/global/import_export_conf/keys_export.dart';
 
 class ImportData implements IImportData {
   final ReadService readService;
@@ -33,12 +33,12 @@ class ImportData implements IImportData {
 
     // Recréer les objets CompleteAssignment
     final List<CompleteAssignment> assignments = (jsonMap[KeysImportExport.completeAssignmentsKey] as List)
-        .map((item) => CompleteAssignmentHelper.fromMap(item))
+        .map((item) => CompleteAssignmentHelper.fromMapIMPORT(item))
         .toList();
 
     // Recréer les objets Violation
     final List<Violation> violations = (jsonMap[KeysImportExport.violationKey] as List)
-        .map((item) => ViolationHelper.fromMap(item))
+        .map((item) => ViolationHelper.fromMapIMPORT(item))
         .toList();
 
     // Enregistrer les données dans leurs services respectifs
