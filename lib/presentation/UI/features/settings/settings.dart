@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sola/domain/service/storage_key/storage_key_service.dart';
 import 'package:sola/presentation/UI/config/theme.dart';
+import 'package:sola/presentation/UI/features/qr/qr_scan_page.dart';
 import 'package:sola/presentation/UI/widgets/bottomnav.dart';
 import 'package:sola/presentation/providers_services/home/daily_statistic_list_provider.dart';
 import 'package:sola/presentation/providers_services/settings/export_service.dart';
@@ -95,26 +97,31 @@ class Settings extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           _SettingsSection(
-            title: "Préférences",
+            title: "Clés",
             items: [
               _SettingsTile(
                 icon: Icons.notifications_active,
                 color: Colors.orange,
-                title: "Notifications",
-                subtitle: "Configurer vos alertes",
+                title: "Clés d'exportation",
+                subtitle: "Obtenir la clé d'exportation",
                 onTap: () {
-                  // Notification settings
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QRScannerPage(
+                        onScan: (data) async {
+                          await StorageKeyService.saveSecretKey(data);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Clé enregistrée avec succès")),
+                          );
+                        },
+                      ),
+                    ),
+                  );
                 },
+
               ),
-              // _SettingsTile(
-              //   icon: Icons.dark_mode,
-              //   color: Colors.teal,
-              //   title: "Thème",
-              //   subtitle: "Clair ou sombre",
-              //   onTap: () {
-              //     // Theme toggle
-              //   },
-              // ),
+
             ],
           ),
           const SizedBox(height: 20),
