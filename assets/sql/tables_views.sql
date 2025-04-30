@@ -134,6 +134,7 @@ CREATE TABLE violationparpointage(
     id integer PRIMARY KEY AUTOINCREMENT,
     id_violation integer,
     id_pointage integer ,
+    UNIQUE(id_violation, id_pointage),
     FOREIGN KEY (id_violation) REFERENCES violation(id),
     FOREIGN KEY (id_pointage) REFERENCES pointages(id)
 );

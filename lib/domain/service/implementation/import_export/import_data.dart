@@ -8,6 +8,7 @@ import 'package:sola/domain/entity/assignment/complete_assignement.dart';
 import 'package:sola/domain/entity/violation/violation.dart';
 import 'package:sola/domain/service/implementation/import_export/read_service.dart';
 import 'package:sola/domain/service/interface/assignement/i_complete_assignement.dart';
+import 'package:sola/domain/service/interface/denormalization/i_denormalize_state.dart';
 import 'package:sola/domain/service/interface/import_export/i_import_data.dart';
 import 'package:sola/domain/service/interface/violation/i_violation.dart';
 import 'package:sola/global/import_export_conf/keys_export.dart';
@@ -16,11 +17,13 @@ class ImportData implements IImportData {
   final ReadService readService;
   final ICompleteAssignement completeAssignementService;
   final IViolation violationService;
+  final IDenormalizeState denormalizeStateService ; 
 
   ImportData({
     required this.readService,
     required this.completeAssignementService,
     required this.violationService,
+    required this.denormalizeStateService,
   });
 
   @override
@@ -46,5 +49,6 @@ class ImportData implements IImportData {
     await violationService.saveAll(violations);
     await ServiceInitdb.synchronizeImportedData();
 
+    await denormalizeStateService.verification(); 
   }
 }

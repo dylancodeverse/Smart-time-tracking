@@ -6,7 +6,7 @@ class CompleteViolation {
   String? driverFirstName;
   String? coDriverLastName;
   String? coDriverFirstName;
-  double? amount;
+  int? amount;
   String? comments;
   String? violationLabel;
 

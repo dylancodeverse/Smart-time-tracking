@@ -10,6 +10,7 @@ import 'package:sola/domain/service/implementation/import_export/write_service.d
 import 'package:sola/domain/service/interface/complete_participation/i_complete_participation.dart';
 import 'package:sola/domain/service/interface/complete_violation/i_complete_violation.dart';
 import 'package:sola/domain/service/interface/depense/i_depense.dart';
+import 'package:sola/domain/service/interface/encryption/encryption.dart';
 import 'package:sola/domain/service/interface/import_export/i_export_data.dart';
 import 'package:sola/global/import_export_conf/keys_export.dart';
 
@@ -20,11 +21,12 @@ class ExportData implements IExportData {
   ICompleteParticipationService completeParticipationService ;
   ICompleteViolationService violationService;
   IDepense depenseService;
+  Encryption encryptionService ;
 
 
 
   ExportData({required this.writeService, required this.completeParticipationService, required this.violationService
-              , required this.depenseService});
+              , required this.depenseService,required this.encryptionService});
 
   String _exportMultipleToJson(
       List<List<Object>> data, 
@@ -43,6 +45,7 @@ class ExportData implements IExportData {
 
     // Conversion en JSON
     String jsonString = jsonEncode(jsonMap);
+    print(jsonString);
     return jsonString;
   }
 
@@ -50,7 +53,7 @@ class ExportData implements IExportData {
       List<List<Object>> data, 
       List<Map<String, dynamic> Function(Object objet)> toMapFunctions, 
       List<String> keys) async{
-    await writeService.exportToFile(_exportMultipleToJson(data, toMapFunctions, keys));
+    await writeService.exportToFile(await encryptionService.encrypt( _exportMultipleToJson(data, toMapFunctions, keys)));
   }
 
   @override

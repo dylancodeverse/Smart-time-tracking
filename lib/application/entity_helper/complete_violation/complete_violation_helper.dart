@@ -11,7 +11,7 @@ class CompleteViolationHelper {
       driverFirstName: map['chauffeur_prenom'],
       coDriverLastName: map['copilote_nom'],
       coDriverFirstName: map['copilote_prenom'],
-      amount: map['montant']?.toDouble(),
+      amount: map['montant'],
       comments: map['commentaires'],
       violationLabel: map['violation_libelle'],
     );
