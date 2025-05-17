@@ -9,4 +9,5 @@ class CompleteViolationConfiguration {
   static String amount ='montant';
   static String comments ='commentaires';
   static String violationLabel ='violation_libelle';
+  static String dateh ='dateh';
 }

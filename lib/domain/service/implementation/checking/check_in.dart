@@ -88,7 +88,7 @@ class CheckIn implements ICheckIn {
     // insert violation
     List<ViolationChecking> list =[];
     for (Violation element in listViolation) {
-      list.add(ViolationChecking(violationId: element.id!, checkId: check.id!));
+      list.add(ViolationChecking(violationId: element.id!, checkId: check.id!,dateh: Date.getTimestampNow()));
     }
     iViolationChecking.saveViolationChecking(list);
 

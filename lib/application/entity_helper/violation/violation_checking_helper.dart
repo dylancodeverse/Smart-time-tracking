@@ -8,6 +8,7 @@ class ViolationCheckingHelper {
       'id': violation.id,
       'id_violation': violation.violationId,
       'id_pointage': violation.checkId,
+      'dateh': violation.dateh
     };
   }
 
@@ -17,6 +18,7 @@ class ViolationCheckingHelper {
       id: map['id'],
       violationId: map['id_violation'],
       checkId: map['id_pointage'],
+      dateh: map['dateh']       
     );
   }  
 }

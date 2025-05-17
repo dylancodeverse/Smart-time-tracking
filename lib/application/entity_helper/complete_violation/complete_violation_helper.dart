@@ -14,6 +14,7 @@ class CompleteViolationHelper {
       amount: map['montant'],
       comments: map['commentaires'],
       violationLabel: map['violation_libelle'],
+      dateh: map['dateh']
     );
   }
 
@@ -43,6 +44,7 @@ class CompleteViolationHelper {
       CompleteViolationConfiguration.amount: entity.amount,
       CompleteViolationConfiguration.comments: entity.comments,
       CompleteViolationConfiguration.violationLabel: entity.violationLabel,
+      CompleteViolationConfiguration.dateh : entity.dateh
     };
   }
 }

@@ -134,6 +134,7 @@ CREATE TABLE violationparpointage(
     id integer PRIMARY KEY AUTOINCREMENT,
     id_violation integer,
     id_pointage integer ,
+    dateh int ,
     UNIQUE(id_violation, id_pointage),
     FOREIGN KEY (id_violation) REFERENCES violation(id),
     FOREIGN KEY (id_pointage) REFERENCES pointages(id)
@@ -357,7 +358,8 @@ SELECT
   ac.copilote_prenom,
   p.montant,
   p.commentaires,
-  v.lib AS violation_libelle
+  v.lib AS violation_libelle,
+  vp.dateh
 FROM pointages p
 JOIN affectations_completes ac ON p.id_affectation = ac.affectation_id
 LEFT JOIN violationparpointage vp ON p.id = vp.id_pointage
