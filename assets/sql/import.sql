@@ -47,3 +47,15 @@ WHERE a.is_default = 1;
 insert or IGNORE into violation (lib)
 select lib  from import_violation ; 
 
+
+INSERT OR IGNORE INTO NONDISPOCHAUFFEUR (id_chauffeur,datedebut,datefin)
+SELECT 
+    chauffeurs.id , IMPORTNONDISPOCHAUFFEUR.datedebut ,IMPORTNONDISPOCHAUFFEUR.datefin
+FROM 
+    IMPORTNONDISPOCHAUFFEUR
+JOIN 
+    chauffeurs
+ON  
+    chauffeurs.nom = IMPORTNONDISPOCHAUFFEUR.nom
+AND
+    chauffeurs.prenom = IMPORTNONDISPOCHAUFFEUR.prenom ;

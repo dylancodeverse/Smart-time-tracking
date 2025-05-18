@@ -4,4 +4,5 @@ class KeysImportExport {
   static String completeParticipation = 'complete_participation';
   static String completeViolation = 'complete_violation';
   static String depense = 'depense';
+  static String importNonDispoChauffeur = 'nondispochauffeur';
 }

@@ -377,3 +377,21 @@ SELECT
 FROM PARTICIPATION p
 JOIN PAYMENTPARTICIPATION pay ON p.id_PAYMENTPARTICIPATION = pay.id
 JOIN vehicules v ON p.id_vehicule = v.id;
+
+
+CREATE TABLE NONDISPOCHAUFFEUR(
+  id integer PRIMARY KEY AUTOINCREMENT,
+  id_chauffeur text,
+  datedebut int not null,
+  datefin int not null,
+  UNIQUE(id_chauffeur, datedebut,datefin),
+  FOREIGN KEY (id_chauffeur) REFERENCES chauffeurs(id)
+);
+
+CREATE  TABLE IMPORTNONDISPOCHAUFFEUR (
+  datedebut int,
+  datefin   int,
+  nom text,
+  prenom text 
+);
+

@@ -54,7 +54,7 @@ class SqlfliteRequest {
    ''';  
 
   static getTodayStats(){
-    return _statsRequest.replaceAll("%","strftime('%Y-%m-%d', 'now')" ) ;
+    return _statsRequest.replaceAll("% ","strftime('%Y-%m-%d', 'now')" ) ;
   }  
 
   static String _completeAssignement = '''
