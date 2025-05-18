@@ -35,5 +35,11 @@ class CustomSqlliteDatasource<T> implements DataSource<T> {
   @override
   Future updateAndIgnoreNullColumns(T item) => throw UnimplementedError();
   
+  @override
+  Future<List<T>> getWithRawQuery(String rawQuery) {
+    // TODO: implement getWithRawQuery
+    throw UnimplementedError();
+  }
+  
   
 }

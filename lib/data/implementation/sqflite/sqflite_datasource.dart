@@ -94,5 +94,11 @@ class SQLiteDataSource<T> implements DataSource<T> {
       whereArgs: [toMap(item)['id']],
     );
   }
+  
+  @override
+  Future<List<T>> getWithRawQuery(String rawQuery) async{
+    final result = await database.rawQuery(rawQuery);
+    return result.map(fromMap).toList();
+  }
 
 }

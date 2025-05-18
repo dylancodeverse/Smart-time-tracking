@@ -81,6 +81,7 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
       bus.assignmentID,
       bus.busID,
       bus.busStateId,
+      bus.driverId
     );
     _updateBusState(newBusState,context);
   }

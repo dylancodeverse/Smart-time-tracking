@@ -4,6 +4,7 @@ abstract class DataSource<T> {
   Future<dynamic> insertAll(List<T> items);
   Future<T?> getById(String id);
   Future<List<T>> getAll();
+  Future<List<T>> getWithRawQuery(String rawQuery) ;
   Future<dynamic> update(T item);
   Future<dynamic> updateAndIgnoreNullColumns(T item);
   Future<dynamic> delete(String id);

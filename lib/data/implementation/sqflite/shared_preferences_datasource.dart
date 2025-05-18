@@ -102,4 +102,10 @@ class SharedPreferencesDataSource<T> implements DataSource<T> {
     // SharedPreferences ne supporte pas de transactions natives, mais on peut exécuter une action de manière atomique.
     await action();
   }
+  
+  @override
+  Future<List<T>> getWithRawQuery(String rawQuery) {
+    // TODO: implement getWithRawQuery
+    throw UnimplementedError();
+  }
 }

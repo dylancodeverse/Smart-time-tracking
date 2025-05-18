@@ -1,8 +1,17 @@
+import 'package:intl/intl.dart';
+
 class Date {
 
   static int getTimestampNow(){
     return DateTime.now().millisecondsSinceEpoch ;
   }
+
+  static String dateFromMillis(int millis) {
+  final date = DateTime.fromMillisecondsSinceEpoch(millis);
+  final formatter = DateFormat('yyyy-MM-dd');
+  return formatter.format(date);
+  }
+
 
   static String formatTimeFromMillis(int timestampMillis) {
       // Convertir le timestamp en DateTime

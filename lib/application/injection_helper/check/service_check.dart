@@ -1,6 +1,7 @@
 import 'package:sola/application/injection_helper/cache/participation_cache.dart';
 import 'package:sola/application/injection_helper/check/service_bus_state.dart';
 import 'package:sola/application/injection_helper/home_statistics/service_daily_statistic_list.dart';
+import 'package:sola/application/injection_helper/nondispochauffeur/inj_non_dispo_chauffeur.dart';
 import 'package:sola/application/injection_helper/violation/violation_checking_datasource.dart';
 import 'package:sola/application/utils/map_utils.dart';
 import 'package:sola/data/helper/sqflite/sqflite_database.dart';
@@ -67,7 +68,8 @@ class ServiceCheck {
     DataSource<BusState> bs = SQLiteDataSource(database: await SqfliteDatabaseHelper().database, tableName: 'etat_voitures_actu',
      fromMap: ServiceBusState.fromMap, toMap: ServiceBusState.toMap);
 
-    return  CheckOut(checkDatasource:c ,busStateDatasource: bs ,iPredictionDuration: PredictionDuration(busState: bs), dailyStatisticListService: await InjectiondailystatisticList.getStatsQueueCadenceService());
+    return  CheckOut(checkDatasource:c ,busStateDatasource: bs ,iPredictionDuration: PredictionDuration(busState: bs), dailyStatisticListService: await InjectiondailystatisticList.getStatsQueueCadenceService(),
+                    nonDispoChauffeurService: await InjNonDispoChauffeur.getNonDispoChauffeurServiceInstance());
 
   }
 

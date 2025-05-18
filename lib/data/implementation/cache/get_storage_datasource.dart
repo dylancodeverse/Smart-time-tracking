@@ -85,4 +85,10 @@ class GetStorageDataSource<T> implements DataSource<T> {
     await _box.save(); //  sauvegarde sur disque    
     return true;
   }
+  
+  @override
+  Future<List<T>> getWithRawQuery(String rawQuery) {
+    // TODO: implement getWithRawQuery
+    throw UnimplementedError();
+  }
 }
