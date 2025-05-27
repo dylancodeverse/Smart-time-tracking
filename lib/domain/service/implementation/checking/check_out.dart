@@ -65,7 +65,12 @@ class CheckOut implements ICheckOut {
     }
     try {
 
-      return dailyStatistic[0].busState.lastAssignment?.bus?.id == busId;
+      if (dailyStatistic[0].busState.lastAssignment?.bus?.id == busId){
+        return true;
+      }else{
+        // raha tsy ilay bus no voalohany dia midika fa efa misy sortie natao teo aloha
+        throw CadenceException();
+      }
     } catch (e) {
       throw CadenceException();
     }
