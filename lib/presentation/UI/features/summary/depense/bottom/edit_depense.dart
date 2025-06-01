@@ -3,9 +3,9 @@ import 'package:sola/presentation/UI/config/theme.dart';
 import 'package:sola/presentation/UI/widgets/bottom_sheet/input_field.dart'; // Assure-toi que le chemin est correct
 
 class EditDepenseSheet extends StatefulWidget {
-  final int montant;
+  final int? montant;
   final String motif;
-  final Future<void> Function(int nouveauMontant, String nouveauMotif) onSave;
+  final Future<void> Function(int? nouveauMontant, String nouveauMotif) onSave;
 
   const EditDepenseSheet({
     super.key,

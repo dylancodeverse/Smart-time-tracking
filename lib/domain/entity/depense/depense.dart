@@ -1,6 +1,6 @@
 class Depense {
   int? id;
-  int amount;
+  int? amount;
   int? date; // timestamp (datej)
   String? reason;
 

@@ -1,10 +1,10 @@
 class CompleteParticipation {
-   int participationDate;
+   int? participationDate;
    String? registration;
    int? amount;
    String? comments;
    String? paymentReference;
-   int paymentDate;
+   int? paymentDate;
 
   CompleteParticipation({
     required this.participationDate,

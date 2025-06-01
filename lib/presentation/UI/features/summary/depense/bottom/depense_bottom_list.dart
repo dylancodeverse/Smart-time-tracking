@@ -95,9 +95,9 @@ class DepenseBottomList extends StatelessWidget {
 }
 
 class MiniDepenseCard extends StatelessWidget {
-  final int montant;
+  final int? montant;
   final String motif;
-  final Future<void> Function(int, String) onEdit;
+  final Future<void> Function(int?, String) onEdit;
 
   const MiniDepenseCard({
     super.key,

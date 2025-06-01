@@ -9,7 +9,7 @@ class CompleteViolation {
   int? amount;
   String? comments;
   String? violationLabel;
-  int dateh ;
+  int? dateh ;
 
   CompleteViolation({
     required this.arrivalDate,
