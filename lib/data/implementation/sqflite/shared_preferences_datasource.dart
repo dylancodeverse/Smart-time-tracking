@@ -108,4 +108,10 @@ class SharedPreferencesDataSource<T> implements DataSource<T> {
     // TODO: implement getWithRawQuery
     throw UnimplementedError();
   }
+  
+  @override
+  Future updateAndIgnoreNullColumnsList(List<T> item) {
+    // TODO: implement updateAndIgnoreNullColumnsList
+    throw UnimplementedError();
+  }
 }

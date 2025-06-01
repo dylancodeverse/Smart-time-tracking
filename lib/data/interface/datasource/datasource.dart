@@ -7,6 +7,7 @@ abstract class DataSource<T> {
   Future<List<T>> getWithRawQuery(String rawQuery) ;
   Future<dynamic> update(T item);
   Future<dynamic> updateAndIgnoreNullColumns(T item);
+  Future<dynamic> updateAndIgnoreNullColumnsList(List<T> item);
   Future<dynamic> delete(String id);
   Future<dynamic> runTransaction(Future<void> Function() action);
 

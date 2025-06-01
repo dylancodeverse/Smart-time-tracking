@@ -41,5 +41,11 @@ class CustomSqlliteDatasource<T> implements DataSource<T> {
     throw UnimplementedError();
   }
   
+  @override
+  Future updateAndIgnoreNullColumnsList(List<T> item) {
+    // TODO: implement updateAndIgnoreNullColumnsList
+    throw UnimplementedError();
+  }
+  
   
 }

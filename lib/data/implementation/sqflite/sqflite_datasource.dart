@@ -100,5 +100,26 @@ class SQLiteDataSource<T> implements DataSource<T> {
     final result = await database.rawQuery(rawQuery);
     return result.map(fromMap).toList();
   }
+    
+  @override
+  Future<void> updateAndIgnoreNullColumnsList(List<T> items) async {
+    final batch = database.batch();
+
+    for (T item in items) {
+      final map = MapUtils.removeNulls(toMap(item));
+      final id = map['id'];
+      if (id != null) {
+        batch.update(
+          tableName,
+          map,
+          where: 'id = ?',
+          whereArgs: [id],
+        );
+      }
+    }
+
+    await batch.commit(noResult: true);
+  }
+
 
 }

@@ -29,7 +29,17 @@ class CheckOut implements ICheckOut {
     if (!TimeCheckService.isWithinAllowedHours()) {
       throw Exception("Modification interdite en dehors des heures autorisées.");
     }
-    await _canDoCheckOut(busId, pilotId);
+    List<DailyStatistic> listWaiting = await _canDoCheckOut(busId, pilotId);
+    List<BusState> busStateList = List.empty(growable: true);
+    if (listWaiting.isNotEmpty) {
+      int minutes = 3;
+      for (var i = 1; i < listWaiting.length; i++) {
+        listWaiting[i].busState.nextChangeDatePrevision = Date.getTimestampNow() + minutes *60 *1000 ;        
+        minutes += 3; // augmente de 3 minutes pour chaque entrée
+        busStateList.add(listWaiting[i].busState);
+      }
+    }
+
     // init Bus
     Bus bus = Bus(id: busId);
     // init assignement
@@ -41,14 +51,16 @@ class CheckOut implements ICheckOut {
     // getPrediction
     int predictionArrival= iPredictionDuration.getArrivalPrediction(check.departureDate as int);
 
-    // update status
+    // update status (last out)
     BusState busState = BusState(id: busStateId, statusCheck: StateList.enableArrival, lastAssignment: assignment, lastCheck: check,nextChangeDatePrevision: predictionArrival);
     await busStateDatasource.updateAndIgnoreNullColumns(busState);
+    // reupdate the bus state in the daily statistics
+    busStateDatasource.updateAndIgnoreNullColumnsList(busStateList);
 
     return busState;
   }
 
-  Future<bool> _canDoCheckOut(String busId, String pilotId) async{
+  Future<List<DailyStatistic>> _canDoCheckOut(String busId, String pilotId) async{
     // jerena ny validite an'ny chauffeur
     List<NonDispoChauffeur> isNonDispo = await nonDispoChauffeurService.nonDispoListe(pilotId);
     if (isNonDispo.isNotEmpty) {
@@ -61,14 +73,14 @@ class CheckOut implements ICheckOut {
     List< DailyStatistic> dailyStatistic = ( await dailyStatisticListService.getDailyStatistics()) ;
     if (dailyStatistic.isEmpty) {
       // zany hoe mbola vide lay en cadence donc surement afaka atao sortie lay bus
-      return true ;
+      return dailyStatistic ;
     }
     try {
 
       if (dailyStatistic[0].busState.lastAssignment?.bus?.id == busId){
-        return true;
+        return dailyStatistic;
       }else{
-        // raha tsy ilay bus no voalohany dia midika fa efa misy sortie natao teo aloha
+        // raha tsy ilay bus no voalohany dia midika fa efa misy sortie tokony atao teo aloha
         throw CadenceException();
       }
     } catch (e) {

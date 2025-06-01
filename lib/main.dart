@@ -62,7 +62,6 @@ void main() async {
   final IStatsParticipationWithDepense statsParticipationWithDepenseService =  await InjStatsParticipationWithDepense.getStatsParticipationWithDepenseService(); 
   final IDepense iTodayDepense = await InjDepense.getTodayDepenseService();  
   final IDepense iStandardDepense =  await InjDepense.getDepenseService();
-  (await BusStateCustomINJ.getBusStateCustomImplAUTO()).verification();
   final IParticipation iParticipation= await ServiceINJParticipation.getIParticipationInstance();
   final ITodayParticipationLib iTodayParticipation = await InjTodayParticipation.getTodayParticipationLibInstance(); 
   final IExportData iExportData = await InjExportData.exportData();
@@ -86,9 +85,6 @@ void main() async {
       child: MyAppWithErrorHandling(), // Utilisation d'un Widget custom pour récupérer le contexte
     ),
   );
-  // /// Appel différé à `verification()`
-  // WidgetsBinding.instance.addPostFrameCallback((_) async {
-  // });
 }
 
 class MyAppWithErrorHandling extends StatelessWidget {
@@ -137,6 +133,18 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _checkAutoTime();
+    // 🔁 Ajout de verification ici après le rendu initial
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        final busState = await BusStateCustomINJ.getBusStateCustomImplAUTO();
+        await busState.verification();
+        await (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
+        debugPrint("✅ Bus verification exécutée");
+      } catch (e) {
+        await (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
+        debugPrint("❌ Erreur dans busState.verification(): $e");
+      }
+    });
     
     // Ecouter les changements en temps réel sur l'heure automatique
     TimeAutoEvent.timeAutoStream.listen((event) {
