@@ -128,23 +128,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool autoTimeEnabled = true;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
+    _initializeApp();
+
     _checkAutoTime();
-    // 🔁 Ajout de verification ici après le rendu initial
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      try {
-        final busState = await BusStateCustomINJ.getBusStateCustomImplAUTO();
-        await busState.verification();
-        await (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
-        debugPrint("✅ Bus verification exécutée");
-      } catch (e) {
-        await (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
-        debugPrint("❌ Erreur dans busState.verification(): $e");
-      }
-    });
     
     // Ecouter les changements en temps réel sur l'heure automatique
     TimeAutoEvent.timeAutoStream.listen((event) {
@@ -162,19 +153,45 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  Future<void> _initializeApp() async {
+    await _checkAutoTime();
+
+    try {
+      final busState = await BusStateCustomINJ.getBusStateCustomImplAUTO();
+      await busState.verification();
+      await (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
+      debugPrint("✅ Bus verification exécutée");
+    } catch (e) {
+      await (await BusStateCustomINJ.getBusStateCustomImpl()).verification();
+      debugPrint("❌ Erreur dans busState.verification(): $e");
+    }
+
+    setState(() {
+      _isInitialized = true;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    // Nous avons déplacé la logique de `MaterialApp` en dehors de `build`
+if (!_isInitialized) {
+      return MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(), // Affiche un écran de chargement
+          ),
+        ),
+      );
+    }
+
     return MaterialApp(
       title: 'SOLA',
       theme: AppTheme.lightTheme,
-      // queue module
-      home: autoTimeEnabled ? HomeScreen() : AutoTimeRequiredScreen(),  // Écran conditionnel en fonction de `autoTimeEnabled`
+      home: autoTimeEnabled ? HomeScreen() : AutoTimeRequiredScreen(),
       initialRoute: '/',
       routes: {
-        // payment module
-        '/summary': (context) => autoTimeEnabled ? Summary(): AutoTimeRequiredScreen(),
-        '/settings': (context) => autoTimeEnabled ? Settings(): AutoTimeRequiredScreen(),
+        '/summary': (context) => autoTimeEnabled ? Summary() : AutoTimeRequiredScreen(),
+        '/settings': (context) => autoTimeEnabled ? Settings() : AutoTimeRequiredScreen(),
       },
     );
   }
