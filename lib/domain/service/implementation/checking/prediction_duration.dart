@@ -11,7 +11,7 @@ class PredictionDuration implements IPredictionDuration {
 
   @override
   int getArrivalPrediction(int departure) {
-    return departure + (45 * 60 *1000); // Ajoute 18 minutes en secondes
+    return departure + (45 * 60 *1000); 
   }
   
   @override

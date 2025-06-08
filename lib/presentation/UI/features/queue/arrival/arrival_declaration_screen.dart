@@ -65,7 +65,7 @@ class _SimpleCardBUSState extends State<SimpleCardBUS> {
   }
 
   void onValidate(ModalProvider myProvider)async{
-     await widget.dailyStatisticProvider.arrivalDeclaration( int.parse(_amountController.text.trim()), _commentController.text, myProvider.getCheckedViolation() , context);
+     await widget.dailyStatisticProvider.arrivalDeclaration((_amountController.text.trim()), _commentController.text, myProvider.getCheckedViolation() , context);
   }
 
 

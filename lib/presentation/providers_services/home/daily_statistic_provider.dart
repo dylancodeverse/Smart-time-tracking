@@ -12,6 +12,7 @@ import 'package:sola/domain/service/interface/checking/i_check_out.dart';
 import 'package:sola/domain/service/interface/participation/i_participation.dart';
 import 'package:sola/global/participation.dart';
 import 'package:sola/global/state_list.dart';
+import 'package:sola/lib/price_format.dart';
 import 'package:sola/presentation/UI/features/queue/arrival/arrival_declaration_screen_helper.dart';
 import 'package:sola/presentation/UI/features/queue/participation/participation_screen_helper.dart';
 import 'package:sola/presentation/providers_services/arrival_declaration/declaration.dart';
@@ -104,7 +105,7 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
   }
 
   void updateParticipation(BuildContext context, String montant, String comments) async {
-    await ParticipationService.save(iParticipation, bus, int.parse(montant), comments, Provider.of<PaymentService>(context,listen: false));
+    await ParticipationService.save(iParticipation, bus, (montant), comments, Provider.of<PaymentService>(context,listen: false));
     bus.participationState= ParticipationVar.okParticipation ;
     notifyListeners();
     Navigator.pop(context);
@@ -120,11 +121,12 @@ class DailyStatisticProvider with ChangeNotifier, CountdownMixin {
     Navigator.pop(context);
     
   }
-  Future<void> arrivalDeclaration(int amount, String comments, List<Violation> violation ,BuildContext context) async{
+  Future<void> arrivalDeclaration(String amount, String comments, List<Violation> violation ,BuildContext context) async{
+    int parsedAmount = PriceFormat.getPrice(amount,4000,50000);
     ArrivalDeclaration arrivalDeclaration= await ServiceArrivalDeclaration.getArrivalDeclaration();
-    arrivalDeclaration.declaration(bus, amount,comments, violation); 
+    arrivalDeclaration.declaration(bus, parsedAmount,comments, violation); 
     bus.statusCheck = StateList.enableDeparture ;
-    bus.amount+= amount;
+    bus.amount+= parsedAmount;
     notifyListeners();
     Navigator.pop(context);
   }

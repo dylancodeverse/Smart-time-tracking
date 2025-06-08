@@ -59,8 +59,9 @@ class Settings extends StatelessWidget {
                     final importService = Provider.of<ImportUIService>(context, listen: false);
 
                     FilePickerResult? result = await FilePicker.platform.pickFiles(
-                      type: FileType.any,
-                      // allowedExtensions: ['txt'],
+                      type: FileType.custom,
+                      allowedExtensions: ['txt','json'],
+                      allowMultiple: false,
                     );
 
                     if (result != null && result.files.single.path != null) {

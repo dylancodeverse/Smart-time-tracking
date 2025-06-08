@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
 import 'package:sola/domain/service/interface/participation/i_payment_participation_process_service.dart';
 import 'package:sola/domain/service/interface/participation/i_stats_participation_with_depense.dart';
+import 'package:sola/lib/reference_helper.dart';
 import 'package:sola/presentation/model/payment/payment_screen_model.dart';
 
 class PaymentService extends ChangeNotifier {
@@ -29,6 +30,7 @@ class PaymentService extends ChangeNotifier {
   }) : paymentScreenModel = PaymentScreenModel(reference: reference);
 
   void setReference(String newRef) async{
+    ReferenceHelper.validateRef(newRef);
     await iPaymentParticipationProcessService.updatePayment(newRef);
     paymentScreenModel.setReference(newRef);
     notifyListeners();

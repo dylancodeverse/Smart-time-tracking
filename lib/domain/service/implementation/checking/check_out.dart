@@ -6,6 +6,7 @@ import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/nondispo/nondispochauffeur.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
 import 'package:sola/domain/excpetion/check_exception.dart';
+import 'package:sola/domain/excpetion/time_exception.dart';
 import 'package:sola/domain/service/implementation/stats/daily_statistic_list_service.dart';
 import 'package:sola/domain/service/implementation/time_check_service/time_check_service.dart';
 import 'package:sola/domain/service/interface/checking/i_check_out.dart';
@@ -27,7 +28,7 @@ class CheckOut implements ICheckOut {
   Future<BusState> departure(String assignementId, String busId, int busStateId, String pilotId) async {
     // verification
     if (!TimeCheckService.isWithinAllowedHours()) {
-      throw Exception("Modification interdite en dehors des heures autorisées.");
+       throw TimeException();
     }
     List<DailyStatistic> listWaiting = await _canDoCheckOut(busId, pilotId);
     List<BusState> busStateList = List.empty(growable: true);

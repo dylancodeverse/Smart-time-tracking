@@ -33,7 +33,7 @@ class _DepenseBottomSheetState extends State<DepenseBottomSheet> {
   void _validate() async{
     DepenseUIService depenseUIService = DepenseUIService();
     await depenseUIService.init(super.widget.paymentService);
-    await depenseUIService.confirmDepense(int.parse(_depense.text) , _comments.text );
+    await depenseUIService.confirmDepense(_depense.text , _comments.text );
     Navigator.pop(context);
   }
 

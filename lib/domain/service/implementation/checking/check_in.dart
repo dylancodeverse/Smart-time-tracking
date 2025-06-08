@@ -5,6 +5,7 @@ import 'package:sola/domain/entity/bus_state.dart';
 import 'package:sola/domain/entity/check.dart';
 import 'package:sola/domain/entity/violation/violation.dart';
 import 'package:sola/domain/entity/violation/violation_checking.dart';
+import 'package:sola/domain/excpetion/time_exception.dart';
 import 'package:sola/domain/service/implementation/time_check_service/time_check_service.dart';
 import 'package:sola/domain/service/interface/cache/i_participation_notpayed_count.dart';
 import 'package:sola/domain/service/interface/checking/i_check_in.dart';
@@ -31,7 +32,7 @@ class CheckIn implements ICheckIn {
   @override
   Future<BusState> arrival(String assignementId, String busId, int busStateId, int amount, int lastChecking, int currentRound) async{
     if (!TimeCheckService.isWithinAllowedHours()) {
-      throw Exception("Modification interdite en dehors des heures autorisées.");
+       throw TimeException();
     }
 
     // init Bus
@@ -71,7 +72,7 @@ class CheckIn implements ICheckIn {
   @override
   Future<void> arrivalUpdate(String assignementId, String busId, int busStateId, int amount, int lastChecking, String comments, List<Violation> listViolation  ) async{
     if (!TimeCheckService.isWithinAllowedHours()) {
-      throw Exception("Modification interdite en dehors des heures autorisées.");
+       throw TimeException();
     }
     // init Bus
     Bus bus = Bus(id: busId);
