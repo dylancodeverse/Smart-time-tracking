@@ -135,26 +135,26 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _initializeApp();
 
-    // _checkAutoTime();
+    _checkAutoTime();
     
     // Ecouter les changements en temps réel sur l'heure automatique
     TimeAutoEvent.timeAutoStream.listen((event) {
       setState(() {
-        // autoTimeEnabled = event; // Mise à jour de l'état de l'heure automatique
+        autoTimeEnabled = event; // Mise à jour de l'état de l'heure automatique
       });
     });
   }
 
-  // Future<void> _checkAutoTime() async {
-  //   const platform = MethodChannel('com.example.sola/settings');
-  //   final bool isAutoTimeEnabled = await platform.invokeMethod('isAutoTimeEnabled');
-  //   setState(() {
-  //     autoTimeEnabled = isAutoTimeEnabled;
-  //   });
-  // }
+  Future<void> _checkAutoTime() async {
+    const platform = MethodChannel('com.example.sola/settings');
+    final bool isAutoTimeEnabled = await platform.invokeMethod('isAutoTimeEnabled');
+    setState(() {
+      autoTimeEnabled = isAutoTimeEnabled;
+    });
+  }
 
   Future<void> _initializeApp() async {
-    // await _checkAutoTime();
+    await _checkAutoTime();
 
     try {
       final busState = await BusStateCustomINJ.getBusStateCustomImplAUTO();
