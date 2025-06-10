@@ -9,6 +9,14 @@ class CompleteAssignment {
   String coDriverFirstName;
   int isDefault;
 
+  int horsepower;
+  double fuelConsumptionL100Km;
+  int weightKg;
+  int widthMm;
+  int heightMm;
+  int launchYear;
+  int lengthMm;
+
   CompleteAssignment({
     required this.assignmentDate,
     required this.licensePlate,
@@ -18,6 +26,13 @@ class CompleteAssignment {
     required this.driverFirstName,
     required this.coDriverLastName,
     required this.coDriverFirstName,
-    required this.isDefault
+    required this.isDefault,
+    required this.horsepower,
+    required this.fuelConsumptionL100Km,
+    required this.weightKg,
+    required this.widthMm,
+    required this.heightMm,
+    required this.launchYear,
+    required this.lengthMm,
   });
 }

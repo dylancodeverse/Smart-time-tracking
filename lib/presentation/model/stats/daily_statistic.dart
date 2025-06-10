@@ -81,18 +81,20 @@ class DailyStatisticView {
       if (index!=0) {
         return "Départ" ;
       }else{
+        String hours = remainingTime.inHours.toString().padLeft(2,'0');
         String minutes = remainingTime.inMinutes.remainder(60).toString().padLeft(2, '0');
         String seconds = remainingTime.inSeconds.remainder(60).toString().padLeft(2, '0');
 
-        return "Départ dans : $minutes:$seconds";
+        return "Départ dans : $hours:$minutes:$seconds";
       }
     }
     else if(statusCheck==StateList.enableArrivalDeclaration){
       return "Déclaration";
     }else{
+        String hours = remainingTime.inHours.toString().padLeft(2,'0');      
       String minutes = remainingTime.inMinutes.remainder(60).toString().padLeft(2, '0');
       String seconds = remainingTime.inSeconds.remainder(60).toString().padLeft(2, '0');
-      return "Arrivée dans : $minutes:$seconds";
+      return "Arrivée dans $hours:$minutes:$seconds";
 
     }
   } 

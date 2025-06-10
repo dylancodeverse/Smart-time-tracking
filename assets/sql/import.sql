@@ -1,9 +1,10 @@
-INSERT OR IGNORE INTO vehicules (id, immatriculation, modele, statut)
+INSERT OR IGNORE INTO vehicules (id, immatriculation, modele, statut,puissance_chevaux,consommation_l_100km,poids_kg,largeur_mm,hauteur_mm,annee_lancement,longueur_mm)
 SELECT
     lower(hex(randomblob(16))) AS id,
     immatriculation,
     modele,
-    statut
+    statut,
+    puissance_chevaux,consommation_l_100km,poids_kg,largeur_mm,hauteur_mm,annee_lancement,longueur_mm
 FROM import_affectations_completes;
 
 

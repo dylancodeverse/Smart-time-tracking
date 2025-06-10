@@ -7,6 +7,7 @@ import 'package:sola/domain/entity/nondispo/nondispochauffeur.dart';
 import 'package:sola/domain/entity/statistics/daily_statisitc.dart';
 import 'package:sola/domain/excpetion/check_exception.dart';
 import 'package:sola/domain/excpetion/time_exception.dart';
+import 'package:sola/domain/service/implementation/cardetails/car_details.dart';
 import 'package:sola/domain/service/implementation/stats/daily_statistic_list_service.dart';
 import 'package:sola/domain/service/implementation/time_check_service/time_check_service.dart';
 import 'package:sola/domain/service/interface/checking/i_check_out.dart';
@@ -50,7 +51,7 @@ class CheckOut implements ICheckOut {
     check.id= (await checkDatasource.insert(check) );
 
     // getPrediction
-    int predictionArrival= iPredictionDuration.getArrivalPrediction(check.departureDate as int);
+    int predictionArrival= iPredictionDuration.getArrivalPrediction(check.departureDate as int, await CarDetailsService().getCarDetailsData(busId, check.departureDate as int));
 
     // update status (last out)
     BusState busState = BusState(id: busStateId, statusCheck: StateList.enableArrival, lastAssignment: assignment, lastCheck: check,nextChangeDatePrevision: predictionArrival);
@@ -61,10 +62,15 @@ class CheckOut implements ICheckOut {
     return busState;
   }
 
+
+
   Future<List<DailyStatistic>> _canDoCheckOut(String busId, String pilotId) async{
     // jerena ny validite an'ny chauffeur
     List<NonDispoChauffeur> isNonDispo = await nonDispoChauffeurService.nonDispoListe(pilotId);
     if (isNonDispo.isNotEmpty) {
+      if (isNonDispo[0].datefin==0) {
+        throw IndispoException("Le chauffeur est encore associé à une autre véhicule");
+      }
       IndispoException i = IndispoException();
       i.message = i.message+Date.dateFromMillis( isNonDispo[0].datefin);
       throw i ;

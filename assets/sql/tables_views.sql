@@ -2,9 +2,16 @@
       id TEXT PRIMARY KEY,
       immatriculation TEXT NOT NULL UNIQUE,
       modele TEXT NOT NULL,
-      statut int NOT NULL
+      statut int NOT NULL,
+      puissance_chevaux integer ,
+      consommation_l_100km double ,
+      poids_kg integer ,
+      largeur_mm integer ,
+      hauteur_mm integer ,
+      annee_lancement integer ,
+      longueur_mm integer
     );
-
+    
     CREATE TABLE chauffeurs (
         id TEXT PRIMARY KEY,
         nom TEXT NOT NULL,
@@ -30,7 +37,7 @@
       FOREIGN KEY (id_vehicule) REFERENCES vehicules(id),
       FOREIGN KEY (id_chauffeur) REFERENCES chauffeurs(id),
       FOREIGN KEY (id_copilote) REFERENCES chauffeurs(id),
-      UNIQUE (id_vehicule, id_chauffeur, id_copilote, affectation_date)
+      UNIQUE (id_vehicule, id_chauffeur, id_copilote)
 
     );
 
@@ -338,8 +345,16 @@ CREATE TABLE import_affectations_completes (
     chauffeur_prenom TEXT,
     copilote_nom TEXT,
     copilote_prenom TEXT,
-    is_default int 
+    is_default int ,
+    puissance_chevaux integer ,
+    consommation_l_100km double ,
+    poids_kg integer ,
+    largeur_mm integer ,
+    hauteur_mm integer ,
+    annee_lancement integer ,
+    longueur_mm integer
 );
+
 
 
 CREATE TABLE import_violation(
@@ -394,4 +409,6 @@ CREATE  TABLE IMPORTNONDISPOCHAUFFEUR (
   nom text,
   prenom text 
 );
+
+
 
